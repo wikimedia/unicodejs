@@ -1,0 +1,7 @@
+{
+	"globals": {
+		"QUnit": true
+	},
+
+	"extends": "../.jshintrc"
+}

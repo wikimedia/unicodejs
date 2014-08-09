@@ -1,0 +1,10 @@
+/*!
+ * UnicodeJS v<%= pkg.version %>
+ * https://www.mediawiki.org/wiki/UnicodeJS
+ *
+ * Copyright 2013-<%= grunt.template.today("yyyy") %> UnicodeJS Team and other contributors.
+ * Released under the MIT license
+ * http://unicodejs.mit-license.org/
+ *
+ * Date: <%= grunt.template.today("isoUtcDateTime") %>
+ */

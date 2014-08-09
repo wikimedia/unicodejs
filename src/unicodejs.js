@@ -211,5 +211,6 @@
 	};
 
 	// Expose
+	/*jshint browser:true */
 	window.unicodeJS = unicodeJS;
 }() );
