@@ -1,19 +1,26 @@
 {
   "name": "unicodejs",
-  "version": "0.1.0",
-  "scripts": {
-    "test": "grunt test"
-  },
+  "version": "0.1.1",
+  "description": "A library for working with the Unicode standard",
+  "keywords": [
+    "unicode"
+  ],
+  "homepage": "https://www.mediawiki.org/wiki/UnicodeJS",
   "repository": {
     "type": "git",
-    "url": "https://gerrit.wikimedia.org/r/p/unicodejs.git"
+    "url": "https://git.wikimedia.org/git/unicodejs.git"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://git.wikimedia.org/blob/unicodejs.git/master/LICENSE.txt"
+      "url": "http://unicodejs.mit-license.org/"
     }
   ],
+  "scripts": {
+    "test": "grunt test",
+    "prepublish": "grunt build"
+  },
+  "dependencies": {},
   "devDependencies": {
     "grunt": "0.4.2",
     "grunt-contrib-clean": "0.6.0",

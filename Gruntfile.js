@@ -79,10 +79,10 @@ module.exports = function ( grunt ) {
 		}
 	} );
 
-	grunt.registerTask( 'build', [ 'clean', 'git-build', 'concat' ] );
+	grunt.registerTask( 'build', [ 'clean', 'concat' ] );
 	grunt.registerTask( 'lint', [ 'jshint', 'jscs' ] );
 	grunt.registerTask( 'unit', [ 'karma:phantomjs' ] );
-	grunt.registerTask( 'test', [ 'build', 'lint', 'unit' ] );
+	grunt.registerTask( 'test', [ 'git-build', 'build', 'lint', 'unit' ] );
 	grunt.registerTask( 'watch', [ 'karma:bg:start', 'runwatch' ] );
 	grunt.registerTask( 'default', 'test' );
 };
