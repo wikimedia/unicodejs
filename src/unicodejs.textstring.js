@@ -26,7 +26,7 @@ unicodeJS.TextString = function UnicodeJSTextString( text ) {
  *
  * @method
  * @param {number} position Position to read from
- * @returns {string|null} Grapheme cluster, or null if out of bounds
+ * @return {string|null} Grapheme cluster, or null if out of bounds
  */
 unicodeJS.TextString.prototype.read = function ( position ) {
 	var clusterAt = this.clusters[position];
@@ -37,7 +37,7 @@ unicodeJS.TextString.prototype.read = function ( position ) {
  * Return number of grapheme clusters in the text string
  *
  * @method
- * @returns {number} Number of grapheme clusters
+ * @return {number} Number of grapheme clusters
  */
 unicodeJS.TextString.prototype.getLength = function () {
 	return this.clusters.length;
@@ -48,7 +48,7 @@ unicodeJS.TextString.prototype.getLength = function () {
  *
  * @param {number} start Start offset
  * @param {number} end End offset
- * @returns {unicodeJS.TextString} New TextString object containing substring
+ * @return {unicodeJS.TextString} New TextString object containing substring
  */
 unicodeJS.TextString.prototype.substring = function ( start, end ) {
 	var textString = new unicodeJS.TextString( '' );
@@ -59,7 +59,7 @@ unicodeJS.TextString.prototype.substring = function ( start, end ) {
 /**
  * Get as a plain string
  *
- * @returns {string} Plain javascript string
+ * @return {string} Plain javascript string
  */
 unicodeJS.TextString.prototype.getString = function () {
 	return this.clusters.join( '' );

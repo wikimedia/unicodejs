@@ -21,7 +21,7 @@
 	 * You probably want to call unicodeJS.graphemebreak.splitClusters instead.
 	 *
 	 * @param {string} text Text to split
-	 * @returns {string[]} Array of characters
+	 * @return {string[]} Array of characters
 	 */
 	unicodeJS.splitCharacters = function ( text ) {
 		return text.split( /(?![\uDC00-\uDFFF])/g );
@@ -33,7 +33,7 @@
 	 *
 	 * @private
 	 * @param {number} codeUnit integer between 0x0000 and 0xFFFF
-	 * @returns {string} String literal ('\u' followed by 4 hex digits)
+	 * @return {string} String literal ('\u' followed by 4 hex digits)
 	 */
 	function uEsc( codeUnit ) {
 		return '\\u' + ( codeUnit + 0x10000 ).toString( 16 ).substr( -4 );
@@ -45,8 +45,8 @@
 	 * @private
 	 * @param {number} min the minimum code unit in the range.
 	 * @param {number} max the maximum code unit in the range.
-	 * @param {boolean} bracket If true, then wrap range in [ ... ]
-	 * @returns {string} Regexp string which matches the range
+	 * @param {boolean} [bracket] If true, then wrap range in [ ... ]
+	 * @return {string} Regexp string which matches the range
 	 */
 	function codeUnitRange( min, max, bracket ) {
 		var value;
@@ -81,7 +81,7 @@
 	 * @private
 	 * @param {number} ch1 The min character of the range; must be over 0xFFFF
 	 * @param {number} ch2 The max character of the range; must be at least ch1
-	 * @returns {Object} A list of boxes {hi: [x, y], lo: [z, w]}
+	 * @return {Object} A list of boxes {hi: [x, y], lo: [z, w]}
 	 */
 	function getCodeUnitBoxes( ch1, ch2 ) {
 		var loMin, loMax, hi1, hi2, lo1, lo2, boxes, hiMinAbove, hiMaxBelow;
@@ -133,10 +133,11 @@
 	 * only match ill-formed strings).
 	 *
 	 * @param {Array} ranges Array of ranges, each of which is a character or an interval
-	 * @returns {string} Regexp string for the disjunction of the ranges.
+	 * @return {string} Regexp string for the disjunction of the ranges.
 	 */
 	unicodeJS.charRangeArrayRegexp = function ( ranges ) {
-		var i, j, min, max, hi, lo, range, box, boxes,
+		var i, j, min, max, hi, lo, range, box,
+			boxes = [],
 			characterClass = [], // list of (\uXXXX code unit or interval), for BMP
 			disjunction = []; // list of regex strings, to be joined with '|'
 
@@ -182,7 +183,6 @@
 			if ( max <= 0xFFFF ) {
 				// interval is entirely BMP
 				characterClass.push( codeUnitRange( min, max ) );
-				boxes = [];
 			} else if ( min <= 0xFFFF && max > 0xFFFF ) {
 				// interval is BMP and non-BMP
 				characterClass.push( codeUnitRange( min, 0xFFFF ) );

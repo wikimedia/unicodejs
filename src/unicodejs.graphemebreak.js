@@ -90,7 +90,7 @@
 	 * Split a string into grapheme clusters.
 	 *
 	 * @param {string} text Text to split
-	 * @returns {string[]} Array of clusters
+	 * @return {string[]} Array of clusters
 	 */
 	graphemebreak.splitClusters = function ( text ) {
 		var i, parts, length, clusters = [];

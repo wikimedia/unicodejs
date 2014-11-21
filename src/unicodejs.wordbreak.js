@@ -34,13 +34,13 @@
 	 * We are making a working assumption that we can implement the Unicode
 	 * word boundary specification by taking the property value of the *first*
 	 * character of the cluster. In particular, this implements WB4 for us, because
-	 * non-initial Extend or Format characters disapper.
+	 * non-initial Extend or Format characters disappear.
 	 *
 	 * See http://www.unicode.org/reports/tr29/#Word_Boundaries
 	 *
 	 * @private
 	 * @param {string} cluster The grapheme cluster
-	 * @returns {string} The unicode wordbreak property value
+	 * @return {string} The unicode wordbreak property value
 	 */
 	function getProperty( cluster ) {
 		var character, property;
@@ -64,7 +64,7 @@
 	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
 	 * @param {boolean} [onlyAlphaNumeric=false] When set, ignores a break if the previous character is not alphaNumeric
-	 * @returns {number} Returns the next offset which is a word break
+	 * @return {number} Returns the next offset which is a word break
 	 */
 	wordbreak.nextBreakOffset = function ( string, pos, onlyAlphaNumeric ) {
 		return wordbreak.moveBreakOffset( 1, string, pos, onlyAlphaNumeric );
@@ -75,7 +75,7 @@
 	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
 	 * @param {boolean} [onlyAlphaNumeric=false] When set, ignores a break if the previous character is not alphaNumeric
-	 * @returns {number} Returns the previous offset which is a word break
+	 * @return {number} Returns the previous offset which is a word break
 	 */
 	wordbreak.prevBreakOffset = function ( string, pos, onlyAlphaNumeric ) {
 		return wordbreak.moveBreakOffset( -1, string, pos, onlyAlphaNumeric );
@@ -87,7 +87,7 @@
 	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
 	 * @param {boolean} [onlyAlphaNumeric=false] When set, ignores a break if the previous character is not alphaNumeric
-	 * @returns {number} Returns the previous offset which is word break
+	 * @return {number} Returns the previous offset which is word break
 	 */
 	wordbreak.moveBreakOffset = function ( direction, string, pos, onlyAlphaNumeric ) {
 		var lastProperty, i = pos,
@@ -116,10 +116,10 @@
 	};
 
 	/**
-	 * Evaluates if the sepcified position within some text is a word boundary.
+	 * Evaluates if the specified position within some text is a word boundary.
 	 * @param {unicodeJS.TextString} string Text string
 	 * @param {number} pos Character position
-	 * @returns {boolean} Is the position a word boundary
+	 * @return {boolean} Is the position a word boundary
 	 */
 	wordbreak.isBreak = function ( string, pos ) {
 		// Break at the start and end of text.
