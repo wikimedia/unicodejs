@@ -1,7 +1,7 @@
 /*!
  * UnicodeJS Word Break module
  *
- * Implementation of Unicode 6.3.0 Default Word Boundary Specification
+ * Implementation of Unicode 7.0.0 Default Word Boundary Specification
  * http://www.unicode.org/reports/tr29/#Default_Grapheme_Cluster_Table
  *
  * @copyright 2013–2014 UnicodeJS team and others; see AUTHORS.txt

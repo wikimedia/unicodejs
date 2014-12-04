@@ -1,7 +1,7 @@
 /*!
  * UnicodeJS Grapheme Break module
  *
- * Implementation of Unicode 6.3.0 Default Grapheme Cluster Boundary Specification
+ * Implementation of Unicode 7.0.0 Default Grapheme Cluster Boundary Specification
  * http://www.unicode.org/reports/tr29/#Default_Grapheme_Cluster_Table
  *
  * @copyright 2013–2014 UnicodeJS team and others; see AUTHORS.txt
@@ -72,7 +72,7 @@
 		// Do not break before SpacingMarks, or after Prepend characters.
 		// GB9a: × SpacingMark
 		// GB9b: Prepend ×
-		// As of Unicode 6.3.0, no characters are "Prepend"
+		// As of Unicode 7.0.0, no characters are "Prepend"
 		// TODO: this will break if the extended thing is not oneCharacter
 		// e.g. hangul jamo L+V+T. Does it matter?
 		'(?:' + oneCharacter + ')' +
