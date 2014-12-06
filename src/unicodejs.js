@@ -36,7 +36,7 @@
 	 * @return {string} String literal ('\u' followed by 4 hex digits)
 	 */
 	function uEsc( codeUnit ) {
-		return '\\u' + ( codeUnit + 0x10000 ).toString( 16 ).substr( -4 );
+		return '\\u' + ( codeUnit + 0x10000 ).toString( 16 ).slice( -4 );
 	}
 
 	/**
