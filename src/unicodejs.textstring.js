@@ -1,7 +1,7 @@
 /*!
  * UnicodeJS TextString class.
  *
- * @copyright 2013–2014 UnicodeJS team and others; see AUTHORS.txt
+ * @copyright 2013–2015 UnicodeJS team and others; see AUTHORS.txt
  * @license The MIT License (MIT); see LICENSE.txt
  */
 

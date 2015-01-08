@@ -4,7 +4,7 @@
  * Implementation of Unicode 7.0.0 Default Word Boundary Specification
  * http://www.unicode.org/reports/tr29/#Default_Grapheme_Cluster_Table
  *
- * @copyright 2013–2014 UnicodeJS team and others; see AUTHORS.txt
+ * @copyright 2013–2015 UnicodeJS team and others; see AUTHORS.txt
  * @license The MIT License (MIT); see LICENSE.txt
  */
 ( function () {
