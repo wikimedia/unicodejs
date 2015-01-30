@@ -19,7 +19,7 @@ module.exports = function ( grunt ) {
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 		clean: {
-			dist: [ 'dist/*', 'docs/*' ]
+			dist: [ 'dist', 'coverage' ]
 		},
 		concat: {
 			all: {
@@ -57,8 +57,8 @@ module.exports = function ( grunt ) {
 				},
 				reporters: [ 'dots', 'coverage' ],
 				coverageReporter: { reporters: [
-					{ type: 'html', dir: 'docs/coverage' },
-					{ type: 'text-summary', dir: 'docs/coverage' }
+					{ type: 'html', dir: 'coverage/' },
+					{ type: 'text-summary', dir: 'coverage/' }
 				] }
 			},
 			local: {
