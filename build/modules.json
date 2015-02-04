@@ -2,6 +2,9 @@
 	"unicodejs": {
 		"scripts": [
 			"src/unicodejs.js",
+			"src/unicodejs.derivedcoreproperties.js",
+			"src/unicodejs.derivedgeneralcategories.js",
+			"src/unicodejs.characterclass.js",
 			"src/unicodejs.textstring.js",
 			"src/unicodejs.graphemebreakproperties.js",
 			"src/unicodejs.graphemebreak.js",
@@ -12,6 +15,7 @@
 	"unicodejs.tests": {
 		"scripts": [
 			"tests/unicodejs.test.js",
+			"tests/unicodejs.characterclass.test.js",
 			"tests/unicodejs.graphemebreak.test.js",
 			"tests/unicodejs.wordbreak.test.js"
 		],
