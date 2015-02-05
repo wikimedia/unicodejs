@@ -28,9 +28,9 @@ QUnit.test( 'isBreak', function ( assert ) {
 			' ',
 			'\ud800\udf0a' + '\ud800\udf0a',
 			' ', '뜨락또르', ' ', '트랙터', ' ', // hangul (composed)
-			//// TODO: test the equivalent hangul decomposed into jamo
-			//// '\u1104\u1173\u1105\u1161\u11a8\u1104\u1169\u1105\u1173 ' +
-			//// '\u1110\u1173\u1105\u1162\u11a8\u1110\u1165' +
+			// TODO: test the equivalent hangul decomposed into jamo
+			// '\u1104\u1173\u1105\u1161\u11a8\u1104\u1169\u1105\u1173 ' +
+			// '\u1110\u1173\u1105\u1162\u11a8\u1110\u1165' +
 			' ', 'c\u0300\u0327', ' ', 'a', '.'
 		];
 	breakOffsets = [0];
@@ -56,7 +56,7 @@ QUnit.test( 'isBreak', function ( assert ) {
 			'Break at position ' + i + ' (expect ' + result + '): ' + context
 		);
 	}
-});
+} );
 
 QUnit.test( 'nextBreakOffset/prevBreakOffset', function ( assert ) {
 	var i, offset = 0,
@@ -64,7 +64,7 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset', function ( assert ) {
 		textString = new unicodeJS.TextString( text ),
 		breaks = [ 0, 0, 3, 4, 9, 10, 15, 16, 19, 19 ];
 
-	QUnit.expect( 2 * (breaks.length - 2) );
+	QUnit.expect( 2 * ( breaks.length - 2 ) );
 
 	for ( i = 2; i < breaks.length; i++ ) {
 		offset = unicodeJS.wordbreak.nextBreakOffset( textString, offset );
@@ -74,7 +74,7 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset', function ( assert ) {
 		offset = unicodeJS.wordbreak.prevBreakOffset( textString, offset );
 		assert.equal( offset, breaks[i], 'Previous break is at position ' + breaks[i] );
 	}
-});
+} );
 
 QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', function ( assert ) {
 	var i, offset = 0,
@@ -107,15 +107,15 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', function ( as
 	}
 
 	assert.equal( unicodeJS.wordbreak.nextBreakOffset( textString, 9, true ),
-		12, 'Jump to end of word when starting in middle of word');
+		12, 'Jump to end of word when starting in middle of word' );
 	assert.equal( unicodeJS.wordbreak.nextBreakOffset( textString, 3, true ),
-		6, 'Jump to end of word when starting at start of word');
+		6, 'Jump to end of word when starting at start of word' );
 	assert.equal( unicodeJS.wordbreak.nextBreakOffset( textString, 13, true ),
-		19, 'Jump to end of word when starting in double whitespace');
+		19, 'Jump to end of word when starting in double whitespace' );
 	assert.equal( unicodeJS.wordbreak.prevBreakOffset( textString, 17, true ),
-		14, 'Jump to start of word when starting in middle of word');
+		14, 'Jump to start of word when starting in middle of word' );
 	assert.equal( unicodeJS.wordbreak.prevBreakOffset( textString, 6, true ),
-		3, 'Jump to start of word when starting at end of word');
+		3, 'Jump to start of word when starting at end of word' );
 	assert.equal( unicodeJS.wordbreak.prevBreakOffset( textString, 13, true ),
-		7, 'Jump to start of word when starting in double whitespace');
-});
+		7, 'Jump to start of word when starting in double whitespace' );
+} );

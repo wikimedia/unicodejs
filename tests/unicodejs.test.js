@@ -126,4 +126,4 @@ QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
 			'throw: ' + test[1]
 		);
 	}
-});
+} );

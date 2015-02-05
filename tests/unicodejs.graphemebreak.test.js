@@ -31,4 +31,4 @@ QUnit.test( 'splitClusters', 1, function ( assert ) {
 		expected,
 		'Split clusters'
 	);
-});
+} );

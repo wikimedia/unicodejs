@@ -52,4 +52,4 @@ QUnit.test( 'patterns', function ( assert ) {
 	QUnit.expect( 2 );
 	assert.deepEqual( wordChars.join( '' ).match( wordGlobalRegex ), wordChars );
 	assert.strictEqual( nonWordChars.join( '' ).match( wordGlobalRegex ), null );
-});
+} );

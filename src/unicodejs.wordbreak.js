@@ -130,7 +130,10 @@
 		}
 
 		// get some context
-		var lft = [], rgt = [], l = 0, r = 0;
+		var lft = [],
+			rgt = [],
+			l = 0,
+			r = 0;
 		rgt.push( getProperty( string.read( pos + r  ) ) );
 		lft.push( getProperty( string.read( pos - l - 1 ) ) );
 
@@ -158,7 +161,7 @@
 		// We've reached the end of an Extend|Format sequence, collapse it
 		while ( lft[0] === 'Extend' || lft[0] === 'Format' ) {
 			l++;
-			if ( pos - l - 1 <= 0) {
+			if ( pos - l - 1 <= 0 ) {
 				// start of document
 				return true;
 			}

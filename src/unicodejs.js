@@ -170,7 +170,7 @@
 			min = range[0];
 			max = range[1];
 			if ( min > max ) {
-				throw new Error(min.toString( 16 ) + ' > ' + max.toString( 16 ) );
+				throw new Error( min.toString( 16 ) + ' > ' + max.toString( 16 ) );
 			}
 			if ( max > 0x10FFFF ) {
 				throw new Error( 'Character code too high: ' +
@@ -202,7 +202,7 @@
 		}
 
 		// prepend BMP character class to the disjunction
-		if ( characterClass.length === 1 && !characterClass[0].match(/-/) ) {
+		if ( characterClass.length === 1 && !characterClass[0].match( /-/ ) ) {
 			disjunction.unshift( characterClass[0] ); // single character
 		} else if ( characterClass.length > 0 ) {
 			disjunction.unshift( '[' + characterClass.join( '' ) + ']' );
