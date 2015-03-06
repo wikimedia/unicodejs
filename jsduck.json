@@ -1,6 +1,7 @@
 {
 	"--title": "UnicodeJS - Documentation",
 	"--output": "docs",
+	"--processes": "0",
 	"--warnings-exit-nonzero": true,
 	"--builtin-classes": true,
 	"--": [
