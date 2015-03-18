@@ -1,5 +1,9 @@
 # UnicodeJS Release History
 
+## v0.1.4 / 2015-03-18
+* Add isBreak surrogate pair support for code unit strings (David Chan)
+* jsduck: Set --processes=0 to fix warnings-exit-nonzero (Timo Tijhof)
+
 ## v0.1.3 / 2015-02-04
 * Use String#slice instead of discouraged String#substr (Timo Tijhof)
 * build: Bump copyright notices to 2015 (James D. Forrester)
