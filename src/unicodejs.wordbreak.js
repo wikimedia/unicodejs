@@ -116,8 +116,10 @@
 	};
 
 	/**
-	 * Evaluates if the specified position within some text is a word boundary.
-	 * @param {unicodeJS.TextString} string Text string
+	 * Evaluates whether a position within some text is a word boundary.
+	 *
+	 * The text object elements may be code units, codepoints or clusters.
+	 * @param {Object} TextString-like object with read( pos ) returning string|null
 	 * @param {number} pos Character position
 	 * @return {boolean} Is the position a word boundary
 	 */
@@ -127,6 +129,14 @@
 		// WB2: ÷ eot
 		if ( string.read( pos - 1 ) === null || string.read( pos ) === null ) {
 			return true;
+		}
+
+		// Do not break inside surrogate pair
+		if (
+			string.read( pos - 1 ).match( /[\uD800-\uDBFF]/ ) &&
+			string.read( pos ).match( /[\uDC00-\uDFFF]/ )
+		) {
+			return false;
 		}
 
 		// get some context
