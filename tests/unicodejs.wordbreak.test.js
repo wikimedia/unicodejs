@@ -7,8 +7,8 @@
 
 QUnit.module( 'unicodeJS.wordbreak' );
 
-QUnit.test( 'isBreak (on code units)', function ( assert ) {
-	var i, pos, result, context, breakOffsets, string,
+QUnit.test( 'isBreak (on code units in TextString-like object)', function ( assert ) {
+	var i, pos, result, context, breakOffsets, textString, length, textStringLike,
 		broken = [ 'dw\u0302r', ' ', '大', '𨋢', ' ', 'c\u0300\u0327k' ];
 	breakOffsets = [0];
 	pos = 0;
@@ -16,20 +16,27 @@ QUnit.test( 'isBreak (on code units)', function ( assert ) {
 		pos += broken[i].length;
 		breakOffsets.push( pos );
 	}
-	string = new unicodeJS.TextString( '' );
-	string.clusters = broken.join( '' ).split( '' );
+	textString = new unicodeJS.TextString( '' );
+	textString.clusters = broken.join( '' ).split( '' );
+	length = textString.getLength();
+	// Construct a TextString-like object that just has a 'read' method
+	textStringLike = {
+		read: function () {
+			return textString.read.apply( textString, arguments );
+		}
+	};
 
-	QUnit.expect( string.getLength() + 1 );
+	QUnit.expect( length + 1 );
 
-	for ( i = 0; i <= string.getLength(); i++ ) {
+	for ( i = 0; i <= length; i++ ) {
 		result = ( breakOffsets.indexOf( i ) !== -1 );
 		context = (
-			string.substring( Math.max( i - 4, 0 ), i ).getString() +
+			textString.substring( Math.max( i - 4, 0 ), i ).getString() +
 			'│' +
-			string.substring( i, Math.min( i + 4, string.getLength() ) ).getString()
+			textString.substring( i, Math.min( i + 4, length ) ).getString()
 		);
 		assert.equal(
-			unicodeJS.wordbreak.isBreak( string, i ),
+			unicodeJS.wordbreak.isBreak( textStringLike, i ),
 			result,
 			'Break at position ' + i + ' (expect ' + result + '): ' + context
 		);

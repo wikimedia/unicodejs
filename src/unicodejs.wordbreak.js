@@ -119,7 +119,7 @@
 	 * Evaluates whether a position within some text is a word boundary.
 	 *
 	 * The text object elements may be code units, codepoints or clusters.
-	 * @param {Object} TextString-like object with read( pos ) returning string|null
+	 * @param {Object} string TextString-like object with read( pos ) returning string|null
 	 * @param {number} pos Character position
 	 * @return {boolean} Is the position a word boundary
 	 */
