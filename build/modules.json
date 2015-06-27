@@ -2,6 +2,7 @@
 	"unicodejs": {
 		"scripts": [
 			"src/unicodejs.js",
+			"src/unicodejs.derivedbidiclasses.js",
 			"src/unicodejs.derivedcoreproperties.js",
 			"src/unicodejs.derivedgeneralcategories.js",
 			"src/unicodejs.characterclass.js",

@@ -104,6 +104,12 @@ extractions = [
 		"full": True,
 		"propPatterns": ( "^(.*)$", ),
 	},
+	{
+		"url": "http://www.unicode.org/Public/UCD/latest/ucd/extracted/DerivedBidiClass.txt",
+		"jsname": "derivedbidiclasses",
+		"full": False,
+		"propPatterns": ( "^(L|R|AL)$", ),
+	}
 ]
 
 for extraction in extractions:
