@@ -10,12 +10,7 @@
     "type": "git",
     "url": "https://git.wikimedia.org/git/unicodejs.git"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://unicodejs.mit-license.org/"
-    }
-  ],
+  "license": "MIT",
   "scripts": {
     "test": "grunt test",
     "prepublish": "grunt build",
