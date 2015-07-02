@@ -1,5 +1,16 @@
 # UnicodeJS Release History
 
+## v0.1.5 / 2015-07-02
+* Duck typing test for isBreak (David Chan)
+* build: Don't run jshint on docs/* (Timo Tijhof)
+* build: Add 'doc' entry point (Timo Tijhof)
+* build: Bump dependencies (Timo Tijhof)
+* Update generated data for Unicode 8.0.0 (David Chan)
+* package.json: Fix licence per new npm style (James D. Forrester)
+* build: Bump development dependencies (James D. Forrester)
+* build: Add phantomjs dependency to suppress warning (James D. Forrester)
+* Strong directionality support (David Chan)
+
 ## v0.1.4 / 2015-03-18
 * Add isBreak surrogate pair support for code unit strings (David Chan)
 * jsduck: Set --processes=0 to fix warnings-exit-nonzero (Timo Tijhof)
