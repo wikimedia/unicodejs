@@ -37,10 +37,6 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		start = parseInt( matches[ 1 ], 16 );
 		end = parseInt( matches[ 2 ] || matches[ 1 ], 16 );
 		propText = matches[ 3 ];
-		if ( jsname === 'graphemebreakproperties' && start === 0xD800 && end === 0xDFFF ) {
-			// raw surrogates are not treated
-			return;
-		}
 
 		propPatterns.forEach( function ( propPattern ) {
 			var propName,
