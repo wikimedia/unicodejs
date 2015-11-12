@@ -29,7 +29,7 @@ unicodeJS.TextString = function UnicodeJSTextString( text ) {
  * @return {string|null} Grapheme cluster, or null if out of bounds
  */
 unicodeJS.TextString.prototype.read = function ( position ) {
-	var clusterAt = this.clusters[position];
+	var clusterAt = this.clusters[ position ];
 	return clusterAt !== undefined ? clusterAt : null;
 };
 

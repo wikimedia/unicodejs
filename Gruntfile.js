@@ -1,5 +1,10 @@
 /*jshint node:true */
 module.exports = function ( grunt ) {
+	var modules = grunt.file.readJSON( 'build/modules.json' ),
+		moduleUtils = require( './build/moduleUtils' ),
+		srcFiles = moduleUtils.makeBuildList( modules, [ 'unicodejs' ] ).scripts,
+		testFiles = moduleUtils.makeBuildList( modules, [ 'unicodejs.tests' ] ).scripts;
+
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks( 'grunt-contrib-concat' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
@@ -7,11 +12,6 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks( 'grunt-jscs' );
 	grunt.loadNpmTasks( 'grunt-karma' );
 	grunt.loadTasks( 'build/tasks' );
-
-	var modules = grunt.file.readJSON( 'build/modules.json' ),
-		moduleUtils = require( './build/moduleUtils' ),
-		srcFiles = moduleUtils.makeBuildList( modules, [ 'unicodejs' ] ).scripts,
-		testFiles = moduleUtils.makeBuildList( modules, [ 'unicodejs.tests' ] ).scripts;
 
 	// We want to use `grunt watch` to start this and karma watch together.
 	grunt.renameTask( 'watch', 'runwatch' );

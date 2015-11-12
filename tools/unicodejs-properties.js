@@ -95,10 +95,10 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 			} else if ( end === start + 1 ) {
 				rangeStrings.push( toHex( start ), toHex( end ) );
 			} else {
-				rangeStrings.push( '[' + toHex( start ) + ', ' + toHex( end ) + ']' );
+				rangeStrings.push( '[ ' + toHex( start ) + ', ' + toHex( end ) + ' ]' );
 			}
 		} );
-		fragments.push( prop.replace( '_', '' ) + ': [' + rangeStrings.join( ', ' ) + ']' );
+		fragments.push( prop.replace( '_', '' ) + ': [ ' + rangeStrings.join( ', ' ) + ' ]' );
 	} );
 
 	// Write js file

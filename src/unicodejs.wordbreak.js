@@ -19,8 +19,8 @@
 
 	// build regexes
 	for ( property in properties ) {
-		patterns[property] = new RegExp(
-			unicodeJS.charRangeArrayRegexp( properties[property] )
+		patterns[ property ] = new RegExp(
+			unicodeJS.charRangeArrayRegexp( properties[ property ] )
 		);
 	}
 
@@ -40,7 +40,7 @@
 	 *
 	 * @private
 	 * @param {string} cluster The grapheme cluster
-	 * @return {string} The unicode wordbreak property value
+	 * @return {string|null} The unicode wordbreak property value
 	 */
 	function getProperty( cluster ) {
 		var character, property;
@@ -50,9 +50,9 @@
 		if ( typeof cluster !== 'string' ) {
 			return null;
 		}
-		character = unicodeJS.splitCharacters( cluster )[0];
+		character = unicodeJS.splitCharacters( cluster )[ 0 ];
 		for ( property in patterns ) {
-			if ( patterns[property].test( character ) ) {
+			if ( patterns[ property ].test( character ) ) {
 				return property;
 			}
 		}
@@ -61,6 +61,7 @@
 
 	/**
 	 * Find the next word break offset.
+	 *
 	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
 	 * @param {boolean} [onlyAlphaNumeric=false] When set, ignores a break if the previous character is not alphaNumeric
@@ -72,6 +73,7 @@
 
 	/**
 	 * Find the previous word break offset.
+	 *
 	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
 	 * @param {boolean} [onlyAlphaNumeric=false] When set, ignores a break if the previous character is not alphaNumeric
@@ -83,6 +85,7 @@
 
 	/**
 	 * Find the next word break offset in a specified direction.
+	 *
 	 * @param {number} direction Direction to search in, should be plus or minus one
 	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
@@ -119,11 +122,17 @@
 	 * Evaluates whether a position within some text is a word boundary.
 	 *
 	 * The text object elements may be code units, codepoints or clusters.
+	 *
 	 * @param {Object} string TextString-like object with read( pos ) returning string|null
 	 * @param {number} pos Character position
 	 * @return {boolean} Is the position a word boundary
 	 */
 	wordbreak.isBreak = function ( string, pos ) {
+		var lft = [],
+			rgt = [],
+			l = 0,
+			r = 0;
+
 		// Break at the start and end of text.
 		// WB1: sot ÷
 		// WB2: ÷ eot
@@ -140,49 +149,45 @@
 		}
 
 		// get some context
-		var lft = [],
-			rgt = [],
-			l = 0,
-			r = 0;
 		rgt.push( getProperty( string.read( pos + r  ) ) );
 		lft.push( getProperty( string.read( pos - l - 1 ) ) );
 
 		switch ( true ) {
 			// Do not break within CRLF.
 			// WB3: CR × LF
-			case lft[0] === 'CR' && rgt[0] === 'LF':
+			case lft[ 0 ] === 'CR' && rgt[ 0 ] === 'LF':
 				return false;
 
 			// Otherwise break before and after Newlines (including CR and LF)
 			// WB3a: (Newline | CR | LF) ÷
-			case lft[0] === 'Newline' || lft[0] === 'CR' || lft[0] === 'LF':
+			case lft[ 0 ] === 'Newline' || lft[ 0 ] === 'CR' || lft[ 0 ] === 'LF':
 			// WB3b: ÷ (Newline | CR | LF)
-			case rgt[0] === 'Newline' || rgt[0] === 'CR' || rgt[0] === 'LF':
+			case rgt[ 0 ] === 'Newline' || rgt[ 0 ] === 'CR' || rgt[ 0 ] === 'LF':
 				return true;
 		}
 
 		// Ignore Format and Extend characters, except when they appear at the beginning of a region of text.
 		// WB4: X (Extend | Format)* → X
-		if ( rgt[0] === 'Extend' || rgt[0] === 'Format' ) {
+		if ( rgt[ 0 ] === 'Extend' || rgt[ 0 ] === 'Format' ) {
 			// The Extend|Format character is to the right, so it is attached
 			// to a character to the left, don't split here
 			return false;
 		}
 		// We've reached the end of an Extend|Format sequence, collapse it
-		while ( lft[0] === 'Extend' || lft[0] === 'Format' ) {
+		while ( lft[ 0 ] === 'Extend' || lft[ 0 ] === 'Format' ) {
 			l++;
 			if ( pos - l - 1 <= 0 ) {
 				// start of document
 				return true;
 			}
-			lft[lft.length - 1] = getProperty( string.read( pos - l - 1 ) );
+			lft[ lft.length - 1 ] = getProperty( string.read( pos - l - 1 ) );
 		}
 
 		// Do not break between most letters.
 		// WB5: (ALetter | Hebrew_Letter) × (ALetter | Hebrew_Letter)
 		if (
-			( lft[0] === 'ALetter' || lft[0] === 'HebrewLetter' ) &&
-			( rgt[0] === 'ALetter' || rgt[0] === 'HebrewLetter' )
+			( lft[ 0 ] === 'ALetter' || lft[ 0 ] === 'HebrewLetter' ) &&
+			( rgt[ 0 ] === 'ALetter' || rgt[ 0 ] === 'HebrewLetter' )
 		) {
 			return false;
 		}
@@ -196,55 +201,55 @@
 		switch ( true ) {
 			// Do not break letters across certain punctuation.
 			// WB6: (ALetter | Hebrew_Letter) × (MidLetter | MidNumLet | Single_Quote) (ALetter | Hebrew_Letter)
-			case ( lft[0] === 'ALetter' || lft[0] === 'HebrewLetter' ) &&
-				( rgt[1] === 'ALetter' || rgt[1] === 'HebrewLetter' ) &&
-				( rgt[0] === 'MidLetter' || rgt[0] === 'MidNumLet' || rgt[0] === 'SingleQuote' ):
+			case ( lft[ 0 ] === 'ALetter' || lft[ 0 ] === 'HebrewLetter' ) &&
+				( rgt[ 1 ] === 'ALetter' || rgt[ 1 ] === 'HebrewLetter' ) &&
+				( rgt[ 0 ] === 'MidLetter' || rgt[ 0 ] === 'MidNumLet' || rgt[ 0 ] === 'SingleQuote' ):
 			// WB7: (ALetter | Hebrew_Letter) (MidLetter | MidNumLet | Single_Quote) × (ALetter | Hebrew_Letter)
-			case ( rgt[0] === 'ALetter' || rgt[0] === 'HebrewLetter' ) &&
-				( lft[1] === 'ALetter' || lft[1] === 'HebrewLetter' ) &&
-				( lft[0] === 'MidLetter' || lft[0] === 'MidNumLet' || lft[0] === 'SingleQuote' ):
+			case ( rgt[ 0 ] === 'ALetter' || rgt[ 0 ] === 'HebrewLetter' ) &&
+				( lft[ 1 ] === 'ALetter' || lft[ 1 ] === 'HebrewLetter' ) &&
+				( lft[ 0 ] === 'MidLetter' || lft[ 0 ] === 'MidNumLet' || lft[ 0 ] === 'SingleQuote' ):
 			// WB7a: Hebrew_Letter × Single_Quote
-			case lft[0] === 'HebrewLetter' && rgt[0] === 'SingleQuote':
+			case lft[ 0 ] === 'HebrewLetter' && rgt[ 0 ] === 'SingleQuote':
 			// WB7b: Hebrew_Letter × Double_Quote Hebrew_Letter
-			case lft[0] === 'HebrewLetter' && rgt[0] === 'DoubleQuote' && rgt[1] === 'HebrewLetter':
+			case lft[ 0 ] === 'HebrewLetter' && rgt[ 0 ] === 'DoubleQuote' && rgt[ 1 ] === 'HebrewLetter':
 			// WB7c: Hebrew_Letter Double_Quote × Hebrew_Letter
-			case lft[1] === 'HebrewLetter' && lft[0] === 'DoubleQuote' && rgt[0] === 'HebrewLetter':
+			case lft[ 1 ] === 'HebrewLetter' && lft[ 0 ] === 'DoubleQuote' && rgt[ 0 ] === 'HebrewLetter':
 
 			// Do not break within sequences of digits, or digits adjacent to letters (“3a”, or “A3”).
 			// WB8: Numeric × Numeric
-			case lft[0] === 'Numeric' && rgt[0] === 'Numeric':
+			case lft[ 0 ] === 'Numeric' && rgt[ 0 ] === 'Numeric':
 			// WB9: (ALetter | Hebrew_Letter) × Numeric
-			case ( lft[0] === 'ALetter' || lft[0] === 'HebrewLetter' ) && rgt[0] === 'Numeric':
+			case ( lft[ 0 ] === 'ALetter' || lft[ 0 ] === 'HebrewLetter' ) && rgt[ 0 ] === 'Numeric':
 			// WB10: Numeric × (ALetter | Hebrew_Letter)
-			case lft[0] === 'Numeric' && ( rgt[0] === 'ALetter' || rgt[0] === 'HebrewLetter' ):
+			case lft[ 0 ] === 'Numeric' && ( rgt[ 0 ] === 'ALetter' || rgt[ 0 ] === 'HebrewLetter' ):
 				return false;
 
 			// Do not break within sequences, such as “3.2” or “3,456.789”.
 			// WB11: Numeric (MidNum | MidNumLet | Single_Quote) × Numeric
-			case rgt[0] === 'Numeric' && lft[1] === 'Numeric' &&
-				( lft[0] === 'MidNum' || lft[0] === 'MidNumLet' || lft[0] === 'SingleQuote' ):
+			case rgt[ 0 ] === 'Numeric' && lft[ 1 ] === 'Numeric' &&
+				( lft[ 0 ] === 'MidNum' || lft[ 0 ] === 'MidNumLet' || lft[ 0 ] === 'SingleQuote' ):
 			// WB12: Numeric × (MidNum | MidNumLet | Single_Quote) Numeric
-			case lft[0] === 'Numeric' && rgt[1] === 'Numeric' &&
-				( rgt[0] === 'MidNum' || rgt[0] === 'MidNumLet' || rgt[0] === 'SingleQuote' ):
+			case lft[ 0 ] === 'Numeric' && rgt[ 1 ] === 'Numeric' &&
+				( rgt[ 0 ] === 'MidNum' || rgt[ 0 ] === 'MidNumLet' || rgt[ 0 ] === 'SingleQuote' ):
 				return false;
 
 			// Do not break between Katakana.
 			// WB13: Katakana × Katakana
-			case lft[0] === 'Katakana' && rgt[0] === 'Katakana':
+			case lft[ 0 ] === 'Katakana' && rgt[ 0 ] === 'Katakana':
 				return false;
 
 			// Do not break from extenders.
 			// WB13a: (ALetter | Hebrew_Letter | Numeric | Katakana | ExtendNumLet) × ExtendNumLet
-			case rgt[0] === 'ExtendNumLet' &&
-				( lft[0] === 'ALetter' || lft[0] === 'HebrewLetter' || lft[0] === 'Numeric' || lft[0] === 'Katakana' || lft[0] === 'ExtendNumLet' ):
+			case rgt[ 0 ] === 'ExtendNumLet' &&
+				( lft[ 0 ] === 'ALetter' || lft[ 0 ] === 'HebrewLetter' || lft[ 0 ] === 'Numeric' || lft[ 0 ] === 'Katakana' || lft[ 0 ] === 'ExtendNumLet' ):
 			// WB13b: ExtendNumLet × (ALetter | Hebrew_Letter | Numeric | Katakana)
-			case lft[0] === 'ExtendNumLet' &&
-				( rgt[0] === 'ALetter' || rgt[0] === 'HebrewLetter' || rgt[0] === 'Numeric' || rgt[0] === 'Katakana' ):
+			case lft[ 0 ] === 'ExtendNumLet' &&
+				( rgt[ 0 ] === 'ALetter' || rgt[ 0 ] === 'HebrewLetter' || rgt[ 0 ] === 'Numeric' || rgt[ 0 ] === 'Katakana' ):
 				return false;
 
 			// Do not break between regional indicator symbols.
 			// WB13c: Regional_Indicator × Regional_Indicator
-			case lft[0] === 'RegionalIndicator' && rgt[0] === 'RegionalIndicator':
+			case lft[ 0 ] === 'RegionalIndicator' && rgt[ 0 ] === 'RegionalIndicator':
 				return false;
 		}
 		// Otherwise, break everywhere (including around ideographs).

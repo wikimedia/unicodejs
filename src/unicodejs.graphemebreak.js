@@ -21,7 +21,7 @@
 
 	// build regexes
 	for ( property in properties ) {
-		patterns[property] = unicodeJS.charRangeArrayRegexp( properties[property] );
+		patterns[ property ] = unicodeJS.charRangeArrayRegexp( properties[ property ] );
 	}
 
 	// build disjunction for grapheme cluster split
@@ -96,8 +96,8 @@
 		var i, parts, length, clusters = [];
 		parts = text.split( graphemeBreakRegexp );
 		for ( i = 0, length = parts.length; i < length; i++ ) {
-			if ( parts[i] !== '' ) {
-				clusters.push( parts[i] );
+			if ( parts[ i ] !== '' ) {
+				clusters.push( parts[ i ] );
 			}
 		}
 		return clusters;

@@ -10,10 +10,10 @@ QUnit.module( 'unicodeJS.wordbreak' );
 QUnit.test( 'isBreak (on code units in TextString-like object)', function ( assert ) {
 	var i, pos, result, context, breakOffsets, textString, length, textStringLike,
 		broken = [ 'dw\u0302r', ' ', '大', '𨋢', ' ', 'c\u0300\u0327k' ];
-	breakOffsets = [0];
+	breakOffsets = [ 0 ];
 	pos = 0;
 	for ( i = 0; i < broken.length; i++ ) {
-		pos += broken[i].length;
+		pos += broken[ i ].length;
 		breakOffsets.push( pos );
 	}
 	textString = new unicodeJS.TextString( '' );
@@ -69,10 +69,10 @@ QUnit.test( 'isBreak (on grapheme clusters)', function ( assert ) {
 			// '\u1110\u1173\u1105\u1162\u11a8\u1110\u1165' +
 			' ', 'c\u0300\u0327', ' ', 'a', '.'
 		];
-	breakOffsets = [0];
+	breakOffsets = [ 0 ];
 	pos = 0;
 	for ( i = 0; i < broken.length; i++ ) {
-		pos += unicodeJS.graphemebreak.splitClusters( broken[i] ).length;
+		pos += unicodeJS.graphemebreak.splitClusters( broken[ i ] ).length;
 		breakOffsets.push( pos );
 	}
 	textString = new unicodeJS.TextString( broken.join( '' ) );
@@ -104,11 +104,11 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset', function ( assert ) {
 
 	for ( i = 2; i < breaks.length; i++ ) {
 		offset = unicodeJS.wordbreak.nextBreakOffset( textString, offset );
-		assert.equal( offset, breaks[i], 'Next break is at position ' + breaks[i] );
+		assert.equal( offset, breaks[ i ], 'Next break is at position ' + breaks[ i ] );
 	}
 	for ( i = breaks.length - 3; i >= 0; i-- ) {
 		offset = unicodeJS.wordbreak.prevBreakOffset( textString, offset );
-		assert.equal( offset, breaks[i], 'Previous break is at position ' + breaks[i] );
+		assert.equal( offset, breaks[ i ], 'Previous break is at position ' + breaks[ i ] );
 	}
 } );
 
@@ -135,11 +135,11 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', function ( as
 
 	for ( i = 0; i < nextBreaks.length; i++ ) {
 		offset = unicodeJS.wordbreak.nextBreakOffset( textString, offset, true );
-		assert.equal( offset, nextBreaks[i], 'Next break is at position ' + nextBreaks[i] );
+		assert.equal( offset, nextBreaks[ i ], 'Next break is at position ' + nextBreaks[ i ] );
 	}
 	for ( i = 0; i < prevBreaks.length; i++ ) {
 		offset = unicodeJS.wordbreak.prevBreakOffset( textString, offset, true );
-		assert.equal( offset, prevBreaks[i], 'Previous break is at position ' + prevBreaks[i] );
+		assert.equal( offset, prevBreaks[ i ], 'Previous break is at position ' + prevBreaks[ i ] );
 	}
 
 	assert.equal( unicodeJS.wordbreak.nextBreakOffset( textString, 9, true ),

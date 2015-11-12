@@ -81,7 +81,7 @@
 	 * @private
 	 * @param {number} ch1 The min character of the range; must be over 0xFFFF
 	 * @param {number} ch2 The max character of the range; must be at least ch1
-	 * @return {Object} A list of boxes {hi: [x, y], lo: [z, w]}
+	 * @return {Array} A list of boxes {hi: [x, y], lo: [z, w]}
 	 */
 	function getCodeUnitBoxes( ch1, ch2 ) {
 		var loMin, loMax, hi1, hi2, lo1, lo2, boxes, hiMinAbove, hiMaxBelow;
@@ -142,7 +142,7 @@
 			disjunction = []; // list of regex strings, to be joined with '|'
 
 		for ( i = 0; i < ranges.length; i++ ) {
-			range = ranges[i];
+			range = ranges[ i ];
 			// Handle single code unit
 			if ( typeof range === 'number' && range <= 0xFFFF ) {
 				if ( range >= 0xD800 && range <= 0xDFFF ) {
@@ -167,8 +167,8 @@
 			}
 
 			// Handle interval
-			min = range[0];
-			max = range[1];
+			min = range[ 0 ];
+			max = range[ 1 ];
 			if ( min > max ) {
 				throw new Error( min.toString( 16 ) + ' > ' + max.toString( 16 ) );
 			}
@@ -194,16 +194,16 @@
 
 			// append hi-lo surrogate space boxes as code unit range pairs
 			for ( j = 0; j < boxes.length; j++ ) {
-				box = boxes[j];
-				hi = codeUnitRange( box.hi[0], box.hi[1], true );
-				lo = codeUnitRange( box.lo[0], box.lo[1], true );
+				box = boxes[ j ];
+				hi = codeUnitRange( box.hi[ 0 ], box.hi[ 1 ], true );
+				lo = codeUnitRange( box.lo[ 0 ], box.lo[ 1 ], true );
 				disjunction.push( hi + lo );
 			}
 		}
 
 		// prepend BMP character class to the disjunction
-		if ( characterClass.length === 1 && !characterClass[0].match( /-/ ) ) {
-			disjunction.unshift( characterClass[0] ); // single character
+		if ( characterClass.length === 1 && !characterClass[ 0 ].match( /-/ ) ) {
+			disjunction.unshift( characterClass[ 0 ] ); // single character
 		} else if ( characterClass.length > 0 ) {
 			disjunction.unshift( '[' + characterClass.join( '' ) + ']' );
 		}
