@@ -8,7 +8,7 @@
   "homepage": "https://www.mediawiki.org/wiki/UnicodeJS",
   "repository": {
     "type": "git",
-    "url": "https://git.wikimedia.org/git/unicodejs.git"
+    "url": "https://phabricator.wikimedia.org/diffusion/GUJS/unicodejs.git"
   },
   "license": "MIT",
   "scripts": {
