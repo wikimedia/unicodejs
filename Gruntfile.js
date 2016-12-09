@@ -1,4 +1,4 @@
-/*jshint node:true */
+/* eslint-env node */
 module.exports = function ( grunt ) {
 	var modules = grunt.file.readJSON( 'build/modules.json' ),
 		moduleUtils = require( './build/moduleUtils' ),
@@ -7,9 +7,8 @@ module.exports = function ( grunt ) {
 
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks( 'grunt-contrib-concat' );
-	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
-	grunt.loadNpmTasks( 'grunt-jscs' );
+	grunt.loadNpmTasks( 'grunt-eslint' );
 	grunt.loadNpmTasks( 'grunt-karma' );
 	grunt.loadTasks( 'build/tasks' );
 
@@ -30,17 +29,11 @@ module.exports = function ( grunt ) {
 				src: srcFiles
 			}
 		},
-		jshint: {
-			options: {
-				jshintrc: true
-			},
+		eslint: {
 			all: [
 				'*.js',
 				'{build,src,tests}/**/*.js'
 			]
-		},
-		jscs: {
-			src: '<%= jshint.all %>'
 		},
 		karma: {
 			options: {
@@ -72,15 +65,15 @@ module.exports = function ( grunt ) {
 		},
 		runwatch: {
 			files: [
-				'.{jscsrc,jshintignore,jshintrc}',
-				'<%= jshint.all %>'
+				'.eslintrc.json',
+				'<%= elhint.all %>'
 			],
 			tasks: [ 'test', 'karma:bg:run' ]
 		}
 	} );
 
 	grunt.registerTask( 'build', [ 'clean', 'concat' ] );
-	grunt.registerTask( 'lint', [ 'jshint', 'jscs' ] );
+	grunt.registerTask( 'lint', [ 'eslint' ] );
 	grunt.registerTask( 'unit', [ 'karma:phantomjs' ] );
 	grunt.registerTask( 'test', [ 'git-build', 'build', 'lint', 'unit' ] );
 	grunt.registerTask( 'watch', [ 'karma:bg:start', 'runwatch' ] );

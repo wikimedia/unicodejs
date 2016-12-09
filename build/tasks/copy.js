@@ -5,7 +5,7 @@
  * version/date placeholder replacements.
  */
 
-/*jshint node:true */
+/* eslint-env node */
 module.exports = function ( grunt ) {
 
 	grunt.registerMultiTask( 'copy', function () {

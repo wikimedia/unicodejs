@@ -2,7 +2,7 @@
 
 // Generates unicodejs.*(properties|categories).js from Unicode data
 
-/* jshint node: true */
+/* eslint-env node */
 
 var http = require( 'http' ),
 	fs = require( 'fs' );

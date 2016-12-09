@@ -149,7 +149,7 @@
 		}
 
 		// get some context
-		rgt.push( getProperty( string.read( pos + r  ) ) );
+		rgt.push( getProperty( string.read( pos + r ) ) );
 		lft.push( getProperty( string.read( pos - l - 1 ) ) );
 
 		switch ( true ) {

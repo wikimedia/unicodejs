@@ -90,14 +90,14 @@
 		loMax = 0xDFFF;
 
 		// hi and lo surrogates for ch1
-		/* jslint bitwise: true */
+		/* eslint-disable no-bitwise */
 		hi1 = 0xD800 + ( ( ch1 - 0x10000 ) >> 10 );
 		lo1 = 0xDC00 + ( ( ch1 - 0x10000 ) & 0x3FF );
 
 		// hi and lo surrogates for ch2
 		hi2 = 0xD800 + ( ( ch2 - 0x10000 ) >> 10 );
 		lo2 = 0xDC00 + ( ( ch2 - 0x10000 ) & 0x3FF );
-		/* jslint bitwise: false */
+		/* eslint-enable no-bitwise */
 
 		if ( hi1 === hi2 ) {
 			return [ { hi: [ hi1, hi2 ], lo: [ lo1, lo2 ] } ];
@@ -105,12 +105,13 @@
 
 		boxes = [];
 
-		/* jslint bitwise: true */
+		/* eslint-disable no-bitwise */
+
 		// minimum hi surrogate which only represents characters >= ch1
 		hiMinAbove = 0xD800 + ( ( ch1 - 0x10000 + 0x3FF ) >> 10 );
 		// maximum hi surrogate which only represents characters <= ch2
 		hiMaxBelow = 0xD800 + ( ( ch2 - 0x10000 - 0x3FF ) >> 10 );
-		/* jslint bitwise: false */
+		/* eslint-enable no-bitwise */
 
 		if ( hi1 < hiMinAbove ) {
 			boxes.push( { hi: [ hi1, hi1 ], lo: [ lo1, loMax ] } );
@@ -158,10 +159,12 @@
 
 			// Handle single surrogate pair
 			if ( typeof range === 'number' && range > 0xFFFF ) {
-				/* jslint bitwise: true */
+				/* eslint-disable no-bitwise */
+
 				hi = 0xD800 + ( ( range - 0x10000 ) >> 10 );
 				lo = 0xDC00 + ( ( range - 0x10000 ) & 0x3FF );
-				/* jslint bitwise: false */
+				/* eslint-enable no-bitwise */
+
 				disjunction.push( uEsc( hi ) + uEsc( lo ) );
 				continue;
 			}
@@ -211,6 +214,6 @@
 	};
 
 	// Expose
-	/*jshint browser:true */
+	/* eslint-env browser */
 	window.unicodeJS = unicodeJS;
 }() );

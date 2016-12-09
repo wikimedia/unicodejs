@@ -115,11 +115,12 @@ QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
 		);
 	}
 	for ( i = 0; i < throwTests.length; i++ ) {
-		/*jshint loopfunc:true */
+		/* eslint-disable no-loop-func */
 		test = throwTests[ i ];
 		doTestFunc = function () {
 			unicodeJS.charRangeArrayRegexp( test[ 0 ] );
 		};
+		/* eslint-enable no-loop-func */
 		assert.throws(
 			doTestFunc,
 			Error,
