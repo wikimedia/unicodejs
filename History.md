@@ -1,5 +1,16 @@
 # UnicodeJS Release History
 
+## v0.1.6 / 2016-12-09
+* Update to Unicode 8 (Ed Sanders)
+* Remove duplicated check for surrogates (Ed Sanders)
+* build: Bump all devDependencies to latest (James D. Forrester)
+* build: Replace jshint and jscs with eslint (James D. Forrester)
+* build: Translate build script to JS (Ed Sanders)
+* build: Update karma and phantomjs related devDependencies (Paladox)
+* build: Upgrade JSCS and fix style errors (Ed Sanders)
+* package: Replace link to git.wikimedia.org with one to diffusion (Paladox)
+* README: Replace git.wikimedia.org url with diffusion url (Paladox)
+
 ## v0.1.5 / 2015-07-02
 * Duck typing test for isBreak (David Chan)
 * build: Don't run jshint on docs/* (Timo Tijhof)
