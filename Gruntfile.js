@@ -35,30 +35,29 @@ module.exports = function ( grunt ) {
 			options: {
 				files: testFiles,
 				frameworks: [ 'qunit' ],
-				reporters: [ 'dots' ],
+				reporters: [ 'dots', 'coverage' ],
 				singleRun: true,
-				autoWatch: false
-			},
-			phantomjs: {
-				browsers: [ 'PhantomJS' ],
+				autoWatch: false,
 				preprocessors: {
 					'src/*.js': [ 'coverage' ]
 				},
-				reporters: [ 'dots', 'coverage' ],
 				coverageReporter: { reporters: [
 					{ type: 'text-summary' },
 					{ type: 'html', dir: 'coverage/' }
 				] }
 			},
-			local: {
-				browsers: [ 'Firefox', 'Chrome' ]
+			main: {
+				browsers: [ 'Chrome' ]
+			},
+			firefox: {
+				browsers: [ 'Firefox' ]
 			}
 		}
 	} );
 
 	grunt.registerTask( 'build', [ 'clean', 'concat' ] );
 	grunt.registerTask( 'lint', [ 'eslint' ] );
-	grunt.registerTask( 'unit', [ 'karma:phantomjs' ] );
+	grunt.registerTask( 'unit', [ 'karma:main' ] );
 	grunt.registerTask( 'test', [ 'git-build', 'build', 'lint', 'unit' ] );
 	grunt.registerTask( 'default', 'test' );
 };
