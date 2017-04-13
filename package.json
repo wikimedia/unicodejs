@@ -23,7 +23,6 @@
     "grunt-contrib-clean": "1.0.0",
     "grunt-contrib-concat": "1.0.1",
     "grunt-eslint": "19.0.0",
-    "grunt-contrib-watch": "1.0.0",
     "grunt-karma": "1.0.0",
     "karma": "1.1.0",
     "karma-chrome-launcher": "1.0.1",

@@ -7,13 +7,9 @@ module.exports = function ( grunt ) {
 
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks( 'grunt-contrib-concat' );
-	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks( 'grunt-eslint' );
 	grunt.loadNpmTasks( 'grunt-karma' );
 	grunt.loadTasks( 'build/tasks' );
-
-	// We want to use `grunt watch` to start this and karma watch together.
-	grunt.renameTask( 'watch', 'runwatch' );
 
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
@@ -56,19 +52,7 @@ module.exports = function ( grunt ) {
 			},
 			local: {
 				browsers: [ 'Firefox', 'Chrome' ]
-			},
-			bg: {
-				browsers: [ 'PhantomJS', 'Firefox', 'Chrome' ],
-				singleRun: false,
-				background: true
 			}
-		},
-		runwatch: {
-			files: [
-				'.eslintrc.json',
-				'<%= elhint.all %>'
-			],
-			tasks: [ 'test', 'karma:bg:run' ]
 		}
 	} );
 
@@ -76,6 +60,5 @@ module.exports = function ( grunt ) {
 	grunt.registerTask( 'lint', [ 'eslint' ] );
 	grunt.registerTask( 'unit', [ 'karma:phantomjs' ] );
 	grunt.registerTask( 'test', [ 'git-build', 'build', 'lint', 'unit' ] );
-	grunt.registerTask( 'watch', [ 'karma:bg:start', 'runwatch' ] );
 	grunt.registerTask( 'default', 'test' );
 };
