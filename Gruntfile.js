@@ -41,10 +41,18 @@ module.exports = function ( grunt ) {
 				preprocessors: {
 					'src/*.js': [ 'coverage' ]
 				},
-				coverageReporter: { reporters: [
-					{ type: 'text-summary' },
-					{ type: 'html', dir: 'coverage/' }
-				] }
+				coverageReporter: {
+					check: { global: {
+						functions: 100,
+						statements: 95,
+						branches: 90,
+						lines: 95
+					} },
+					reporters: [
+						{ type: 'text-summary' },
+						{ type: 'html', dir: 'coverage/' }
+					]
+				}
 			},
 			main: {
 				browsers: [ 'Chrome' ]
