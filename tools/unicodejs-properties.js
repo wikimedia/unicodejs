@@ -2,7 +2,7 @@
 
 // Generates unicodejs.*(properties|categories).js from Unicode data
 
-const VERSION = '8.0.0',
+const VERSION = '9.0.0',
 	hasOwn = Object.hasOwnProperty,
 	http = require( 'http' ),
 	fs = require( 'fs' );
@@ -94,7 +94,7 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 				rangeStrings.push( '[ ' + toHex( start ) + ', ' + toHex( end ) + ' ]' );
 			}
 		} );
-		fragments.push( prop.replace( '_', '' ) + ': [ ' + rangeStrings.join( ', ' ) + ' ]' );
+		fragments.push( prop.replace( /_/g, '' ) + ': [ ' + rangeStrings.join( ', ' ) + ' ]' );
 	} );
 
 	// Write js file
