@@ -1,14 +1,14 @@
 {
     "extends": "wikimedia",
-
-    "ecmaVersion": 5,
+    "parserOptions": {
+        "ecmaVersion": 5
+    },
     "env": {
         "qunit": true
     },
     "globals": {
         "unicodeJS": false
     },
-
     "rules": {
         "dot-notation": [ "error", { "allowKeywords": true } ],
         "no-fallthrough": 0
