@@ -14,8 +14,14 @@ QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
 		[ [ 0x0040 ], '\\u0040', 'single BMP character' ],
 		[ [ 0xFFFF ], '\\uffff', 'highest BMP character' ],
 		[
-			[ 0x005F, [ 0x203F, 0x2040 ], 0x2054, [ 0xFE33, 0xFE34 ],
-			[ 0xFE4D, 0xFE4F ], 0xFF3F ],
+			[
+				0x005F,
+				[ 0x203F, 0x2040 ],
+				0x2054,
+				[ 0xFE33, 0xFE34 ],
+				[ 0xFE4D, 0xFE4F ],
+				0xFF3F
+			],
 			'[\\u005f\\u203f-\\u2040\\u2054\\ufe33-\\ufe34\\ufe4d-\\ufe4f\\uff3f]',
 			'multiple BMP ranges (= ExtendNumLet from wordbreak rules)'
 		],
@@ -105,7 +111,7 @@ QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
 		[ [ [ 0xCCCC, 0xEEEE ] ], 'surrogate overlap 4' ]
 	];
 
-	QUnit.expect( equalityTests.length + throwTests.length );
+	assert.expect( equalityTests.length + throwTests.length );
 	for ( i = 0; i < equalityTests.length; i++ ) {
 		test = equalityTests[ i ];
 		assert.equal(

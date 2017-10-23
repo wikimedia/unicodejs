@@ -26,7 +26,7 @@ QUnit.test( 'isBreak (on code units in TextString-like object)', function ( asse
 		}
 	};
 
-	QUnit.expect( length + 1 );
+	assert.expect( length + 1 );
 
 	for ( i = 0; i <= length; i++ ) {
 		result = ( breakOffsets.indexOf( i ) !== -1 );
@@ -60,9 +60,12 @@ QUnit.test( 'isBreak (on grapheme clusters)', function ( assert ) {
 			// U+10308 OLD ITALIC LETTER THE \ud800\udf08
 			// U+1030A OLD ITALIC LETTER KA \ud800\udf0a
 			// U+0302 COMBINING CIRCUMFLEX \u0302
-			'\ud800\udf08' + '\ud800\udf08\u0302' + '\ud800\udf0a',
+			'\ud800\udf08' +
+				'\ud800\udf08\u0302' +
+				'\ud800\udf0a',
 			' ',
-			'\ud800\udf0a' + '\ud800\udf0a',
+			'\ud800\udf0a' +
+				'\ud800\udf0a',
 			' ', '뜨락또르', ' ', '트랙터', ' ', // hangul (composed)
 			// TODO: test the equivalent hangul decomposed into jamo
 			// '\u1104\u1173\u1105\u1161\u11a8\u1104\u1169\u1105\u1173 ' +
@@ -77,7 +80,7 @@ QUnit.test( 'isBreak (on grapheme clusters)', function ( assert ) {
 	}
 	textString = new unicodeJS.TextString( broken.join( '' ) );
 
-	QUnit.expect( textString.getLength() + 1 );
+	assert.expect( textString.getLength() + 1 );
 
 	for ( i = 0; i <= textString.getLength(); i++ ) {
 		result = ( breakOffsets.indexOf( i ) !== -1 );
@@ -100,7 +103,7 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset', function ( assert ) {
 		textString = new unicodeJS.TextString( text ),
 		breaks = [ 0, 0, 3, 4, 9, 10, 15, 16, 19, 19 ];
 
-	QUnit.expect( 2 * ( breaks.length - 2 ) );
+	assert.expect( 2 * ( breaks.length - 2 ) );
 
 	for ( i = 2; i < breaks.length; i++ ) {
 		offset = unicodeJS.wordbreak.nextBreakOffset( textString, offset );
@@ -131,7 +134,7 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', function ( as
 		nextBreaks = [ 6, 12, 19, 25, 31, 42, 49, 55, 57 ],
 		prevBreaks = [ 50, 46, 35, 26, 22, 14, 7, 3, 0 ];
 
-	QUnit.expect( nextBreaks.length + prevBreaks.length + 6 );
+	assert.expect( nextBreaks.length + prevBreaks.length + 6 );
 
 	for ( i = 0; i < nextBreaks.length; i++ ) {
 		offset = unicodeJS.wordbreak.nextBreakOffset( textString, offset, true );

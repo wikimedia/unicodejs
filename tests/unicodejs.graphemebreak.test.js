@@ -7,7 +7,7 @@
 
 QUnit.module( 'unicodeJS.graphemebreak' );
 
-QUnit.test( 'splitClusters', 1, function ( assert ) {
+QUnit.test( 'splitClusters', function ( assert ) {
 	var expected = [
 		'a',
 		' ',
