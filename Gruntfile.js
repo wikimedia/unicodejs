@@ -42,16 +42,19 @@ module.exports = function ( grunt ) {
 					'src/*.js': [ 'coverage' ]
 				},
 				coverageReporter: {
+					dir: 'coverage/',
+					subdir: '.',
+					reporters: [
+						{ type: 'json-summary', file: 'coverage-summary.json' },
+						{ type: 'html' },
+						{ type: 'text-summary' }
+					],
 					check: { global: {
 						functions: 100,
 						statements: 95,
 						branches: 90,
 						lines: 95
-					} },
-					reporters: [
-						{ type: 'text-summary' },
-						{ type: 'html', dir: 'coverage/' }
-					]
+					} }
 				}
 			},
 			main: {
