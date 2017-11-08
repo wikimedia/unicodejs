@@ -2,7 +2,7 @@
 
 // Generates unicodejs.*(properties|categories).js from Unicode data
 
-const VERSION = '9.0.0',
+const VERSION = '10.0.0',
 	hasOwn = Object.hasOwnProperty,
 	http = require( 'http' ),
 	fs = require( 'fs' );
