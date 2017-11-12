@@ -1,4 +1,4 @@
-/* eslint-env node */
+/* eslint-env node, es6 */
 module.exports = function ( grunt ) {
 	var modules = grunt.file.readJSON( 'build/modules.json' ),
 		moduleUtils = require( './build/moduleUtils' ),
@@ -28,7 +28,7 @@ module.exports = function ( grunt ) {
 		eslint: {
 			all: [
 				'*.js',
-				'{build,src,tests}/**/*.js'
+				'{build,src,tests,tools}/**/*.js'
 			]
 		},
 		karma: {

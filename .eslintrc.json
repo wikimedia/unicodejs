@@ -1,8 +1,5 @@
 {
     "extends": "wikimedia",
-    "parserOptions": {
-        "ecmaVersion": 5
-    },
     "env": {
         "qunit": true
     },

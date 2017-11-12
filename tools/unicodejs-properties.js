@@ -2,9 +2,11 @@
 
 // Generates unicodejs.*(properties|categories).js from Unicode data
 
-/* eslint-env node */
+/* eslint-env node, es6 */
+/* eslint-disable no-console */
 
-var http = require( 'http' ),
+const VERSION = '8.0.0',
+	http = require( 'http' ),
 	fs = require( 'fs' );
 
 function extractProperties( body, jsname, full, propPatterns, excludeSurrogates ) {
@@ -19,7 +21,7 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		definitionTest = /^([0-9A-F]{4,6})(?:\.\.([0-9A-F]{4,6}))?\s*;\s*(\w+)\s*#/;
 
 	lines.forEach( function ( line ) {
-		var matches, jsname, start, end, propText;
+		var matches, start, end, propText;
 
 		line = line.trim();
 		// Ignore comment or blank lines
@@ -114,35 +116,35 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 
 [
 	{
-		url: 'http://unicode.org/Public/UNIDATA/DerivedCoreProperties.txt',
+		url: 'http://unicode.org/Public/%V/ucd/DerivedCoreProperties.txt',
 		jsname: 'derivedcoreproperties',
 		propPatterns: [ /^(Alphabetic)$/ ]
 	},
 	{
-		url: 'http://www.unicode.org/Public/UNIDATA/extracted/DerivedGeneralCategory.txt',
+		url: 'http://www.unicode.org/Public/%V/ucd/extracted/DerivedGeneralCategory.txt',
 		jsname: 'derivedgeneralcategories',
 		propPatterns: [ /^(Pc)$/, /^(M).*$/ ]
 	},
 	{
-		url: 'http://www.unicode.org/Public/UNIDATA/auxiliary/GraphemeBreakProperty.txt',
+		url: 'http://www.unicode.org/Public/%V/ucd/auxiliary/GraphemeBreakProperty.txt',
 		jsname: 'graphemebreakproperties',
 		full: true,
 		propPatterns: [ /^(.*)$/ ],
 		excludeSurrogates: true
 	},
 	{
-		url: 'http://www.unicode.org/Public/UNIDATA/auxiliary/WordBreakProperty.txt',
+		url: 'http://www.unicode.org/Public/%V/ucd/auxiliary/WordBreakProperty.txt',
 		jsname: 'wordbreakproperties',
 		full: true,
 		propPatterns: [ /^(.*)$/ ]
 	},
 	{
-		url: 'http://www.unicode.org/Public/UCD/latest/ucd/extracted/DerivedBidiClass.txt',
+		url: 'http://www.unicode.org/Public/%V/ucd/extracted/DerivedBidiClass.txt',
 		jsname: 'derivedbidiclasses',
 		propPatterns: [ /^(L|R|AL)$/ ]
 	}
 ].forEach( function ( options ) {
-	var request = http.request( options.url, function ( res ) {
+	var request = http.request( options.url.replace( '%V', VERSION ), function ( res ) {
 		var body = '';
 
 		res.on( 'data', function ( data ) {
