@@ -25,34 +25,23 @@
 	}
 
 	/**
-	 * Return the wordbreak property value for the cluster
-	 *
-	 * This is a slight con, because Unicode wordbreak property values are defined
-	 * per character, not per cluster, whereas we're already working with a string
-	 * split into clusters.
-	 *
-	 * We are making a working assumption that we can implement the Unicode
-	 * word boundary specification by taking the property value of the *first*
-	 * character of the cluster. In particular, this implements WB4 for us, because
-	 * non-initial Extend or Format characters disappear.
+	 * Return the wordbreak property value for the codepoint
 	 *
 	 * See http://www.unicode.org/reports/tr29/#Word_Boundaries
 	 *
 	 * @private
-	 * @param {string} cluster The grapheme cluster
-	 * @return {string|null} The unicode wordbreak property value
+	 * @param {string} codepoint The codepoint
+	 * @return {string|null} The unicode wordbreak property value (key of unicodeJS.wordbreakproperties)
 	 */
-	function getProperty( cluster ) {
-		var character, property;
-		// cluster is always converted to a string by RegExp#test
+	function getProperty( codepoint ) {
+		// codepoint is always converted to a string by RegExp#test
 		// e.g. null -> 'null' and would match /[a-z]/
 		// so return null for any non-string value
-		if ( typeof cluster !== 'string' ) {
+		if ( typeof codepoint !== 'string' ) {
 			return null;
 		}
-		character = unicodeJS.splitCharacters( cluster )[ 0 ];
 		for ( property in patterns ) {
-			if ( patterns[ property ].test( character ) ) {
+			if ( patterns[ property ].test( codepoint ) ) {
 				return property;
 			}
 		}
@@ -121,14 +110,15 @@
 	/**
 	 * Evaluates whether a position within some text is a word boundary.
 	 *
-	 * The text object elements may be code units, codepoints or clusters.
+	 * The text object elements may be codepoints or code units (deprecated)
 	 *
-	 * @param {Object} string TextString-like object with read( pos ) returning string|null
+	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
 	 * @return {boolean} Is the position a word boundary
 	 */
 	wordbreak.isBreak = function ( string, pos ) {
-		var lft = [],
+		var nextRgt, nextLft,
+			lft = [],
 			rgt = [],
 			l = 0,
 			r = 0;
@@ -140,10 +130,11 @@
 			return true;
 		}
 
+		// Compatibility with TextString objects that split codepoints
 		// Do not break inside surrogate pair
 		if (
-			string.read( pos - 1 ).match( /[\uD800-\uDBFF]/ ) &&
-			string.read( pos ).match( /[\uDC00-\uDFFF]/ )
+			string.read( pos - 1 ).match( /^[\uD800-\uDBFF]$/ ) &&
+			string.read( pos ).match( /^[\uDC00-\uDFFF]$/ )
 		) {
 			return false;
 		}
@@ -176,7 +167,7 @@
 		// We've reached the end of an Extend|Format sequence, collapse it
 		while ( lft[ 0 ] === 'Extend' || lft[ 0 ] === 'Format' ) {
 			l++;
-			if ( pos - l - 1 <= 0 ) {
+			if ( pos - l - 1 < 0 ) {
 				// start of document
 				return true;
 			}
@@ -192,11 +183,17 @@
 			return false;
 		}
 
-		// some tests beyond this point require more context
-		l++;
-		r++;
-		rgt.push( getProperty( string.read( pos + r ) ) );
-		lft.push( getProperty( string.read( pos - l - 1 ) ) );
+		// Some tests beyond this point require more context, as per WB4 ignore Format and Extend.
+		do {
+			r++;
+			nextRgt = getProperty( string.read( pos + r ) );
+		} while ( nextRgt === 'Extend' || nextRgt === 'Format' );
+		rgt.push( nextRgt );
+		do {
+			l++;
+			nextLft = getProperty( string.read( pos - l - 1 ) );
+		} while ( nextLft === 'Extend' || nextLft === 'Format' );
+		lft.push( nextLft );
 
 		switch ( true ) {
 			// Do not break letters across certain punctuation.

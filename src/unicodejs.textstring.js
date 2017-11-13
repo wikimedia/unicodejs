@@ -16,44 +16,31 @@
  * @param {string} text Text
  */
 unicodeJS.TextString = function UnicodeJSTextString( text ) {
-	this.clusters = unicodeJS.graphemebreak.splitClusters( text );
+	this.codepoints = unicodeJS.splitCharacters( text );
 };
 
 /* Methods */
 
 /**
- * Read grapheme cluster at specified position
+ * Read unicode codepoint at specified position
  *
  * @method
  * @param {number} position Position to read from
- * @return {string|null} Grapheme cluster, or null if out of bounds
+ * @return {string|null} Unicode codepoint, or null if out of bounds
  */
 unicodeJS.TextString.prototype.read = function ( position ) {
-	var clusterAt = this.clusters[ position ];
-	return clusterAt !== undefined ? clusterAt : null;
+	var codepointAt = this.codepoints[ position ];
+	return codepointAt !== undefined ? codepointAt : null;
 };
 
 /**
- * Return number of grapheme clusters in the text string
+ * Return number of codepoints in the text string
  *
  * @method
- * @return {number} Number of grapheme clusters
+ * @return {number} Number of codepoints
  */
 unicodeJS.TextString.prototype.getLength = function () {
-	return this.clusters.length;
-};
-
-/**
- * Return a sub-TextString
- *
- * @param {number} start Start offset
- * @param {number} end End offset
- * @return {unicodeJS.TextString} New TextString object containing substring
- */
-unicodeJS.TextString.prototype.substring = function ( start, end ) {
-	var textString = new unicodeJS.TextString( '' );
-	textString.clusters = this.clusters.slice( start, end );
-	return textString;
+	return this.codepoints.length;
 };
 
 /**
@@ -61,6 +48,6 @@ unicodeJS.TextString.prototype.substring = function ( start, end ) {
  *
  * @return {string} Plain javascript string
  */
-unicodeJS.TextString.prototype.getString = function () {
-	return this.clusters.join( '' );
+unicodeJS.TextString.prototype.toString = function () {
+	return this.codepoints.join( '' );
 };

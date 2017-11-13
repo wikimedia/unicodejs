@@ -7,94 +7,29 @@
 
 QUnit.module( 'unicodeJS.wordbreak' );
 
-QUnit.test( 'isBreak (on code units in TextString-like object)', function ( assert ) {
-	var i, pos, result, context, breakOffsets, textString, length, textStringLike,
-		broken = [ 'dw\u0302r', ' ', '大', '𨋢', ' ', 'c\u0300\u0327k' ];
-	breakOffsets = [ 0 ];
-	pos = 0;
-	for ( i = 0; i < broken.length; i++ ) {
-		pos += broken[ i ].length;
-		breakOffsets.push( pos );
-	}
-	textString = new unicodeJS.TextString( '' );
-	textString.clusters = broken.join( '' ).split( '' );
-	length = textString.getLength();
-	// Construct a TextString-like object that just has a 'read' method
-	textStringLike = {
-		read: function () {
-			return textString.read.apply( textString, arguments );
+QUnit.test( 'Unicode test suite', function ( assert ) {
+	var i, textString, result;
+
+	unicodeJS.testdata.wordbreak.reduce( unicodeJS.test.parseTestReduce, [] ).forEach( function ( test ) {
+
+		textString = new unicodeJS.TextString( test.string );
+		result = [];
+
+		for ( i = 0; i <= textString.getLength(); i++ ) {
+			result.push( unicodeJS.wordbreak.isBreak( textString, i ) );
 		}
-	};
+		assert.deepEqual( result, test.expected, test.msg );
+	} );
 
-	assert.expect( length + 1 );
-
-	for ( i = 0; i <= length; i++ ) {
-		result = ( breakOffsets.indexOf( i ) !== -1 );
-		context = (
-			textString.substring( Math.max( i - 4, 0 ), i ).getString() +
-			'│' +
-			textString.substring( i, Math.min( i + 4, length ) ).getString()
-		);
-		assert.equal(
-			unicodeJS.wordbreak.isBreak( textStringLike, i ),
-			result,
-			'Break at position ' + i + ' (expect ' + result + '): ' + context
-		);
-	}
-} );
-
-QUnit.test( 'isBreak (on grapheme clusters)', function ( assert ) {
-	var i, pos, result, context, breakOffsets, textString,
-		broken = [
-			'\u0300', 'xyz\'d', ' ', 'a', '\'', ' ',
-			'\'', 'a', ' ', 'a', '-', 'b', ' ', '1a', '\r\n',
-			'カタカナ', '3,1.2', ' ',
-			'a_b_3_ナ_', ' ',
-			'汉', '字', '/', '漢', '字', ' ',
-			'c\u0300\u0327k', ' ',
-			// Test ALetter characters above U+FFFF.
-			// ALetter+ should be a single word
-			// (ALetter Extend*)+ should be a single word
-			//
-			// We'll use:
-			// U+10308 OLD ITALIC LETTER THE \ud800\udf08
-			// U+1030A OLD ITALIC LETTER KA \ud800\udf0a
-			// U+0302 COMBINING CIRCUMFLEX \u0302
-			'\ud800\udf08' +
-				'\ud800\udf08\u0302' +
-				'\ud800\udf0a',
-			' ',
-			'\ud800\udf0a' +
-				'\ud800\udf0a',
-			' ', '뜨락또르', ' ', '트랙터', ' ', // hangul (composed)
-			// TODO: test the equivalent hangul decomposed into jamo
-			// '\u1104\u1173\u1105\u1161\u11a8\u1104\u1169\u1105\u1173 ' +
-			// '\u1110\u1173\u1105\u1162\u11a8\u1110\u1165' +
-			' ', 'c\u0300\u0327', ' ', 'a', '.'
-		];
-	breakOffsets = [ 0 ];
-	pos = 0;
-	for ( i = 0; i < broken.length; i++ ) {
-		pos += unicodeJS.graphemebreak.splitClusters( broken[ i ] ).length;
-		breakOffsets.push( pos );
-	}
-	textString = new unicodeJS.TextString( broken.join( '' ) );
-
-	assert.expect( textString.getLength() + 1 );
+	textString = new unicodeJS.TextString( '' );
+	textString.codepoints = '𨋢'.split( '' );
+	result = [];
 
 	for ( i = 0; i <= textString.getLength(); i++ ) {
-		result = ( breakOffsets.indexOf( i ) !== -1 );
-		context =
-			textString.substring( Math.max( i - 4, 0 ), i ).getString() +
-			'│' +
-			textString.substring( i, Math.min( i + 4, textString.getLength() ) ).getString()
-		;
-		assert.equal(
-			unicodeJS.wordbreak.isBreak( textString, i ),
-			result,
-			'Break at position ' + i + ' (expect ' + result + '): ' + context
-		);
+		result.push( unicodeJS.wordbreak.isBreak( textString, i ) );
 	}
+	assert.deepEqual( result, [ true, false, true ], 'Basic support for code unit splitting' );
+
 } );
 
 QUnit.test( 'nextBreakOffset/prevBreakOffset', function ( assert ) {
@@ -157,4 +92,12 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', function ( as
 		3, 'Jump to start of word when starting at end of word' );
 	assert.equal( unicodeJS.wordbreak.prevBreakOffset( textString, 13, true ),
 		7, 'Jump to start of word when starting in double whitespace' );
+} );
+
+QUnit.test( 'TextString', function ( assert ) {
+	var plainString = 'abc𨋢def',
+		textString = new unicodeJS.TextString( plainString );
+
+	assert.equal( textString.getLength(), 7, 'getLength' );
+	assert.equal( textString.toString(), plainString, 'toString' );
 } );

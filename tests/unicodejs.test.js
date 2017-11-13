@@ -5,6 +5,39 @@
  * @license The MIT License (MIT); see LICENSE.txt
  */
 
+unicodeJS.testdata = {};
+unicodeJS.test = {
+	parseTestReduce: function ( arr, line ) {
+		var breakMap = {
+				'÷': true,
+				'×': false
+			},
+			skip = false,
+			chars = '',
+			expected = [],
+			data = line.split( ' ' );
+
+		data.forEach( function ( str, i ) {
+			if ( i % 2 === 0 ) {
+				// Tests at even offsets
+				expected.push( breakMap[ str ] );
+			} else {
+				// Chars at odd offsets
+				chars += String.fromCodePoint( +( '0x' + str ) );
+			}
+		} );
+
+		if ( !skip ) {
+			arr.push( {
+				msg: line,
+				string: chars,
+				expected: expected
+			} );
+		}
+		return arr;
+	}
+};
+
 QUnit.module( 'unicodeJS' );
 
 QUnit.test( 'charRangeArrayRegexp', function ( assert ) {

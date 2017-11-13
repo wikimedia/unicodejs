@@ -144,8 +144,10 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		propPatterns: [ /^(L|R|AL)$/ ]
 	}
 ].forEach( function ( options ) {
-	var request = http.request( options.url.replace( '%V', VERSION ), function ( res ) {
+	var request = http.get( options.url.replace( '%V', VERSION ), function ( res ) {
 		var body = '';
+
+		res.setEncoding( 'utf8' );
 
 		res.on( 'data', function ( data ) {
 			body += data;
