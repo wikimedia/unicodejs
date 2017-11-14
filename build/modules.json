@@ -22,6 +22,7 @@
 		"scripts": [
 			"tests/unicodejs.test.js",
 			"tests/unicodejs.characterclass.test.js",
+			"tests/unicodejs.graphemebreak.testdata.js",
 			"tests/unicodejs.graphemebreak.test.js",
 			"tests/unicodejs.wordbreak.testdata.js",
 			"tests/unicodejs.wordbreak.test.js"

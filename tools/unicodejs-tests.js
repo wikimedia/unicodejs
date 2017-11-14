@@ -33,6 +33,10 @@ function buildTests( body, jsname ) {
 	{
 		url: 'http://www.unicode.org/Public/%V/ucd/auxiliary/WordBreakTest.txt',
 		jsname: 'wordbreak'
+	},
+	{
+		url: 'http://www.unicode.org/Public/%V/ucd/auxiliary/GraphemeBreakTest.txt',
+		jsname: 'graphemebreak'
 	}
 ].forEach( function ( options ) {
 	var request = http.get( options.url.replace( '%V', VERSION ), function ( res ) {

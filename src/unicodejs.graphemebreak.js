@@ -8,7 +8,7 @@
  * @license The MIT License (MIT); see LICENSE.txt
  */
 ( function () {
-	var property, disjunction, graphemeBreakRegexp,
+	var property, disjunction, graphemeBreakRegexp, combiningMark,
 		properties = unicodeJS.graphemebreakproperties,
 		// Single unicode character (either a UTF-16 code unit or a surrogate pair)
 		oneCharacter = '[^\\ud800-\\udfff]|[\\ud800-\\udbff][\\udc00-\\udfff]',
@@ -24,6 +24,8 @@
 		patterns[ property ] = unicodeJS.charRangeArrayRegexp( properties[ property ] );
 	}
 
+	combiningMark = '(?:' + patterns.Extend + '|' + patterns.SpacingMark + ')';
+
 	// build disjunction for grapheme cluster split
 	// See http://www.unicode.org/reports/tr29/ at "Grapheme Cluster Boundary Rules"
 	disjunction = [
@@ -34,36 +36,49 @@
 
 		// Do not break between a CR and LF. Otherwise, break before and after controls.
 		// GB3: CR × LF
-		'\\r\\n',
+		patterns.CR + patterns.LF,
 
 		// GB4: ( Control | CR | LF ) ÷
 		// GB5: ÷ ( Control | CR | LF )
-		patterns.Control,
+		'(?:' + patterns.Control + '|' +
+		patterns.CR + '|' +
+		patterns.LF + ')',
 
 		// Do not break Hangul syllable sequences.
 		// GB6: L × ( L | V | LV | LVT )
 		// GB7: ( LV | V ) × ( V | T )
 		// GB8: ( LVT | T ) × T
+		// L* V+ T*
 		'(?:' + patterns.L + ')*' +
 		'(?:' + patterns.V + ')+' +
-		'(?:' + patterns.T + ')*',
+		'(?:' + patterns.T + ')*' +
+		combiningMark + '*',
 
+		// L* LV V* T*
 		'(?:' + patterns.L + ')*' +
 		'(?:' + patterns.LV + ')' +
 		'(?:' + patterns.V + ')*' +
-		'(?:' + patterns.T + ')*',
+		'(?:' + patterns.T + ')*' +
+		combiningMark + '*',
 
+		// L* LVT T*
 		'(?:' + patterns.L + ')*' +
 		'(?:' + patterns.LVT + ')' +
-		'(?:' + patterns.T + ')*',
+		'(?:' + patterns.T + ')*' +
+		combiningMark + '*',
 
-		'(?:' + patterns.L + ')+',
+		// L+
+		'(?:' + patterns.L + ')+' +
+		combiningMark + '*',
 
-		'(?:' + patterns.T + ')+',
+		// T+
+		'(?:' + patterns.T + ')+' +
+		combiningMark + '*',
 
 		// Do not break between regional indicator symbols.
 		// GB8a: Regional_Indicator × Regional_Indicator
-		'(?:' + patterns.RegionalIndicator + ')+',
+		'(?:' + patterns.RegionalIndicator + ')+' +
+		combiningMark + '*',
 
 		// Do not break before extending characters.
 		// GB9: × Extend
@@ -72,12 +87,10 @@
 		// Do not break before SpacingMarks, or after Prepend characters.
 		// GB9a: × SpacingMark
 		// GB9b: Prepend ×
-		// As of Unicode 7.0.0, no characters are "Prepend"
+		// As of Unicode 8.0.0, no characters are "Prepend"
 		// TODO: this will break if the extended thing is not oneCharacter
 		// e.g. hangul jamo L+V+T. Does it matter?
-		'(?:' + oneCharacter + ')' +
-		'(?:' + patterns.Extend + '|' +
-		patterns.SpacingMark + ')+',
+		'(?:' + oneCharacter + ')' + combiningMark + '+',
 
 		// Otherwise, break everywhere.
 		// GB10: Any ÷ Any
