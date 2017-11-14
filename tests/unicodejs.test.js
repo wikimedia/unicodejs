@@ -105,10 +105,13 @@ QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
 	throwTests = [
 		[ [ 0xD800 ], 'surrogate character U+D800' ],
 		[ [ 0xDFFF ], 'surrogate character U+DFFF' ],
+		[ [ 0x110000 ], 'character too high' ],
 		[ [ [ 0xCCCC, 0xDDDD ] ], 'surrogate overlap 1' ],
 		[ [ [ 0xDDDD, 0xEEEE ] ], 'surrogate overlap 2' ],
 		[ [ [ 0xDDDD, 0xEEEEE ] ], 'surrogate overlap 3' ],
-		[ [ [ 0xCCCC, 0xEEEE ] ], 'surrogate overlap 4' ]
+		[ [ [ 0xCCCC, 0xEEEE ] ], 'surrogate overlap 4' ],
+		[ [ [ 0x2, 0x1 ] ], 'min > max' ],
+		[ [ [ 0x10FFFF, 0x110000 ] ], 'range too high' ]
 	];
 
 	assert.expect( equalityTests.length + throwTests.length );

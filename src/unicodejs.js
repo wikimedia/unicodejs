@@ -144,29 +144,28 @@
 
 		for ( i = 0; i < ranges.length; i++ ) {
 			range = ranges[ i ];
+
 			// Handle single code unit
-			if ( typeof range === 'number' && range <= 0xFFFF ) {
-				if ( range >= 0xD800 && range <= 0xDFFF ) {
-					throw new Error( 'Surrogate: ' + range.toString( 16 ) );
+			if ( typeof range === 'number' ) {
+				if ( range <= 0xFFFF ) {
+					if ( range >= 0xD800 && range <= 0xDFFF ) {
+						throw new Error( 'Surrogate: ' + range.toString( 16 ) );
+					}
+					characterClass.push( uEsc( range ) );
+					continue;
+				} else {
+					// Handle single surrogate pair
+					if ( range > 0x10FFFF ) {
+						throw new Error( 'Character code too high: ' + range.toString( 16 ) );
+					}
+					/* eslint-disable no-bitwise */
+					hi = 0xD800 + ( ( range - 0x10000 ) >> 10 );
+					lo = 0xDC00 + ( ( range - 0x10000 ) & 0x3FF );
+					/* eslint-enable no-bitwise */
+
+					disjunction.push( uEsc( hi ) + uEsc( lo ) );
+					continue;
 				}
-				if ( range > 0x10FFFF ) {
-					throw new Error( 'Character code too high: ' +
-						range.toString( 16 ) );
-				}
-				characterClass.push( uEsc( range ) );
-				continue;
-			}
-
-			// Handle single surrogate pair
-			if ( typeof range === 'number' && range > 0xFFFF ) {
-				/* eslint-disable no-bitwise */
-
-				hi = 0xD800 + ( ( range - 0x10000 ) >> 10 );
-				lo = 0xDC00 + ( ( range - 0x10000 ) & 0x3FF );
-				/* eslint-enable no-bitwise */
-
-				disjunction.push( uEsc( hi ) + uEsc( lo ) );
-				continue;
 			}
 
 			// Handle interval
@@ -186,11 +185,11 @@
 			if ( max <= 0xFFFF ) {
 				// interval is entirely BMP
 				characterClass.push( codeUnitRange( min, max ) );
-			} else if ( min <= 0xFFFF && max > 0xFFFF ) {
+			} else if ( min <= 0xFFFF ) {
 				// interval is BMP and non-BMP
 				characterClass.push( codeUnitRange( min, 0xFFFF ) );
 				boxes = getCodeUnitBoxes( 0x10000, max );
-			} else if ( min > 0xFFFF ) {
+			} else {
 				// interval is entirely non-BMP
 				boxes = getCodeUnitBoxes( min, max );
 			}
