@@ -1,5 +1,19 @@
 # UnicodeJS Release History
 
+## v0.2.0 / 2017-11-14
+* Build automated wordbreak tests from official test data (Ed Sanders)
+* Use versioned URLs for data, instead of latest (Ed Sanders)
+* build: Switch default form PhantomJS to Chrome (Timo Tijhof)
+* build: Enforce minumum code coverage (Timo Tijhof)
+* Improve test coverage (100%) (Ed Sanders)
+* build: Put karma coverage reports in the top-level directory (James D. Forrester)
+* build: Replace JSON code coverage report with clover.xml one (Kunal Mehta)
+* README.md: change Bugzilla URL to Phabricator (Ricordisamoa)
+* build: Fix invalid ecmaVersion setting (Timo Tijhof)
+* build: Bump devDependencies to latest and make pass (James D. Forrester)
+* build: Remove 'grunt watch' (Timo Tijhof)
+* build: Remove unused jquery.js copy (Timo Tijhof)
+
 ## v0.1.6 / 2016-12-09
 * Update to Unicode 8 (Ed Sanders)
 * Remove duplicated check for surrogates (Ed Sanders)
