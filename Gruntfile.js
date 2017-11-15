@@ -7,6 +7,7 @@ module.exports = function ( grunt ) {
 
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks( 'grunt-contrib-concat' );
+	grunt.loadNpmTasks( 'grunt-contrib-copy' );
 	grunt.loadNpmTasks( 'grunt-eslint' );
 	grunt.loadNpmTasks( 'grunt-karma' );
 	grunt.loadTasks( 'build/tasks' );
@@ -15,6 +16,17 @@ module.exports = function ( grunt ) {
 		pkg: grunt.file.readJSON( 'package.json' ),
 		clean: {
 			dist: [ 'dist', 'coverage' ]
+		},
+		copy: {
+			dist: {
+				src: [
+					'AUTHORS.txt',
+					'LICENSE.txt',
+					'History.md',
+					'README.md'
+				],
+				dest: 'dist/'
+			}
 		},
 		concat: {
 			all: {
@@ -66,7 +78,7 @@ module.exports = function ( grunt ) {
 		}
 	} );
 
-	grunt.registerTask( 'build', [ 'clean', 'concat' ] );
+	grunt.registerTask( 'build', [ 'clean', 'concat', 'copy' ] );
 	grunt.registerTask( 'lint', [ 'eslint' ] );
 	grunt.registerTask( 'unit', [ 'karma:main' ] );
 	grunt.registerTask( 'test', [ 'git-build', 'build', 'lint', 'unit' ] );
