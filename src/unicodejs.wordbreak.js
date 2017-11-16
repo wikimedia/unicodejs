@@ -37,12 +37,6 @@
 	 * @return {string|null} The unicode wordbreak property value (key of unicodeJS.wordbreakproperties)
 	 */
 	function getProperty( codepoint ) {
-		// codepoint is always converted to a string by RegExp#test
-		// e.g. null -> 'null' and would match /[a-z]/
-		// so return null for any non-string value
-		if ( typeof codepoint !== 'string' ) {
-			return null;
-		}
 		for ( property in patterns ) {
 			if ( patterns[ property ].test( codepoint ) ) {
 				return property;
@@ -85,18 +79,18 @@
 	 * @return {number} Returns the previous offset which is word break
 	 */
 	wordbreak.moveBreakOffset = function ( direction, string, pos, onlyAlphaNumeric ) {
-		var lastProperty, i = pos,
+		var lastProperty, codepoint,
 			// when moving backwards, use the character to the left of the cursor
-			readCharOffset = direction > 0 ? 0 : -1;
-		// Search backwards for the previous break point
-		while ( string.read( i + readCharOffset ) !== null ) {
-			i += direction;
-			if ( unicodeJS.wordbreak.isBreak( string, i ) ) {
+			nextCodepoint = direction > 0 ? string.nextCodepoint.bind( string ) : string.prevCodepoint.bind( string ),
+			prevCodepoint = direction > 0 ? string.prevCodepoint.bind( string ) : string.nextCodepoint.bind( string );
+
+		// Search for the next break point
+		while ( ( codepoint = nextCodepoint( pos ) ) !== null ) {
+			pos += codepoint.length * direction;
+			if ( unicodeJS.wordbreak.isBreak( string, pos ) ) {
 				// Check previous character was alpha-numeric if required
 				if ( onlyAlphaNumeric ) {
-					lastProperty = getProperty(
-						string.read( i - direction + readCharOffset )
-					);
+					lastProperty = getProperty( prevCodepoint( pos ) );
 					if ( lastProperty !== 'ALetter' &&
 						lastProperty !== 'Numeric' &&
 						lastProperty !== 'Katakana' &&
@@ -107,20 +101,20 @@
 				break;
 			}
 		}
-		return i;
+		return pos;
 	};
 
 	/**
 	 * Evaluates whether a position within some text is a word boundary.
 	 *
-	 * The text object elements may be codepoints or code units (deprecated)
+	 * The text object elements may be codepoints or code units
 	 *
 	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
 	 * @return {boolean} Is the position a word boundary
 	 */
 	wordbreak.isBreak = function ( string, pos ) {
-		var nextRgt, nextLft,
+		var nextCodepoint, prevCodepoint, nextProperty, prevProperty,
 			lft = [],
 			rgt = [],
 			l = 0,
@@ -133,18 +127,18 @@
 			return true;
 		}
 
-		// Compatibility with TextString objects that split codepoints
 		// Do not break inside surrogate pair
-		if (
-			string.read( pos - 1 ).match( /^[\uD800-\uDBFF]$/ ) &&
-			string.read( pos ).match( /^[\uDC00-\uDFFF]$/ )
-		) {
+		if ( string.isMidSurrogate( pos ) ) {
 			return false;
 		}
 
-		// get some context
-		rgt.push( getProperty( string.read( pos + r ) ) );
-		lft.push( getProperty( string.read( pos - l - 1 ) ) );
+		// Get some context
+		nextCodepoint = string.nextCodepoint( pos + r );
+		prevCodepoint = string.prevCodepoint( pos - l );
+		rgt.push( getProperty( nextCodepoint ) );
+		lft.push( getProperty( prevCodepoint ) );
+		r += nextCodepoint.length;
+		l += prevCodepoint.length;
 
 		switch ( true ) {
 			// Do not break within CRLF.
@@ -169,12 +163,13 @@
 		}
 		// We've reached the end of an Extend|Format sequence, collapse it
 		while ( lft[ 0 ] === 'Extend' || lft[ 0 ] === 'Format' ) {
-			l++;
-			if ( pos - l - 1 < 0 ) {
+			if ( pos - l <= 0 ) {
 				// start of document
 				return true;
 			}
-			lft[ lft.length - 1 ] = getProperty( string.read( pos - l - 1 ) );
+			prevCodepoint = string.prevCodepoint( pos - l );
+			lft[ 0 ] = getProperty( prevCodepoint );
+			l += prevCodepoint.length;
 		}
 
 		// Do not break between most letters.
@@ -188,15 +183,25 @@
 
 		// Some tests beyond this point require more context, as per WB4 ignore Format and Extend.
 		do {
-			r++;
-			nextRgt = getProperty( string.read( pos + r ) );
-		} while ( nextRgt === 'Extend' || nextRgt === 'Format' );
-		rgt.push( nextRgt );
+			nextCodepoint = string.nextCodepoint( pos + r );
+			if ( nextCodepoint === null ) {
+				nextProperty = null;
+				break;
+			}
+			r += nextCodepoint.length;
+			nextProperty = getProperty( nextCodepoint );
+		} while ( nextProperty === 'Extend' || nextProperty === 'Format' );
+		rgt.push( nextProperty );
 		do {
-			l++;
-			nextLft = getProperty( string.read( pos - l - 1 ) );
-		} while ( nextLft === 'Extend' || nextLft === 'Format' );
-		lft.push( nextLft );
+			prevCodepoint = string.prevCodepoint( pos - l );
+			if ( prevCodepoint === null ) {
+				prevProperty = null;
+				break;
+			}
+			l += prevCodepoint.length;
+			prevProperty = getProperty( prevCodepoint );
+		} while ( prevProperty === 'Extend' || prevProperty === 'Format' );
+		lft.push( prevProperty );
 
 		switch ( true ) {
 			// Do not break letters across certain punctuation.

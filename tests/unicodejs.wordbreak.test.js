@@ -8,29 +8,17 @@
 QUnit.module( 'unicodeJS.wordbreak' );
 
 QUnit.test( 'Unicode test suite', function ( assert ) {
-	var i, textString, result;
-
 	unicodeJS.testdata.wordbreak.reduce( unicodeJS.test.parseTestReduce, [] )
 		.forEach( function ( test ) {
+			var i,
+				textString = new unicodeJS.TextString( test.string ),
+				result = [];
 
-			textString = new unicodeJS.TextString( test.string );
-			result = [];
-
-			for ( i = 0; i <= textString.getLength(); i++ ) {
+			for ( i = 0; i <= test.string.length; i++ ) {
 				result.push( unicodeJS.wordbreak.isBreak( textString, i ) );
 			}
 			assert.deepEqual( result, test.expected, test.msg );
 		} );
-
-	textString = new unicodeJS.TextString( '' );
-	textString.codepoints = '𨋢'.split( '' );
-	result = [];
-
-	for ( i = 0; i <= textString.getLength(); i++ ) {
-		result.push( unicodeJS.wordbreak.isBreak( textString, i ) );
-	}
-	assert.deepEqual( result, [ true, false, true ], 'Basic support for code unit splitting' );
-
 } );
 
 QUnit.test( 'nextBreakOffset/prevBreakOffset', function ( assert ) {
@@ -95,6 +83,5 @@ QUnit.test( 'TextString', function ( assert ) {
 	var plainString = 'abc𨋢def',
 		textString = new unicodeJS.TextString( plainString );
 
-	assert.strictEqual( textString.getLength(), 7, 'getLength' );
 	assert.strictEqual( textString.toString(), plainString, 'toString' );
 } );

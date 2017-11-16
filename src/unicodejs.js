@@ -14,16 +14,23 @@
 	 */
 
 	/**
-	 * Split a string into Unicode characters, keeping surrogates paired.
+	 * Check if a code unit is a the leading half of a surrogate pair
 	 *
-	 * You probably want to call unicodeJS.graphemebreak.splitClusters instead.
-	 *
-	 * @param {string} text Text to split
-	 * @return {string[]} Array of characters
+	 * @param {string} unit Code unit
+	 * @return {boolean}
 	 */
-	unicodeJS.splitCharacters = function ( text ) {
-		return text.split( /(?![\uDC00-\uDFFF])/g );
-		// TODO: think through handling of invalid UTF-16
+	unicodeJS.isLeadingSurrogate = function ( unit ) {
+		return unit && unit.match( /^[\uD800-\uDBFF]$/ );
+	};
+
+	/**
+	 * Check if a code unit is a the trailing half of a surrogate pair
+	 *
+	 * @param {string} unit Code unit
+	 * @return {boolean}
+	 */
+	unicodeJS.isTrailingSurrogate = function ( unit ) {
+		return unit && unit.match( /^[\uDC00-\uDFFF]$/ );
 	};
 
 	/**

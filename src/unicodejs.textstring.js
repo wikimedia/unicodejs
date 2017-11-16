@@ -16,31 +16,77 @@
  * @param {string} text Text
  */
 unicodeJS.TextString = function UnicodeJSTextString( text ) {
-	this.codepoints = unicodeJS.splitCharacters( text );
+	this.text = text;
 };
 
 /* Methods */
 
 /**
- * Read unicode codepoint at specified position
+ * Read code unit at specified position
  *
  * @method
  * @param {number} position Position to read from
- * @return {string|null} Unicode codepoint, or null if out of bounds
+ * @return {string|null} Code unit, or null if out of bounds
  */
 unicodeJS.TextString.prototype.read = function ( position ) {
-	var codepointAt = this.codepoints[ position ];
-	return codepointAt !== undefined ? codepointAt : null;
+	var dataAt = this.text[ position ];
+	return dataAt !== undefined ? dataAt : null;
 };
 
 /**
- * Return number of codepoints in the text string
+ * Read unicode codepoint after the specified offset
  *
- * @method
- * @return {number} Number of codepoints
+ * This is the same as the code unit (=Javascript character) at that offset,
+ * unless a valid surrogate pair ends at that code unit. (This is consistent
+ * with the behaviour of String.prototype.codePointAt)
+ *
+ * @param {number} position Position
+ * @return {string|null} Unicode codepoint, or null if out of bounds
  */
-unicodeJS.TextString.prototype.getLength = function () {
-	return this.codepoints.length;
+unicodeJS.TextString.prototype.nextCodepoint = function ( position ) {
+	var codeUnit, nextCodeUnit;
+	codeUnit = this.read( position );
+
+	if ( unicodeJS.isLeadingSurrogate( codeUnit ) ) {
+		nextCodeUnit = this.read( position + 1 );
+		if ( unicodeJS.isTrailingSurrogate( nextCodeUnit ) ) {
+			return codeUnit + nextCodeUnit;
+		}
+	}
+	return codeUnit;
+};
+
+/**
+ * Read unicode codepoint before the specified offset
+ *
+ * This is the same as the code unit (=Javascript character) at the previous
+ * offset, unless a valid surrogate pair ends at that offset.
+ *
+ * @param {number} position Position
+ * @return {string|null} Unicode codepoint, or null if out of bounds
+ */
+unicodeJS.TextString.prototype.prevCodepoint = function ( position ) {
+	var codeUnit, prevCodeUnit;
+	codeUnit = this.read( position - 1 );
+
+	if ( unicodeJS.isTrailingSurrogate( codeUnit ) ) {
+		prevCodeUnit = this.read( position - 2 );
+		if ( unicodeJS.isLeadingSurrogate( prevCodeUnit ) ) {
+			return prevCodeUnit + codeUnit;
+		}
+	}
+	return codeUnit;
+};
+
+/**
+ * Check if the current offset is in the middle of a surrogate pair
+ *
+ * @param {number} position Position
+ * @return {boolean}
+ */
+unicodeJS.TextString.prototype.isMidSurrogate = function ( position ) {
+	return unicodeJS.isLeadingSurrogate( this.read( position - 1 ) ) &&
+		unicodeJS.isTrailingSurrogate( this.read( position ) );
 };
 
 /**
@@ -49,5 +95,5 @@ unicodeJS.TextString.prototype.getLength = function () {
  * @return {string} Plain javascript string
  */
 unicodeJS.TextString.prototype.toString = function () {
-	return this.codepoints.join( '' );
+	return this.text;
 };

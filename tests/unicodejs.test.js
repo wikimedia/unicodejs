@@ -19,12 +19,18 @@ unicodeJS.test = {
 			data = parts[ 0 ].trim().split( ' ' );
 
 		data.forEach( function ( str, i ) {
+			var codepoint;
 			if ( i % 2 === 0 ) {
 				// Tests at even offsets
 				expected.push( breakMap[ str ] );
 			} else {
+				codepoint = +( '0x' + str );
 				// Chars at odd offsets
-				chars += String.fromCodePoint( +( '0x' + str ) );
+				chars += String.fromCodePoint( codepoint );
+				// For surrogate pairs, add an expected no-break between them
+				if ( codepoint > 0xFFFF ) {
+					expected.push( false );
+				}
 			}
 		} );
 
@@ -40,6 +46,57 @@ unicodeJS.test = {
 };
 
 QUnit.module( 'unicodeJS' );
+
+QUnit.test( 'prevNextCodepoint', function ( assert ) {
+	var tests, i, iLen, s, nextValues, prevValues, message, j, jLen;
+	tests = [
+		// string, nextValues, prevValues, message
+		[
+			'XYZ',
+			[ 'X', 'Y', 'Z', null ],
+			[ null, 'X', 'Y', 'Z' ],
+			'no surrogate'
+		],
+		[
+			'X\ud800\udc00YZ',
+			[ 'X', '\ud800\udc00', '\udc00', 'Y', 'Z', null ],
+			[ null, 'X', '\ud800', '\ud800\udc00', 'Y', 'Z' ],
+			'pair'
+		],
+		[
+			'\ud800WX\ud800YZ\ud800',
+			[ '\ud800', 'W', 'X', '\ud800', 'Y', 'Z', '\ud800', null ],
+			[ null, '\ud800', 'W', 'X', '\ud800', 'Y', 'Z', '\ud800' ],
+			'unpaired leading'
+		],
+		[
+			'\udc00WX\udc00YZ\udc00',
+			[ '\udc00', 'W', 'X', '\udc00', 'Y', 'Z', '\udc00', null ],
+			[ null, '\udc00', 'W', 'X', '\udc00', 'Y', 'Z', '\udc00' ],
+			'unpaired trailing'
+		]
+	];
+	for ( i = 0, iLen = tests.length; i < iLen; i++ ) {
+		s = new unicodeJS.TextString( tests[ i ][ 0 ] );
+		nextValues = tests[ i ][ 1 ];
+		prevValues = tests[ i ][ 2 ];
+		message = tests[ i ][ 3 ];
+		for ( j = 0, jLen = nextValues.length; j < jLen; j++ ) {
+			assert.strictEqual(
+				s.nextCodepoint( j ),
+				nextValues[ j ],
+				message + ': nextCodepoint(' + j + ')'
+			);
+		}
+		for ( j = 0, jLen = prevValues.length; j < jLen; j++ ) {
+			assert.strictEqual(
+				s.prevCodepoint( j ),
+				prevValues[ j ],
+				message + ': prevCodepoint(' + j + ')'
+			);
+		}
+	}
+} );
 
 QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
 	var i, test, doTestFunc, equalityTests, throwTests;
