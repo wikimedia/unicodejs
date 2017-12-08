@@ -70,17 +70,14 @@ module.exports = function ( grunt ) {
 				}
 			},
 			main: {
-				browsers: [ 'Chrome' ]
-			},
-			firefox: {
-				browsers: [ 'Firefox' ]
+				browsers: [ 'Chrome', 'Firefox' ]
 			}
 		}
 	} );
 
 	grunt.registerTask( 'build', [ 'clean', 'concat', 'copy' ] );
 	grunt.registerTask( 'lint', [ 'eslint' ] );
-	grunt.registerTask( 'unit', [ 'karma:main' ] );
+	grunt.registerTask( 'unit', [ 'karma' ] );
 	grunt.registerTask( 'test', [ 'git-build', 'build', 'lint', 'unit' ] );
 	grunt.registerTask( 'default', 'test' );
 };
