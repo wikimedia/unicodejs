@@ -11,6 +11,11 @@
     "url": "https://gerrit.wikimedia.org/r/p/unicodejs.git"
   },
   "license": "MIT",
+  "files": [
+    "dist/unicodejs.js",
+    "LICENSE.txt",
+    "AUTHORS.txt"
+  ],
   "scripts": {
     "test": "grunt test",
     "prepublish": "grunt build",
