@@ -1,5 +1,11 @@
 # UnicodeJS Release History
 
+## v0.2.1 / 2018-02-11
+* build: Copy non-code distribution files to dist (James D. Forrester)
+* build: Add Firefox to default karma test (Antoine Musso)
+* Bump copyright year (James D. Forrester)
+* build: Add 'files' publishing whitelist to package.json (Timo Tijhof)
+
 ## v0.2.0 / 2017-11-14
 * Build automated wordbreak tests from official test data (Ed Sanders)
 * Use versioned URLs for data, instead of latest (Ed Sanders)
