@@ -21,13 +21,13 @@ strongDirRegExp = new RegExp(
 	')'
 );
 </pre>
-<script>
-document.getElementById( 'L' ).textContent =
-	unicodeJS.charRangeArrayRegexp( unicodeJS.derivedbidiclasses.L );
+<script>/* eslint-env browser */
+	document.getElementById( 'L' ).textContent =
+		unicodeJS.charRangeArrayRegexp( unicodeJS.derivedbidiclasses.L );
 
-document.getElementById( 'R_AL' ).textContent =
-	unicodeJS.charRangeArrayRegexp( [].concat(
-		unicodeJS.derivedbidiclasses.R,
-		unicodeJS.derivedbidiclasses.AL
-	) );
+	document.getElementById( 'R_AL' ).textContent =
+		unicodeJS.charRangeArrayRegexp( [].concat(
+			unicodeJS.derivedbidiclasses.R,
+			unicodeJS.derivedbidiclasses.AL
+		) );
 </script>

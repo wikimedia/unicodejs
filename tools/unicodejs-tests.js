@@ -2,9 +2,6 @@
 
 // Generates unicodejs.*.testdata.js from Unicode test data
 
-/* eslint-env node, es6 */
-/* eslint-disable no-console */
-
 const VERSION = '8.0.0',
 	http = require( 'http' ),
 	fs = require( 'fs' );

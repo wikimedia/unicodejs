@@ -1,0 +1,11 @@
+{
+	"extends": "../.eslintrc.json",
+	"env": {
+		"node": true,
+		"es6": true,
+		"qunit": true
+	},
+	"rules": {
+		"no-console": "off"
+	}
+}

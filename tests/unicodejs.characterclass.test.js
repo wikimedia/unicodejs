@@ -49,7 +49,6 @@ QUnit.test( 'patterns', function ( assert ) {
 		'😇', '𝟠'
 	];
 
-	assert.expect( 2 );
 	assert.deepEqual( wordChars.join( '' ).match( wordGlobalRegex ), wordChars );
 	assert.strictEqual( nonWordChars.join( '' ).match( wordGlobalRegex ), null );
 } );

@@ -1,13 +1,17 @@
 {
-    "extends": "wikimedia",
-    "env": {
-        "qunit": true
-    },
-    "globals": {
-        "unicodeJS": false
-    },
-    "rules": {
-        "dot-notation": [ "error", { "allowKeywords": true } ],
-        "no-fallthrough": 0
-    }
+	"extends": "wikimedia",
+	"env": {
+		"qunit": true
+	},
+	"globals": {
+		"unicodeJS": false
+	},
+	"rules": {
+		"dot-notation": [ "error", { "allowKeywords": true } ],
+		"max-len": 0
+	},
+	"plugins": [ "html" ],
+	"settings": {
+		"html/indent": "+tab"
+	}
 }

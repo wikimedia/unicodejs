@@ -2,9 +2,6 @@
 
 // Generates unicodejs.*(properties|categories).js from Unicode data
 
-/* eslint-env node, es6 */
-/* eslint-disable no-console */
-
 const VERSION = '8.0.0',
 	http = require( 'http' ),
 	fs = require( 'fs' );
@@ -45,7 +42,7 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 				matches = propText.match( propPattern );
 			if ( matches ) {
 				propName = matches[ 1 ];
-				if ( !ranges.hasOwnProperty( propName ) ) {
+				if ( !Object.prototype.hasOwnProperty.call( ranges, propName ) ) {
 					properties.push( propName );
 					ranges[ propName ] = [];
 				}

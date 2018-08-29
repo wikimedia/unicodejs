@@ -147,10 +147,9 @@ QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
 		[ [ [ 0x10FFFF, 0x110000 ] ], 'range too high' ]
 	];
 
-	assert.expect( equalityTests.length + throwTests.length );
 	for ( i = 0; i < equalityTests.length; i++ ) {
 		test = equalityTests[ i ];
-		assert.equal(
+		assert.strictEqual(
 			unicodeJS.charRangeArrayRegexp( test[ 0 ] ),
 			test[ 1 ],
 			test[ 2 ]

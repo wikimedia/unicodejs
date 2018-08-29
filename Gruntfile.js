@@ -39,8 +39,8 @@ module.exports = function ( grunt ) {
 		},
 		eslint: {
 			all: [
-				'*.js',
-				'{build,src,tests,tools}/**/*.js'
+				'*.{js,html}',
+				'{build,src,tests,tools}/**/*.{js,html}'
 			]
 		},
 		karma: {

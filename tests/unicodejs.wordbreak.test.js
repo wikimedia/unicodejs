@@ -38,15 +38,13 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset', function ( assert ) {
 		textString = new unicodeJS.TextString( text ),
 		breaks = [ 0, 0, 3, 4, 9, 10, 15, 16, 19, 19 ];
 
-	assert.expect( 2 * ( breaks.length - 2 ) );
-
 	for ( i = 2; i < breaks.length; i++ ) {
 		offset = unicodeJS.wordbreak.nextBreakOffset( textString, offset );
-		assert.equal( offset, breaks[ i ], 'Next break is at position ' + breaks[ i ] );
+		assert.strictEqual( offset, breaks[ i ], 'Next break is at position ' + breaks[ i ] );
 	}
 	for ( i = breaks.length - 3; i >= 0; i-- ) {
 		offset = unicodeJS.wordbreak.prevBreakOffset( textString, offset );
-		assert.equal( offset, breaks[ i ], 'Previous break is at position ' + breaks[ i ] );
+		assert.strictEqual( offset, breaks[ i ], 'Previous break is at position ' + breaks[ i ] );
 	}
 } );
 
@@ -69,28 +67,26 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', function ( as
 		nextBreaks = [ 6, 12, 19, 25, 31, 42, 49, 55, 57 ],
 		prevBreaks = [ 50, 46, 35, 26, 22, 14, 7, 3, 0 ];
 
-	assert.expect( nextBreaks.length + prevBreaks.length + 6 );
-
 	for ( i = 0; i < nextBreaks.length; i++ ) {
 		offset = unicodeJS.wordbreak.nextBreakOffset( textString, offset, true );
-		assert.equal( offset, nextBreaks[ i ], 'Next break is at position ' + nextBreaks[ i ] );
+		assert.strictEqual( offset, nextBreaks[ i ], 'Next break is at position ' + nextBreaks[ i ] );
 	}
 	for ( i = 0; i < prevBreaks.length; i++ ) {
 		offset = unicodeJS.wordbreak.prevBreakOffset( textString, offset, true );
-		assert.equal( offset, prevBreaks[ i ], 'Previous break is at position ' + prevBreaks[ i ] );
+		assert.strictEqual( offset, prevBreaks[ i ], 'Previous break is at position ' + prevBreaks[ i ] );
 	}
 
-	assert.equal( unicodeJS.wordbreak.nextBreakOffset( textString, 9, true ),
+	assert.strictEqual( unicodeJS.wordbreak.nextBreakOffset( textString, 9, true ),
 		12, 'Jump to end of word when starting in middle of word' );
-	assert.equal( unicodeJS.wordbreak.nextBreakOffset( textString, 3, true ),
+	assert.strictEqual( unicodeJS.wordbreak.nextBreakOffset( textString, 3, true ),
 		6, 'Jump to end of word when starting at start of word' );
-	assert.equal( unicodeJS.wordbreak.nextBreakOffset( textString, 13, true ),
+	assert.strictEqual( unicodeJS.wordbreak.nextBreakOffset( textString, 13, true ),
 		19, 'Jump to end of word when starting in double whitespace' );
-	assert.equal( unicodeJS.wordbreak.prevBreakOffset( textString, 17, true ),
+	assert.strictEqual( unicodeJS.wordbreak.prevBreakOffset( textString, 17, true ),
 		14, 'Jump to start of word when starting in middle of word' );
-	assert.equal( unicodeJS.wordbreak.prevBreakOffset( textString, 6, true ),
+	assert.strictEqual( unicodeJS.wordbreak.prevBreakOffset( textString, 6, true ),
 		3, 'Jump to start of word when starting at end of word' );
-	assert.equal( unicodeJS.wordbreak.prevBreakOffset( textString, 13, true ),
+	assert.strictEqual( unicodeJS.wordbreak.prevBreakOffset( textString, 13, true ),
 		7, 'Jump to start of word when starting in double whitespace' );
 } );
 
@@ -98,6 +94,6 @@ QUnit.test( 'TextString', function ( assert ) {
 	var plainString = 'abc𨋢def',
 		textString = new unicodeJS.TextString( plainString );
 
-	assert.equal( textString.getLength(), 7, 'getLength' );
-	assert.equal( textString.toString(), plainString, 'toString' );
+	assert.strictEqual( textString.getLength(), 7, 'getLength' );
+	assert.strictEqual( textString.toString(), plainString, 'toString' );
 } );

@@ -7,6 +7,9 @@
  * @copyright 2013-2018 UnicodeJS team and others; see AUTHORS.txt
  * @license The MIT License (MIT); see LICENSE.txt
  */
+
+/* eslint-disable no-fallthrough */
+
 ( function () {
 	var property,
 		properties = unicodeJS.wordbreakproperties,

@@ -15,27 +15,27 @@
  */
 static private $strongDirRegex = '/(?:(<span id='L'></span>)|(<span id='R_AL'></span>))/u';
 </pre>
-<script>
-function phpRegexp( ranges ) {
-	return '[' + ranges.map( function ( range ) {
-		if ( typeof range === 'number' ) {
-			return phpEsc( range );
-		} else {
-			return phpEsc( range[0] ) + '-' + phpEsc( range[1] );
-		}
-	} ).join( '' ) + ']';
-}
+<script>/* eslint-env browser */
+	function phpEsc( codePoint ) {
+		return '\\x{' + codePoint.toString( 16 ) + '}';
+	}
 
-function phpEsc( codePoint ) {
-	return '\\x{' + codePoint.toString( 16 ) + '}';
-}
+	function phpRegexp( ranges ) {
+		return '[' + ranges.map( function ( range ) {
+			if ( typeof range === 'number' ) {
+				return phpEsc( range );
+			} else {
+				return phpEsc( range[ 0 ] ) + '-' + phpEsc( range[ 1 ] );
+			}
+		} ).join( '' ) + ']';
+	}
 
-document.getElementById( 'L' ).textContent = phpRegexp(
-	unicodeJS.derivedbidiclasses.L
-);
+	document.getElementById( 'L' ).textContent = phpRegexp(
+		unicodeJS.derivedbidiclasses.L
+	);
 
-document.getElementById( 'R_AL' ).textContent = phpRegexp( [].concat(
-	unicodeJS.derivedbidiclasses.R,
-	unicodeJS.derivedbidiclasses.AL
-) );
+	document.getElementById( 'R_AL' ).textContent = phpRegexp( [].concat(
+		unicodeJS.derivedbidiclasses.R,
+		unicodeJS.derivedbidiclasses.AL
+	) );
 </script>
