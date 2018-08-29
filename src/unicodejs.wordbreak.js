@@ -1,7 +1,7 @@
 /*!
  * UnicodeJS Word Break module
  *
- * Implementation of Unicode 10.0.0 Default Word Boundary Specification
+ * Implementation of Unicode 11.0.0 Default Word Boundary Specification
  * http://www.unicode.org/reports/tr29/#Default_Word_Boundaries
  *
  * @copyright 2013-2018 UnicodeJS team and others; see AUTHORS.txt
@@ -13,6 +13,7 @@
 ( function () {
 	var property,
 		properties = unicodeJS.wordbreakproperties,
+		emojiProperties = unicodeJS.emojiproperties,
 		/**
 		 * @class unicodeJS.wordbreak
 		 * @singleton
@@ -25,6 +26,11 @@
 	for ( property in properties ) {
 		patterns[ property ] = new RegExp(
 			unicodeJS.charRangeArrayRegexp( properties[ property ] )
+		);
+	}
+	for ( property in emojiProperties ) {
+		patterns[ property ] = new RegExp(
+			unicodeJS.charRangeArrayRegexp( emojiProperties[ property ] )
 		);
 	}
 
@@ -160,12 +166,16 @@
 			case rgt[ 0 ] === 'Newline' || rgt[ 0 ] === 'CR' || rgt[ 0 ] === 'LF':
 				return true;
 			// Do not break within emoji zwj sequences.
-			// WB3c: ZWJ × (Glue_After_Zwj | EBG)
-			case lft[ 0 ] === 'ZWJ' && ( rgt[ 0 ] === 'GlueAfterZwj' || rgt[ 0 ] === 'EBaseGAZ' ):
+			// WB3c: ZWJ × \p{Extended_Pictographic}
+			case lft[ 0 ] === 'ZWJ' && rgt[ 0 ] === 'ExtendedPictographic':
+				return false;
+			// Do not break within emoji zwj sequences.
+			// WB3d: Keep horizontal whitespace together.
+			case lft[ 0 ] === 'WSegSpace' && rgt[ 0 ] === 'WSegSpace':
 				return false;
 		}
 
-		// Ignore Zero-Width Joiner, Format and Extend characters (ZWJ_FE), except after sot, CR, LF, and Newline.
+		// Ignore Format and Extend characters, except after sot, CR, LF, and Newline.
 		// (See Section 6.2, Replacing Ignore Rules.) This also has the effect of: Any × (Format | Extend | ZWJ)
 		// WB4: X (Extend | Format | ZWJ)* → X
 		if ( rgt[ 0 ] && rgt[ 0 ].match( ZWJ_FE ) ) {

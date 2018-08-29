@@ -2,7 +2,9 @@
 
 // Generates unicodejs.*(properties|categories).js from Unicode data
 
-const VERSION = '10.0.0',
+const VERSION = '11.0.0',
+	// Emoji data uses a different version number format :(
+	EMOJI_VERSION = '11.0',
 	hasOwn = Object.hasOwnProperty,
 	http = require( 'http' ),
 	fs = require( 'fs' );
@@ -140,9 +142,14 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		url: 'http://www.unicode.org/Public/%V/ucd/extracted/DerivedBidiClass.txt',
 		jsname: 'derivedbidiclasses',
 		propPatterns: [ /^(L|R|AL)$/ ]
+	},
+	{
+		url: 'http://www.unicode.org/Public/emoji/%EV/emoji-data.txt',
+		jsname: 'emojiproperties',
+		propPatterns: [ /^(Extended_Pictographic)$/ ]
 	}
 ].forEach( function ( options ) {
-	var request = http.get( options.url.replace( '%V', VERSION ), function ( res ) {
+	var request = http.get( options.url.replace( '%V', VERSION ).replace( '%EV', EMOJI_VERSION ), function ( res ) {
 		var body = '';
 
 		res.setEncoding( 'utf8' );

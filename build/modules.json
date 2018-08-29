@@ -7,6 +7,7 @@
 			"src/unicodejs.derivedgeneralcategories.js",
 			"src/unicodejs.characterclass.js",
 			"src/unicodejs.textstring.js",
+			"src/unicodejs.emojiproperties.js",
 			"src/unicodejs.graphemebreakproperties.js",
 			"src/unicodejs.graphemebreak.js",
 			"src/unicodejs.wordbreakproperties.js",

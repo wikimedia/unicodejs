@@ -1,7 +1,7 @@
 /*!
  * UnicodeJS Grapheme Break module
  *
- * Implementation of Unicode 10.0.0 Default Grapheme Cluster Boundary Specification
+ * Implementation of Unicode 11.0.0 Default Grapheme Cluster Boundary Specification
  * http://www.unicode.org/reports/tr29/#Default_Grapheme_Cluster_Table
  *
  * @copyright 2013–2018 UnicodeJS team and others; see AUTHORS.txt
