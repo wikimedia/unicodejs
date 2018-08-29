@@ -15,7 +15,8 @@ unicodeJS.test = {
 			skip = false,
 			chars = '',
 			expected = [],
-			data = line.split( ' ' );
+			parts = line.split( '#' ),
+			data = parts[ 0 ].trim().split( ' ' );
 
 		data.forEach( function ( str, i ) {
 			if ( i % 2 === 0 ) {

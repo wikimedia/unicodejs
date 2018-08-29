@@ -16,7 +16,7 @@ function buildTests( body, jsname ) {
 		if ( !parts[ 0 ] ) {
 			return;
 		}
-		output.push( parts[ 0 ].trim() );
+		output.push( line );
 	} );
 
 	// Write js file
