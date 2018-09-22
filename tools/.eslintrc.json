@@ -2,8 +2,7 @@
 	"extends": "../.eslintrc.json",
 	"env": {
 		"node": true,
-		"es6": true,
-		"qunit": true
+		"es6": true
 	},
 	"rules": {
 		"no-console": "off"
