@@ -31,7 +31,8 @@ module.exports = function ( grunt ) {
 		concat: {
 			all: {
 				options: {
-					banner: grunt.file.read( 'build/banner.txt' )
+					banner: grunt.file.read( 'build/banner.txt' ),
+					footer: grunt.file.read( 'build/footer.txt' )
 				},
 				dest: 'dist/unicodejs.js',
 				src: srcFiles

@@ -6,14 +6,12 @@
  */
 
 ( function () {
-	var unicodeJS;
 
 	/**
 	 * Namespace for all UnicodeJS classes, static methods and static properties.
-	 * @class
+	 * @class unicodeJS
 	 * @singleton
 	 */
-	unicodeJS = {};
 
 	/**
 	 * Split a string into Unicode characters, keeping surrogates paired.
@@ -211,8 +209,4 @@
 		}
 		return disjunction.join( '|' );
 	};
-
-	// Expose
-	/* eslint-env browser */
-	window.unicodeJS = unicodeJS;
 }() );

@@ -13,6 +13,11 @@
 			"src/unicodejs.wordbreak.js"
 		]
 	},
+	"unicodejs.namespace": {
+		"scripts": [
+			"tests/unicodejs.namespace.js"
+		]
+	},
 	"unicodejs.tests": {
 		"scripts": [
 			"tests/unicodejs.test.js",
@@ -22,6 +27,7 @@
 			"tests/unicodejs.wordbreak.test.js"
 		],
 		"dependencies": [
+			"unicodejs.namespace",
 			"unicodejs"
 		]
 	}
