@@ -1,5 +1,11 @@
 # UnicodeJS Release History
 
+## v0.2.2 / 2018-09-22
+* build: Update devDependencies (Ed Sanders)
+* Show fuller messages in test suite (Ed Sanders)
+* Add UMD wrapper (Ed Sanders)
+* build: Update devDependencies (Ed Sanders)
+
 ## v0.2.1 / 2018-02-11
 * build: Copy non-code distribution files to dist (James D. Forrester)
 * build: Add Firefox to default karma test (Antoine Musso)
