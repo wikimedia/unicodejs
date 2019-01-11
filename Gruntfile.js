@@ -39,10 +39,7 @@ module.exports = function ( grunt ) {
 			}
 		},
 		eslint: {
-			all: [
-				'*.{js,html}',
-				'{build,src,tests,tools}/**/*.{js,html}'
-			]
+			all: '.'
 		},
 		karma: {
 			options: {
@@ -53,6 +50,13 @@ module.exports = function ( grunt ) {
 				autoWatch: false,
 				preprocessors: {
 					'src/*.js': [ 'coverage' ]
+				},
+				customLaunchers: {
+					ChromeCustom: {
+						base: 'ChromeHeadless',
+						// Chrome requires --no-sandbox in Docker/CI.
+						flags: ( process.env.CHROMIUM_FLAGS || '' ).split( ' ' )
+					}
 				},
 				coverageReporter: {
 					dir: 'coverage/',
@@ -71,7 +75,7 @@ module.exports = function ( grunt ) {
 				}
 			},
 			main: {
-				browsers: [ 'Chrome', 'Firefox' ]
+				browsers: [ 'ChromeCustom', 'FirefoxHeadless' ]
 			}
 		}
 	} );
@@ -80,5 +84,4 @@ module.exports = function ( grunt ) {
 	grunt.registerTask( 'lint', [ 'eslint' ] );
 	grunt.registerTask( 'unit', [ 'karma' ] );
 	grunt.registerTask( 'test', [ 'git-build', 'build', 'lint', 'unit' ] );
-	grunt.registerTask( 'default', 'test' );
 };

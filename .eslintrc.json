@@ -1,10 +1,13 @@
 {
-	"extends": "wikimedia",
+	"root": true,
+	"extends": [
+		"wikimedia/common",
+		"wikimedia/language/es5"
+	],
 	"globals": {
 		"unicodeJS": false
 	},
 	"rules": {
-		"dot-notation": [ "error", { "allowKeywords": true } ],
 		"max-len": 0
 	},
 	"plugins": [ "html" ],

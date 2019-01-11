@@ -10,16 +10,17 @@ QUnit.module( 'unicodeJS.wordbreak' );
 QUnit.test( 'Unicode test suite', function ( assert ) {
 	var i, textString, result;
 
-	unicodeJS.testdata.wordbreak.reduce( unicodeJS.test.parseTestReduce, [] ).forEach( function ( test ) {
+	unicodeJS.testdata.wordbreak.reduce( unicodeJS.test.parseTestReduce, [] )
+		.forEach( function ( test ) {
 
-		textString = new unicodeJS.TextString( test.string );
-		result = [];
+			textString = new unicodeJS.TextString( test.string );
+			result = [];
 
-		for ( i = 0; i <= textString.getLength(); i++ ) {
-			result.push( unicodeJS.wordbreak.isBreak( textString, i ) );
-		}
-		assert.deepEqual( result, test.expected, test.msg );
-	} );
+			for ( i = 0; i <= textString.getLength(); i++ ) {
+				result.push( unicodeJS.wordbreak.isBreak( textString, i ) );
+			}
+			assert.deepEqual( result, test.expected, test.msg );
+		} );
 
 	textString = new unicodeJS.TextString( '' );
 	textString.codepoints = '𨋢'.split( '' );

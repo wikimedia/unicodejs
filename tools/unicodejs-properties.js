@@ -3,6 +3,7 @@
 // Generates unicodejs.*(properties|categories).js from Unicode data
 
 const VERSION = '8.0.0',
+	hasOwn = Object.hasOwnProperty,
 	http = require( 'http' ),
 	fs = require( 'fs' );
 
@@ -42,7 +43,7 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 				matches = propText.match( propPattern );
 			if ( matches ) {
 				propName = matches[ 1 ];
-				if ( !Object.prototype.hasOwnProperty.call( ranges, propName ) ) {
+				if ( !hasOwn.call( ranges, propName ) ) {
 					properties.push( propName );
 					ranges[ propName ] = [];
 				}
@@ -151,7 +152,13 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		} );
 
 		res.on( 'end', function () {
-			extractProperties( body, options.jsname, !!options.full, options.propPatterns, !!options.excludeSurrogates );
+			extractProperties(
+				body,
+				options.jsname,
+				!!options.full,
+				options.propPatterns,
+				!!options.excludeSurrogates
+			);
 		} );
 	} );
 	request.end();

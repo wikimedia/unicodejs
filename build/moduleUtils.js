@@ -4,6 +4,8 @@
  * Code shared with the OOjs UI project
  */
 
+var hasOwn = Object.hasOwnProperty;
+
 /* eslint-env node, es6 */
 module.exports = {
 	/**
@@ -41,11 +43,11 @@ module.exports = {
 		// (which will compile the less code) and the concat task
 		// (which will prepend intro.css without it being stripped
 		// like recess would).
-		var targets = { 'default': [] };
+		var targets = { default: [] };
 		resources.forEach( function ( filepath ) {
 			var variant, buffer;
 			if ( typeof filepath !== 'object' ) {
-				filepath = { 'default': filepath };
+				filepath = { default: filepath };
 			}
 			// Fetch copy of buffer before filepath/variant loop, otherwise
 			// it can incorrectly include the default file in a non-default variant.
@@ -86,7 +88,7 @@ module.exports = {
 			for ( i = 0; i < load.length; i++ ) {
 				module = load[ i ];
 
-				if ( !Object.prototype.hasOwnProperty.call( modules, module ) ) {
+				if ( !hasOwn.call( modules, module ) ) {
 					throw new Error( 'Dependency ' + module + ' not found' );
 				}
 
