@@ -2,9 +2,9 @@
 
 // Generates unicodejs.*(properties|categories).js from Unicode data
 
-const VERSION = '11.0.0',
+const VERSION = '12.0.0',
 	// Emoji data uses a different version number format :(
-	EMOJI_VERSION = '11.0',
+	EMOJI_VERSION = '12.0',
 	hasOwn = Object.hasOwnProperty,
 	http = require( 'http' ),
 	fs = require( 'fs' );
