@@ -39,7 +39,15 @@ module.exports = function ( grunt ) {
 			}
 		},
 		eslint: {
-			all: '.'
+			options: {
+				reportUnusedDisableDirectives: true,
+				extensions: [ '.js', '.json' ],
+				cache: true
+			},
+			all: [
+				'**/*.{js,json}',
+				'!{coverage,dist,docs,node_modules}/**'
+			]
 		},
 		karma: {
 			options: {
