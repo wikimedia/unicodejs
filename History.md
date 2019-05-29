@@ -1,4 +1,15 @@
 # UnicodeJS Release History
+## v12.0.0 / 2019-05-29
+We now number our releases based on Unicode codepoint releases.
+
+* [BREAKING CHANGE] Go back to storing strings as code units (Ed Sanders)
+* Update to Unicode 9.0.0 (Ed Sanders)
+* Update to Unicode 10.0.0 (James D. Forrester)
+* Update to Unicode 11.0.0 (Ed Sanders)
+* Update to Unicode 12.0.0 (Ed Sanders)
+* Add official grapheme break tests (Ed Sanders)
+* build: Update dev deps and structure (Timo Tijhof)
+* build: Update eslint (Ed Sanders)
 
 ## v0.2.2 / 2018-09-22
 * build: Update devDependencies (Ed Sanders)

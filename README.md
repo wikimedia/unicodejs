@@ -18,7 +18,7 @@ Or clone the repo, `git clone https://gerrit.wikimedia.org/r/p/unicodejs.git`.
 Versioning
 ----------
 
-We use the Semantic Versioning guidelines as much as possible.
+We use the Semantic Versioning guidelines as much as possible; major versions reflect the version of Unicode we target.
 
 Releases will be numbered in the following format:
 
