@@ -8,10 +8,9 @@
  * @license The MIT License (MIT); see LICENSE.txt
  */
 ( function () {
-	var property, disjunction, graphemeBreakRegexp, combiningMark,
+	var property,
 		properties = unicodeJS.graphemebreakproperties,
-		// Single unicode character (either a UTF-16 code unit or a surrogate pair)
-		oneCharacter = '[^\\ud800-\\udfff]|[\\ud800-\\udbff][\\udc00-\\udfff]',
+		emojiProperties = unicodeJS.emojiproperties,
 		/**
 		 * @class unicodeJS.graphemebreak
 		 * @singleton
@@ -21,113 +20,136 @@
 
 	// build regexes
 	for ( property in properties ) {
-		patterns[ property ] = unicodeJS.charRangeArrayRegexp( properties[ property ] );
+		patterns[ property ] = new RegExp(
+			unicodeJS.charRangeArrayRegexp( properties[ property ] )
+		);
+	}
+	for ( property in emojiProperties ) {
+		patterns[ property ] = new RegExp(
+			unicodeJS.charRangeArrayRegexp( emojiProperties[ property ] )
+		);
 	}
 
-	combiningMark = '(?:' + patterns.Extend + '|' + patterns.SpacingMark + ')';
-
-	// Build disjunction for grapheme cluster split
-	// See http://www.unicode.org/reports/tr29/ at "Grapheme Cluster Boundary Rules"
-	disjunction = [
-		// Break at the start and end of text, unless the text is empty.
-		// GB1: sot ÷ Any
-		// GB2: Any ÷ eot
-		// GB1 and GB2 are trivially satisfied
-
-		// Do not break between a CR and LF. Otherwise, break before and after controls.
-		// GB3: CR × LF
-		patterns.CR + patterns.LF,
-
-		// GB4: ( Control | CR | LF ) ÷
-		// GB5: ÷ ( Control | CR | LF )
-		'(?:' + patterns.Control + '|' +
-		patterns.CR + '|' +
-		patterns.LF + ')',
-
-		// Do not break Hangul syllable sequences.
-		// GB6: L × ( L | V | LV | LVT )
-		// GB7: ( LV | V ) × ( V | T )
-		// GB8: ( LVT | T ) × T
-		// L* V+ T*
-		'(?:' + patterns.L + ')*' +
-			'(?:' + patterns.V + ')+' +
-			'(?:' + patterns.T + ')*' +
-			combiningMark + '*',
-
-		// L* LV V* T*
-		'(?:' + patterns.L + ')*' +
-			'(?:' + patterns.LV + ')' +
-			'(?:' + patterns.V + ')*' +
-			'(?:' + patterns.T + ')*' +
-			combiningMark + '*',
-
-		// L* LVT T*
-		'(?:' + patterns.L + ')*' +
-			'(?:' + patterns.LVT + ')' +
-			'(?:' + patterns.T + ')*' +
-			combiningMark + '*',
-
-		// L+
-		'(?:' + patterns.L + ')+' +
-			combiningMark + '*',
-
-		// T+
-		'(?:' + patterns.T + ')+' +
-			combiningMark + '*',
-
-		'(?:' + oneCharacter + ')' +
-			'(?:' +
-				// Do not break before extending characters or ZWJ.
-				// GB9 × ( Extend | ZWJ )
-				// TODO: this will break if the extended thing is not oneCharacter
-				// e.g. hangul jamo L+V+T. Does it matter?
-				patterns.Extend + '|' +
-				patterns.ZWJ + '|' +
-
-				// Only for extended grapheme clusters:
-				// Do not break before SpacingMarks, or after Prepend characters.
-				// GB9a: × SpacingMark
-				patterns.SpacingMark +
-			')+',
-
-		// GB9b: Prepend ×
-		// Not required
-
-		// Do not break within emoji modifier sequences or emoji zwj sequences.
-		// GB10: ( E_Base | EBG ) Extend* × E_Modifier
-		// GB11: ZWJ × ( Glue_After_Zwj | EBG )
-		// Not required
-
-		// Do not break between regional indicator symbols.
-		// GB12: ^ (RI RI)* RI × RI
-		// GB13: [^RI] (RI RI)* RI × RI
-		// NEWTODO: update
-		'(?:' +
-			patterns.RegionalIndicator +
-			')+' +
-			combiningMark + '*',
-
-		// Otherwise, break everywhere.
-		// GB999: Any ÷ Any
-		// Taking care not to split surrogates
-		oneCharacter
-	];
-	graphemeBreakRegexp = new RegExp( '(' + disjunction.join( '|' ) + ')' );
-
-	/**
-	 * Split a string into grapheme clusters.
-	 *
-	 * @param {string} text Text to split
-	 * @return {string[]} Array of clusters
-	 */
-	graphemebreak.splitClusters = function ( text ) {
-		var i, parts, length, clusters = [];
-		parts = text.split( graphemeBreakRegexp );
-		for ( i = 0, length = parts.length; i < length; i++ ) {
-			if ( parts[ i ] !== '' ) {
-				clusters.push( parts[ i ] );
+	function getProperty( codepoint ) {
+		for ( property in patterns ) {
+			if ( patterns[ property ].test( codepoint ) ) {
+				return property;
 			}
 		}
-		return clusters;
+		return null;
+	}
+
+	graphemebreak.splitClusters = function ( text ) {
+		return text.split( /(?![\uDC00-\uDFFF])/g ).reduce( function ( clusters, codepoint, i, codepoints ) {
+			function isBreak() {
+				var rgt, l,
+					lft = [];
+
+				// Break at the start and end of text, unless the text is empty.
+				// GB1: sot ÷ Any
+				// GB2: Any ÷ eot
+				if ( i === 0 || i === codepoints.length ) {
+					return true;
+				}
+
+				lft.push( getProperty( codepoints[ i - 1 ] ) );
+				// No rules currently require us to look ahead.
+				rgt = getProperty( codepoint );
+
+				// Do not break between a CR and LF. Otherwise, break before and after controls.
+				// GB3: CR × LF
+				if ( lft[ 0 ] === 'CR' && rgt === 'LF' ) {
+					return false;
+				}
+
+				// GB4: ( Control | CR | LF ) ÷
+				// GB5: ÷ ( Control | CR | LF )
+				if (
+					[ 'Control', 'CR', 'LF' ].indexOf( lft[ 0 ] ) !== -1 ||
+					[ 'Control', 'CR', 'LF' ].indexOf( rgt ) !== -1
+				) {
+					return true;
+				}
+
+				// Do not break Hangul syllable sequences.
+				// GB6: L × ( L | V | LV | LVT )
+				if (
+					lft[ 0 ] === 'L' &&
+					[ 'L', 'V', 'LV', 'LVT' ].indexOf( rgt ) !== -1
+				) {
+					return false;
+				}
+				// GB7: ( LV | V ) × ( V | T )
+				if (
+					[ 'LV', 'V' ].indexOf( lft[ 0 ] ) !== -1 &&
+					[ 'V', 'T' ].indexOf( rgt ) !== -1
+				) {
+					return false;
+				}
+				// GB8: ( LVT | T ) × T
+				if (
+					[ 'LVT', 'T' ].indexOf( lft[ 0 ] ) !== -1 &&
+					rgt === 'T'
+				) {
+					return false;
+				}
+
+				// Do not break before extending characters or ZWJ.
+				// GB9 × ( Extend | ZWJ )
+				// The GB9a and GB9b rules only apply to extended grapheme clusters:
+				// Do not break before SpacingMarks, or after Prepend characters.
+				// GB9a: × SpacingMark
+				if ( [ 'Extend', 'ZWJ', 'SpacingMark' ].indexOf( rgt ) !== -1 ) {
+					return false;
+				}
+				// GB9b: Prepend ×
+				if ( lft[ 0 ] === 'Prepend' ) {
+					return false;
+				}
+
+				// Do not break within emoji modifier sequences or emoji zwj sequences.
+				// GB11: \p{Extended_Pictographic} Extend* ZWJ × \p{Extended_Pictographic}
+				l = 0;
+				if ( rgt === 'ExtendedPictographic' ) {
+					if ( lft[ l ] === 'ZWJ' ) {
+						l++;
+						lft[ l ] = getProperty( codepoints[ i - 1 - l ] );
+						while ( lft[ l ] === 'Extend' ) {
+							l++;
+							lft[ l ] = getProperty( codepoints[ i - 1 - l ] );
+						}
+						if ( lft[ l ] === 'ExtendedPictographic' ) {
+							return false;
+						}
+					}
+				}
+
+				// Do not break within emoji flag sequences. That is, do not break between regional indicator (RI) symbols if there is an odd number of RI characters before the break point.
+				// GB12: sot (RI RI)* RI × RI
+				// GB13: [^RI] (RI RI)* RI × RI
+				l = 0;
+				while ( lft[ l ] === 'RegionalIndicator' ) {
+					l++;
+					lft[ l ] = getProperty( codepoints[ i - 1 - l ] );
+				}
+				if ( rgt === 'RegionalIndicator' && l % 2 === 1 ) {
+					return false;
+				}
+				// Otherwise, break everywhere.
+				// GB999: Any ÷ Any
+				return true;
+			}
+
+			if ( isBreak() ) {
+				clusters.push( codepoint );
+			} else {
+				if ( !clusters.length ) {
+					clusters.push( '' );
+				}
+				clusters[ clusters.length - 1 ] += codepoint;
+			}
+
+			return clusters;
+		}, [] );
 	};
 }() );

@@ -12,19 +12,6 @@ QUnit.test( 'Unicode test suite', function ( assert ) {
 		.forEach( function ( test ) {
 			var expected, clusters, result;
 
-			// Test '÷ D800 ÷ D800 ÷' fails. Skip.
-			if ( test.string === '\ud800\ud800' ) {
-				// eslint-disable-next-line qunit/no-early-return
-				return;
-			}
-
-			// Test '÷ 1F1E6 × 1F1E7 × 200D ÷ 1F1E8 ÷' fails. Skip.
-			// TODO: Fix
-			if ( test.msg.indexOf( '÷ 1F1E6 × 1F1E7 × 200D ÷ 1F1E8 ÷\t' ) === 0 ) {
-				// eslint-disable-next-line qunit/no-early-return
-				return;
-			}
-
 			expected = test.expected;
 			clusters = unicodeJS.graphemebreak.splitClusters( test.string );
 			result = [ true ];
