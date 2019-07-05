@@ -2,7 +2,7 @@
 
 // Generates unicodejs.*.testdata.js from Unicode test data
 
-const VERSION = '12.0.0',
+const VERSION = '12.1.0',
 	http = require( 'http' ),
 	fs = require( 'fs' );
 
