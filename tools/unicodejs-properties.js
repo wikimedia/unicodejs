@@ -5,7 +5,8 @@
 const VERSION = '13.0.0',
 	hasOwn = Object.hasOwnProperty,
 	http = require( 'http' ),
-	fs = require( 'fs' );
+	fs = require( 'fs-extra' ),
+	dir = __dirname + '/../src/generated';
 
 function extractProperties( body, jsname, full, propPatterns, excludeSurrogates ) {
 	var js, filename,
@@ -107,7 +108,7 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 	js += fragments.join( ',\n\t' ) +
 		'\n};\n';
 
-	filename = __dirname + '/../src/unicodejs.' + jsname + '.js';
+	filename = dir + '/unicodejs.' + jsname + '.js';
 	fs.writeFile( filename, js, ( err ) => {
 		if ( err ) {
 			throw err;
@@ -116,59 +117,65 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 	} );
 }
 
-[
-	{
-		url: 'http://unicode.org/Public/%V/ucd/DerivedCoreProperties.txt',
-		jsname: 'derivedcoreproperties',
-		propPatterns: [ /^(Alphabetic)$/ ]
-	},
-	{
-		url: 'http://www.unicode.org/Public/%V/ucd/extracted/DerivedGeneralCategory.txt',
-		jsname: 'derivedgeneralcategories',
-		propPatterns: [ /^(Pc)$/, /^(M).*$/ ]
-	},
-	{
-		url: 'http://www.unicode.org/Public/%V/ucd/auxiliary/GraphemeBreakProperty.txt',
-		jsname: 'graphemebreakproperties',
-		full: true,
-		propPatterns: [ /^(.*)$/ ],
-		excludeSurrogates: true
-	},
-	{
-		url: 'http://www.unicode.org/Public/%V/ucd/auxiliary/WordBreakProperty.txt',
-		jsname: 'wordbreakproperties',
-		full: true,
-		propPatterns: [ /^(.*)$/ ]
-	},
-	{
-		url: 'http://www.unicode.org/Public/%V/ucd/extracted/DerivedBidiClass.txt',
-		jsname: 'derivedbidiclasses',
-		propPatterns: [ /^(L|R|AL)$/ ]
-	},
-	{
-		url: 'http://www.unicode.org/Public/%V/ucd/emoji/emoji-data.txt',
-		jsname: 'emojiproperties',
-		propPatterns: [ /^(Extended_Pictographic)$/ ]
+fs.emptyDir( dir, ( err ) => {
+	if ( err ) {
+		throw err;
 	}
-].forEach( function ( options ) {
-	var request = http.get( options.url.replace( '%V', VERSION ), function ( res ) {
-		var body = '';
+	console.log( 'deleted old files' );
+	[
+		{
+			url: 'http://unicode.org/Public/%V/ucd/DerivedCoreProperties.txt',
+			jsname: 'derivedcoreproperties',
+			propPatterns: [ /^(Alphabetic)$/ ]
+		},
+		{
+			url: 'http://www.unicode.org/Public/%V/ucd/extracted/DerivedGeneralCategory.txt',
+			jsname: 'derivedgeneralcategories',
+			propPatterns: [ /^(Pc)$/, /^(M).*$/ ]
+		},
+		{
+			url: 'http://www.unicode.org/Public/%V/ucd/auxiliary/GraphemeBreakProperty.txt',
+			jsname: 'graphemebreakproperties',
+			full: true,
+			propPatterns: [ /^(.*)$/ ],
+			excludeSurrogates: true
+		},
+		{
+			url: 'http://www.unicode.org/Public/%V/ucd/auxiliary/WordBreakProperty.txt',
+			jsname: 'wordbreakproperties',
+			full: true,
+			propPatterns: [ /^(.*)$/ ]
+		},
+		{
+			url: 'http://www.unicode.org/Public/%V/ucd/extracted/DerivedBidiClass.txt',
+			jsname: 'derivedbidiclasses',
+			propPatterns: [ /^(L|R|AL)$/ ]
+		},
+		{
+			url: 'http://www.unicode.org/Public/%V/ucd/emoji/emoji-data.txt',
+			jsname: 'emojiproperties',
+			propPatterns: [ /^(Extended_Pictographic)$/ ]
+		}
+	].forEach( function ( options ) {
+		var request = http.get( options.url.replace( '%V', VERSION ), function ( res ) {
+			var body = '';
 
-		res.setEncoding( 'utf8' );
+			res.setEncoding( 'utf8' );
 
-		res.on( 'data', function ( data ) {
-			body += data;
+			res.on( 'data', function ( data ) {
+				body += data;
+			} );
+
+			res.on( 'end', function () {
+				extractProperties(
+					body,
+					options.jsname,
+					!!options.full,
+					options.propPatterns,
+					!!options.excludeSurrogates
+				);
+			} );
 		} );
-
-		res.on( 'end', function () {
-			extractProperties(
-				body,
-				options.jsname,
-				!!options.full,
-				options.propPatterns,
-				!!options.excludeSurrogates
-			);
-		} );
+		request.end();
 	} );
-	request.end();
 } );

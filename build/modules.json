@@ -2,15 +2,15 @@
 	"unicodejs": {
 		"scripts": [
 			"src/unicodejs.js",
-			"src/unicodejs.derivedbidiclasses.js",
-			"src/unicodejs.derivedcoreproperties.js",
-			"src/unicodejs.derivedgeneralcategories.js",
+			"src/generated/unicodejs.derivedbidiclasses.js",
+			"src/generated/unicodejs.derivedcoreproperties.js",
+			"src/generated/unicodejs.derivedgeneralcategories.js",
 			"src/unicodejs.characterclass.js",
 			"src/unicodejs.textstring.js",
-			"src/unicodejs.emojiproperties.js",
-			"src/unicodejs.graphemebreakproperties.js",
+			"src/generated/unicodejs.emojiproperties.js",
+			"src/generated/unicodejs.graphemebreakproperties.js",
 			"src/unicodejs.graphemebreak.js",
-			"src/unicodejs.wordbreakproperties.js",
+			"src/generated/unicodejs.wordbreakproperties.js",
 			"src/unicodejs.wordbreak.js"
 		]
 	},
@@ -23,9 +23,9 @@
 		"scripts": [
 			"tests/unicodejs.test.js",
 			"tests/unicodejs.characterclass.test.js",
-			"tests/unicodejs.graphemebreak.testdata.js",
+			"tests/generated/unicodejs.graphemebreak.testdata.js",
 			"tests/unicodejs.graphemebreak.test.js",
-			"tests/unicodejs.wordbreak.testdata.js",
+			"tests/generated/unicodejs.wordbreak.testdata.js",
 			"tests/unicodejs.wordbreak.test.js"
 		],
 		"dependencies": [

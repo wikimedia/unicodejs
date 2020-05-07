@@ -4,7 +4,8 @@
 
 const VERSION = '13.0.0',
 	http = require( 'http' ),
-	fs = require( 'fs' );
+	fs = require( 'fs-extra' ),
+	dir = __dirname + '/../tests/generated';
 
 function buildTests( body, jsname ) {
 	var js, filename,
@@ -24,7 +25,7 @@ function buildTests( body, jsname ) {
 		'// DO NOT EDIT\n' +
 		'unicodeJS.testdata.' + jsname + ' = ' + JSON.stringify( output, null, '\t' ).replace( /"/g, '\'' ) + ';\n';
 
-	filename = __dirname + '/../tests/unicodejs.' + jsname + '.testdata.js';
+	filename = dir + '/unicodejs.' + jsname + '.testdata.js';
 	fs.writeFile( filename, js, ( err ) => {
 		if ( err ) {
 			throw err;
@@ -33,28 +34,34 @@ function buildTests( body, jsname ) {
 	} );
 }
 
-[
-	{
-		url: 'http://www.unicode.org/Public/%V/ucd/auxiliary/WordBreakTest.txt',
-		jsname: 'wordbreak'
-	},
-	{
-		url: 'http://www.unicode.org/Public/%V/ucd/auxiliary/GraphemeBreakTest.txt',
-		jsname: 'graphemebreak'
+fs.emptyDir( dir, ( err ) => {
+	if ( err ) {
+		throw err;
 	}
-].forEach( function ( options ) {
-	var request = http.get( options.url.replace( '%V', VERSION ), function ( res ) {
-		var body = '';
+	console.log( 'deleted old files' );
+	[
+		{
+			url: 'http://www.unicode.org/Public/%V/ucd/auxiliary/WordBreakTest.txt',
+			jsname: 'wordbreak'
+		},
+		{
+			url: 'http://www.unicode.org/Public/%V/ucd/auxiliary/GraphemeBreakTest.txt',
+			jsname: 'graphemebreak'
+		}
+	].forEach( function ( options ) {
+		var request = http.get( options.url.replace( '%V', VERSION ), function ( res ) {
+			var body = '';
 
-		res.setEncoding( 'utf8' );
+			res.setEncoding( 'utf8' );
 
-		res.on( 'data', function ( data ) {
-			body += data;
+			res.on( 'data', function ( data ) {
+				body += data;
+			} );
+
+			res.on( 'end', function () {
+				buildTests( body, options.jsname );
+			} );
 		} );
-
-		res.on( 'end', function () {
-			buildTests( body, options.jsname );
-		} );
+		request.end();
 	} );
-	request.end();
 } );
