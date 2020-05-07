@@ -4,9 +4,8 @@
  * Code shared with the OOjs UI project
  */
 
-var hasOwn = Object.hasOwnProperty;
+const hasOwn = Object.hasOwnProperty;
 
-/* eslint-env node, es6 */
 module.exports = {
 	/**
 	 * Expand an array of file paths and variant-objects into
@@ -43,16 +42,15 @@ module.exports = {
 		// (which will compile the less code) and the concat task
 		// (which will prepend intro.css without it being stripped
 		// like recess would).
-		var targets = { default: [] };
+		const targets = { default: [] };
 		resources.forEach( function ( filepath ) {
-			var variant, buffer;
 			if ( typeof filepath !== 'object' ) {
 				filepath = { default: filepath };
 			}
 			// Fetch copy of buffer before filepath/variant loop, otherwise
 			// it can incorrectly include the default file in a non-default variant.
-			buffer = targets.default.slice();
-			for ( variant in filepath ) {
+			const buffer = targets.default.slice();
+			for ( const variant in filepath ) {
 				if ( !targets[ variant ] ) {
 					targets[ variant ] = buffer.slice();
 				}
@@ -81,12 +79,10 @@ module.exports = {
 		* @return {Array} Flat list of file paths
 		*/
 		function buildDependencyList( modules, load, list ) {
-			var i, module;
-
 			list = list || [];
 
-			for ( i = 0; i < load.length; i++ ) {
-				module = load[ i ];
+			for ( let i = 0; i < load.length; i++ ) {
+				const module = load[ i ];
 
 				if ( !hasOwn.call( modules, module ) ) {
 					throw new Error( 'Dependency ' + module + ' not found' );
@@ -116,22 +112,20 @@ module.exports = {
 		* @return {Object} Object of two arrays listing the file paths
 		*/
 		function expandBuildList( modules, buildlist, filelist ) {
-			var build, moduleName, script, style;
-
 			filelist = filelist || {};
 			filelist.scripts = filelist.scripts || [];
 			filelist.styles = filelist.styles || [];
 
-			for ( build in buildlist ) {
-				moduleName = buildlist[ build ];
+			for ( const build in buildlist ) {
+				const moduleName = buildlist[ build ];
 
-				for ( script in modules[ moduleName ].scripts ) {
+				for ( const script in modules[ moduleName ].scripts ) {
 					if ( !modules[ moduleName ].scripts[ script ].debug ) {
 						filelist.scripts.push( modules[ moduleName ].scripts[ script ] );
 					}
 				}
 
-				for ( style in modules[ moduleName ].styles ) {
+				for ( const style in modules[ moduleName ].styles ) {
 					if ( !modules[ moduleName ].styles[ style ].debug ) {
 						filelist.styles.push( modules[ moduleName ].styles[ style ] );
 					}
