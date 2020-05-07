@@ -2,9 +2,7 @@
 
 // Generates unicodejs.*(properties|categories).js from Unicode data
 
-const VERSION = '12.1.0',
-	// Emoji data uses a different version number format :(
-	EMOJI_VERSION = '12.0',
+const VERSION = '13.0.0',
 	hasOwn = Object.hasOwnProperty,
 	http = require( 'http' ),
 	fs = require( 'fs' );
@@ -110,8 +108,12 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		'\n};\n';
 
 	filename = __dirname + '/../src/unicodejs.' + jsname + '.js';
-	fs.writeFile( filename, js );
-	console.log( 'wrote ' + filename );
+	fs.writeFile( filename, js, ( err ) => {
+		if ( err ) {
+			throw err;
+		}
+		console.log( 'wrote ' + filename );
+	} );
 }
 
 [
@@ -144,12 +146,12 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		propPatterns: [ /^(L|R|AL)$/ ]
 	},
 	{
-		url: 'http://www.unicode.org/Public/emoji/%EV/emoji-data.txt',
+		url: 'http://www.unicode.org/Public/%V/ucd/emoji/emoji-data.txt',
 		jsname: 'emojiproperties',
 		propPatterns: [ /^(Extended_Pictographic)$/ ]
 	}
 ].forEach( function ( options ) {
-	var request = http.get( options.url.replace( '%V', VERSION ).replace( '%EV', EMOJI_VERSION ), function ( res ) {
+	var request = http.get( options.url.replace( '%V', VERSION ), function ( res ) {
 		var body = '';
 
 		res.setEncoding( 'utf8' );

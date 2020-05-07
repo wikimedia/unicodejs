@@ -2,7 +2,7 @@
 
 // Generates unicodejs.*.testdata.js from Unicode test data
 
-const VERSION = '12.1.0',
+const VERSION = '13.0.0',
 	http = require( 'http' ),
 	fs = require( 'fs' );
 
@@ -25,8 +25,12 @@ function buildTests( body, jsname ) {
 		'unicodeJS.testdata.' + jsname + ' = ' + JSON.stringify( output, null, '\t' ).replace( /"/g, '\'' ) + ';\n';
 
 	filename = __dirname + '/../tests/unicodejs.' + jsname + '.testdata.js';
-	fs.writeFile( filename, js );
-	console.log( 'wrote ' + filename );
+	fs.writeFile( filename, js, ( err ) => {
+		if ( err ) {
+			throw err;
+		}
+		console.log( 'wrote ' + filename );
+	} );
 }
 
 [

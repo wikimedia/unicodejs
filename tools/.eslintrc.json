@@ -1,6 +1,3 @@
 {
-	"extends": "wikimedia/server",
-	"rules": {
-		"no-console": "off"
-	}
+	"extends": "wikimedia/server"
 }
