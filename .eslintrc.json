@@ -4,6 +4,9 @@
 		"wikimedia/common",
 		"wikimedia/language/es5"
 	],
+	"env": {
+		"shared-node-browser": true
+	},
 	"globals": {
 		"unicodeJS": false
 	},

@@ -9,6 +9,7 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks( 'grunt-contrib-concat' );
 	grunt.loadNpmTasks( 'grunt-contrib-copy' );
 	grunt.loadNpmTasks( 'grunt-eslint' );
+	grunt.loadNpmTasks( 'grunt-exec' );
 	grunt.loadNpmTasks( 'grunt-karma' );
 	grunt.loadTasks( 'build/tasks' );
 
@@ -37,6 +38,9 @@ module.exports = function ( grunt ) {
 				dest: 'dist/unicodejs.js',
 				src: srcFiles
 			}
+		},
+		exec: {
+			cmd: 'node tools/unicodejs-properties.js && node tools/unicodejs-tests.js'
 		},
 		eslint: {
 			options: {
@@ -90,6 +94,7 @@ module.exports = function ( grunt ) {
 
 	grunt.registerTask( 'build', [ 'clean', 'concat', 'copy' ] );
 	grunt.registerTask( 'lint', [ 'eslint' ] );
+	grunt.registerTask( 'update', [ 'exec' ] );
 	grunt.registerTask( 'unit', [ 'karma' ] );
 	grunt.registerTask( 'test', [ 'git-build', 'build', 'lint', 'unit' ] );
 };
