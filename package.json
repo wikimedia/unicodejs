@@ -12,9 +12,7 @@
   },
   "license": "MIT",
   "files": [
-    "dist/unicodejs.js",
-    "LICENSE.txt",
-    "AUTHORS.txt"
+    "dist/"
   ],
   "scripts": {
     "test": "grunt test",
