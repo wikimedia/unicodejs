@@ -273,11 +273,6 @@
 			case lft[ 0 ] === 'ExtendNumLet' &&
 				( rgt[ 0 ] === 'ALetter' || rgt[ 0 ] === 'HebrewLetter' || rgt[ 0 ] === 'Numeric' || rgt[ 0 ] === 'Katakana' ):
 				return false;
-
-			// Do not break within emoji modifier sequences.
-			// WB14: (E_Base | EBG) × E_Modifier
-			case ( lft[ 0 ] === 'EBase' || lft[ 0 ] === 'EBaseGAZ' ) && rgt[ 0 ] === 'EModifier':
-				return false;
 		}
 
 		// Do not break within emoji flag sequences. That is, do not break between regional indicator (RI) symbols if there is an odd number of RI characters before the break point.
