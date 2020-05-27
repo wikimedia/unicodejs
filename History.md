@@ -1,4 +1,16 @@
 # UnicodeJS Release History
+## v13.0.0 / 2020-05-27
+* Update data to Unicode 13.0.0 (Ed Sanders)
+* 12.1.0 data update (Ed Sanders)
+* Rewrite grapheme break without regexes (Ed Sanders)
+* Move generated files to spearate folders and cleanup when building (Ed Sanders)
+* Cleanup tools (Ed Sanders)
+* Fix package.json files list, everything is copied to dist (Ed Sanders)
+* Add `grunt update` task to run update tools (Ed Sanders)
+* build: Fix linting in build/ and remove unused 'copy' task (Ed Sanders)
+* doc: Point to gerrit, not Phabricator Diffusion (James D. Forrester)
+* build: Update devDependencies (Ed Sanders)
+
 ## v12.0.0 / 2019-05-29
 We now number our releases based on Unicode codepoint releases.
 
