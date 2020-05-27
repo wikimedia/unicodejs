@@ -44,7 +44,6 @@ module.exports = function ( grunt ) {
 		},
 		eslint: {
 			options: {
-				reportUnusedDisableDirectives: true,
 				extensions: [ '.js', '.json' ],
 				cache: true
 			},
@@ -80,9 +79,9 @@ module.exports = function ( grunt ) {
 					],
 					check: { global: {
 						functions: 100,
-						statements: 95,
-						branches: 90,
-						lines: 95
+						statements: 100,
+						branches: 100,
+						lines: 100
 					} }
 				}
 			},

@@ -143,6 +143,8 @@
 			if ( isBreak() ) {
 				clusters.push( codepoint );
 			} else {
+				// TODO: This is not covered by tests, is it needed?
+				// istanbul ignore next
 				if ( !clusters.length ) {
 					clusters.push( '' );
 				}
