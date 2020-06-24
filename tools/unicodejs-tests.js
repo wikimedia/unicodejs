@@ -2,6 +2,8 @@
 
 // Generates unicodejs.*.testdata.js from Unicode test data
 
+'use strict';
+
 const VERSION = '13.0.0',
 	http = require( 'http' ),
 	fs = require( 'fs-extra' ),

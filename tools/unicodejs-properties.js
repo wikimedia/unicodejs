@@ -2,6 +2,8 @@
 
 // Generates unicodejs.*(properties|categories).js from Unicode data
 
+'use strict';
+
 const VERSION = '13.0.0',
 	hasOwn = Object.hasOwnProperty,
 	http = require( 'http' ),

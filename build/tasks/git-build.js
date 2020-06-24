@@ -2,7 +2,8 @@
  * Change the in-memory package version to contain the git HEAD
  */
 
-/* eslint-env node */
+'use strict';
+
 module.exports = function ( grunt ) {
 
 	grunt.registerTask( 'git-build', function () {

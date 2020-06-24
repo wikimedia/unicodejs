@@ -8,7 +8,7 @@
 		"shared-node-browser": true
 	},
 	"globals": {
-		"unicodeJS": false
+		"unicodeJS": "writable"
 	},
 	"rules": {
 		"max-len": 0

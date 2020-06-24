@@ -9,6 +9,7 @@
 
 	/**
 	 * Namespace for all UnicodeJS classes, static methods and static properties.
+	 *
 	 * @class unicodeJS
 	 * @singleton
 	 */

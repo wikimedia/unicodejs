@@ -4,6 +4,8 @@
  * Code shared with the OOjs UI project
  */
 
+'use strict';
+
 const hasOwn = Object.hasOwnProperty;
 
 module.exports = {
@@ -70,14 +72,14 @@ module.exports = {
 	 */
 	makeBuildList: function ( modules, targets ) {
 		/**
-		* Expands an array of arrays of file paths with dependencies into an ordered
-		* lit of dependencies stemming from one or more given top-level modules.
-		*
-		* @param {Array} modules List of modules and their dependencies
-		* @param {Array} load List of targets to return and their dependencies
-		* @param {Array|null} list Extant flat list of file paths to extend
-		* @return {Array} Flat list of file paths
-		*/
+		 * Expands an array of arrays of file paths with dependencies into an ordered
+		 * lit of dependencies stemming from one or more given top-level modules.
+		 *
+		 * @param {Array} modules List of modules and their dependencies
+		 * @param {Array} load List of targets to return and their dependencies
+		 * @param {Array|null} list Extant flat list of file paths to extend
+		 * @return {Array} Flat list of file paths
+		 */
 		function buildDependencyList( modules, load, list ) {
 			list = list || [];
 
@@ -103,14 +105,14 @@ module.exports = {
 		}
 
 		/**
-		* Given a list of modules and targets, returns an object splitting the scripts
-		* and styles.
-		*
-		* @param {Array} modules List of modules
-		* @param {Array} buildlist List of targets to work through
-		* @param {Object|null} filelist Object to extend
-		* @return {Object} Object of two arrays listing the file paths
-		*/
+		 * Given a list of modules and targets, returns an object splitting the scripts
+		 * and styles.
+		 *
+		 * @param {Array} modules List of modules
+		 * @param {Array} buildlist List of targets to work through
+		 * @param {Object|null} filelist Object to extend
+		 * @return {Object} Object of two arrays listing the file paths
+		 */
 		function expandBuildList( modules, buildlist, filelist ) {
 			filelist = filelist || {};
 			filelist.scripts = filelist.scripts || [];

@@ -1,6 +1,4 @@
 {
-	"extends": "wikimedia/server",
-	"rules": {
-		"no-var": "error"
-	}
+	"root": true,
+	"extends": "wikimedia/server"
 }
