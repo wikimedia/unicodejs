@@ -15,6 +15,13 @@ npm install unicodejs
 
 Or clone the repo, `git clone https://gerrit.wikimedia.org/r/p/unicodejs.git`.
 
+Documentation
+----------
+
+The library provide methods for detecting **Word Boundaries** and **Grapheme Cluster Boundaries** as defined in the *[Text Segmentation specification](https://unicode.org/reports/tr29/)*
+
+Full documentation is pubished at https://doc.wikimedia.org/unicodejs/master/.
+
 Versioning
 ----------
 
