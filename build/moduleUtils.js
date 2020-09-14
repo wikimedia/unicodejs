@@ -75,12 +75,11 @@ module.exports = {
 		 * Expands an array of arrays of file paths with dependencies into an ordered
 		 * lit of dependencies stemming from one or more given top-level modules.
 		 *
-		 * @param {Array} modules List of modules and their dependencies
 		 * @param {Array} load List of targets to return and their dependencies
 		 * @param {Array|null} list Extant flat list of file paths to extend
 		 * @return {Array} Flat list of file paths
 		 */
-		function buildDependencyList( modules, load, list ) {
+		function buildDependencyList( load, list ) {
 			list = list || [];
 
 			for ( let i = 0; i < load.length; i++ ) {
@@ -92,7 +91,7 @@ module.exports = {
 
 				// Add in any dependencies
 				if ( modules[ module ].dependencies ) {
-					buildDependencyList( modules, modules[ module ].dependencies, list );
+					buildDependencyList( modules[ module ].dependencies, list );
 				}
 
 				// Append target load module to the end of the current list
@@ -105,15 +104,14 @@ module.exports = {
 		}
 
 		/**
-		 * Given a list of modules and targets, returns an object splitting the scripts
+		 * Given a list of targets, returns an object splitting the scripts
 		 * and styles.
 		 *
-		 * @param {Array} modules List of modules
 		 * @param {Array} buildlist List of targets to work through
 		 * @param {Object|null} filelist Object to extend
 		 * @return {Object} Object of two arrays listing the file paths
 		 */
-		function expandBuildList( modules, buildlist, filelist ) {
+		function expandBuildList( buildlist, filelist ) {
 			filelist = filelist || {};
 			filelist.scripts = filelist.scripts || [];
 			filelist.styles = filelist.styles || [];
@@ -136,6 +134,6 @@ module.exports = {
 			return filelist;
 		}
 
-		return expandBuildList( modules, buildDependencyList( modules, targets ) );
+		return expandBuildList( buildDependencyList( targets ) );
 	}
 };

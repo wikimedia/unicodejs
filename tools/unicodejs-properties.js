@@ -64,19 +64,19 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		// Find things like one of the following:
 		//   XXXX       ; propertyname
 		//   XXXX..YYYY ; propertyname
-		const matches = line.match( definitionTest );
-		if ( !matches ) {
+		const lineMatches = line.match( definitionTest );
+		if ( !lineMatches ) {
 			throw new Error( 'Bad line: ' + line );
 		}
 
-		const start = parseInt( matches[ 1 ], 16 );
-		const end = parseInt( matches[ 2 ] || matches[ 1 ], 16 );
-		const propText = matches[ 3 ];
+		const start = parseInt( lineMatches[ 1 ], 16 );
+		const end = parseInt( lineMatches[ 2 ] || lineMatches[ 1 ], 16 );
+		const propText = lineMatches[ 3 ];
 
 		propPatterns.forEach( function ( propPattern ) {
-			const matches = propText.match( propPattern );
-			if ( matches ) {
-				const propName = matches[ 1 ];
+			const propMatches = propText.match( propPattern );
+			if ( propMatches ) {
+				const propName = propMatches[ 1 ];
 				if ( !hasOwn.call( ranges, propName ) ) {
 					properties.push( propName );
 					ranges[ propName ] = [];
@@ -161,8 +161,8 @@ fs.emptyDir( dir, ( err ) => {
 
 			res.setEncoding( 'utf8' );
 
-			res.on( 'data', function ( data ) {
-				body += data;
+			res.on( 'data', function ( chunk ) {
+				body += chunk;
 			} );
 
 			res.on( 'end', function () {

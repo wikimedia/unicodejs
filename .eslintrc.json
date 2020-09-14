@@ -2,7 +2,8 @@
 	"root": true,
 	"extends": [
 		"wikimedia/common",
-		"wikimedia/language/es5"
+		"wikimedia/language/es5",
+		"wikimedia/jsduck"
 	],
 	"env": {
 		"shared-node-browser": true

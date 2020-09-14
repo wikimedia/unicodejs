@@ -58,8 +58,8 @@ fs.emptyDir( dir, ( err ) => {
 
 			res.setEncoding( 'utf8' );
 
-			res.on( 'data', ( data ) => {
-				body += data;
+			res.on( 'data', ( chunk ) => {
+				body += chunk;
 			} );
 
 			res.on( 'end', () => {
