@@ -64,19 +64,6 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', function ( as
 		offset = unicodeJS.wordbreak.prevBreakOffset( textString, offset, true );
 		assert.strictEqual( offset, prevBreaks[ i ], 'Previous break is at position ' + prevBreaks[ i ] );
 	}
-
-	assert.strictEqual( unicodeJS.wordbreak.nextBreakOffset( textString, 9, true ),
-		12, 'Jump to end of word when starting in middle of word' );
-	assert.strictEqual( unicodeJS.wordbreak.nextBreakOffset( textString, 3, true ),
-		6, 'Jump to end of word when starting at start of word' );
-	assert.strictEqual( unicodeJS.wordbreak.nextBreakOffset( textString, 13, true ),
-		19, 'Jump to end of word when starting in double whitespace' );
-	assert.strictEqual( unicodeJS.wordbreak.prevBreakOffset( textString, 17, true ),
-		14, 'Jump to start of word when starting in middle of word' );
-	assert.strictEqual( unicodeJS.wordbreak.prevBreakOffset( textString, 6, true ),
-		3, 'Jump to start of word when starting at end of word' );
-	assert.strictEqual( unicodeJS.wordbreak.prevBreakOffset( textString, 13, true ),
-		7, 'Jump to start of word when starting in double whitespace' );
 } );
 
 QUnit.test( 'TextString', function ( assert ) {
