@@ -1,4 +1,12 @@
 # UnicodeJS Release History
+## v13.0.1 / 2020-10-08
+* Use next/prevCodepoint for checking for sot/eot (Ed Sanders)
+* tests: Remove duplicate tests (Ed Sanders)
+* Use local wordbreak cached variable consistently (Ed Sanders)
+* build: Update devDependencies (Ed Sanders)
+* Set code coverage requirement to 100% with one inline ignore (Ed Sanders)
+* Wordbreak: Drop rule WB14 (Ed Sanders)
+
 ## v13.0.0 / 2020-05-27
 * Update data to Unicode 13.0.0 (Ed Sanders)
 * 12.1.0 data update (Ed Sanders)
