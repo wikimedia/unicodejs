@@ -94,7 +94,7 @@
 		// Search for the next break point
 		while ( ( codepoint = nextCodepoint( pos ) ) !== null ) {
 			pos += codepoint.length * direction;
-			if ( unicodeJS.wordbreak.isBreak( string, pos ) ) {
+			if ( wordbreak.isBreak( string, pos ) ) {
 				// Check previous character was alpha-numeric if required
 				if ( onlyAlphaNumeric ) {
 					lastProperty = getProperty( prevCodepoint( pos ) );
