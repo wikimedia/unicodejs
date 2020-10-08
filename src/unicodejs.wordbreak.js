@@ -133,10 +133,14 @@
 		// AHLetter     (ALetter | Hebrew_Letter)
 		// MidNumLetQ   (MidNumLet | Single_Quote)
 
+		// Get some context
+		nextCodepoint = string.nextCodepoint( pos + r );
+		prevCodepoint = string.prevCodepoint( pos - l );
+
 		// Break at the start and end of text, unless the text is empty.
 		// WB1: sot ÷ Any
 		// WB2: Any ÷ eot
-		if ( string.read( pos - 1 ) === null || string.read( pos ) === null ) {
+		if ( nextCodepoint === null || prevCodepoint === null ) {
 			return true;
 		}
 
@@ -145,9 +149,7 @@
 			return false;
 		}
 
-		// Get some context
-		nextCodepoint = string.nextCodepoint( pos + r );
-		prevCodepoint = string.prevCodepoint( pos - l );
+		// Store context
 		rgt.push( getProperty( nextCodepoint ) );
 		lft.push( getProperty( prevCodepoint ) );
 		r += nextCodepoint.length;
