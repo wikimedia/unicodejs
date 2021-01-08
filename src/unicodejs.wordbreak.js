@@ -61,7 +61,7 @@
 	 * @return {number} Returns the next offset which is a word break
 	 */
 	wordbreak.nextBreakOffset = function ( string, pos, onlyAlphaNumeric ) {
-		return wordbreak.moveBreakOffset( 1, string, pos, onlyAlphaNumeric );
+		return this.moveBreakOffset( 1, string, pos, onlyAlphaNumeric );
 	};
 
 	/**
@@ -73,7 +73,7 @@
 	 * @return {number} Returns the previous offset which is a word break
 	 */
 	wordbreak.prevBreakOffset = function ( string, pos, onlyAlphaNumeric ) {
-		return wordbreak.moveBreakOffset( -1, string, pos, onlyAlphaNumeric );
+		return this.moveBreakOffset( -1, string, pos, onlyAlphaNumeric );
 	};
 
 	/**
@@ -94,7 +94,7 @@
 		// Search for the next break point
 		while ( ( codepoint = nextCodepoint( pos ) ) !== null ) {
 			pos += codepoint.length * direction;
-			if ( wordbreak.isBreak( string, pos ) ) {
+			if ( this.isBreak( string, pos ) ) {
 				// Check previous character was alpha-numeric if required
 				if ( onlyAlphaNumeric ) {
 					lastProperty = getProperty( prevCodepoint( pos ) );
