@@ -1,4 +1,9 @@
 # UnicodeJS Release History
+## v13.0.2 / 2021-01-14
+* Use "this" instead of "wordbreak" to make wordbreak extendable (Mehmet Coskun)
+* package: Fix gerrit URL for the repo (James D. Forrester)
+* build: Updating ini to 1.3.8 (libraryupgrader)
+
 ## v13.0.1 / 2020-10-08
 * Use next/prevCodepoint for checking for sot/eot (Ed Sanders)
 * tests: Remove duplicate tests (Ed Sanders)
