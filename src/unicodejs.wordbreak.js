@@ -190,6 +190,12 @@
 				return true;
 			}
 			prevCodepoint = string.prevCodepoint( pos - l );
+			// TODO: This is not covered by tests, see T264904
+			// istanbul ignore next
+			if ( prevCodepoint === null ) {
+				// start of document?
+				return true;
+			}
 			lft[ 0 ] = getProperty( prevCodepoint );
 			l += prevCodepoint.length;
 		}
