@@ -44,11 +44,10 @@ unicodeJS.TextString.prototype.read = function ( position ) {
  * @return {string|null} Unicode codepoint, or null if out of bounds
  */
 unicodeJS.TextString.prototype.nextCodepoint = function ( position ) {
-	var codeUnit, nextCodeUnit;
-	codeUnit = this.read( position );
+	var codeUnit = this.read( position );
 
 	if ( unicodeJS.isLeadingSurrogate( codeUnit ) ) {
-		nextCodeUnit = this.read( position + 1 );
+		var nextCodeUnit = this.read( position + 1 );
 		if ( unicodeJS.isTrailingSurrogate( nextCodeUnit ) ) {
 			return codeUnit + nextCodeUnit;
 		}
@@ -66,11 +65,10 @@ unicodeJS.TextString.prototype.nextCodepoint = function ( position ) {
  * @return {string|null} Unicode codepoint, or null if out of bounds
  */
 unicodeJS.TextString.prototype.prevCodepoint = function ( position ) {
-	var codeUnit, prevCodeUnit;
-	codeUnit = this.read( position - 1 );
+	var codeUnit = this.read( position - 1 );
 
 	if ( unicodeJS.isTrailingSurrogate( codeUnit ) ) {
-		prevCodeUnit = this.read( position - 2 );
+		var prevCodeUnit = this.read( position - 2 );
 		if ( unicodeJS.isLeadingSurrogate( prevCodeUnit ) ) {
 			return prevCodeUnit + codeUnit;
 		}

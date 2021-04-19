@@ -8,8 +8,7 @@
  * @license The MIT License (MIT); see LICENSE.txt
  */
 ( function () {
-	var property,
-		properties = unicodeJS.graphemebreakproperties,
+	var properties = unicodeJS.graphemebreakproperties,
 		emojiProperties = unicodeJS.emojiproperties,
 		/**
 		 * @class unicodeJS.graphemebreak
@@ -18,6 +17,7 @@
 		graphemebreak = unicodeJS.graphemebreak = {},
 		patterns = {};
 
+	var property;
 	// build regexes
 	for ( property in properties ) {
 		patterns[ property ] = new RegExp(
@@ -42,8 +42,7 @@
 	graphemebreak.splitClusters = function ( text ) {
 		return text.split( /(?![\uDC00-\uDFFF])/g ).reduce( function ( clusters, codepoint, i, codepoints ) {
 			function isBreak() {
-				var rgt, l,
-					lft = [];
+				var lft = [];
 
 				// Break at the start and end of text, unless the text is empty.
 				// GB1: sot ÷ Any
@@ -54,7 +53,7 @@
 
 				lft.push( getProperty( codepoints[ i - 1 ] ) );
 				// No rules currently require us to look ahead.
-				rgt = getProperty( codepoint );
+				var rgt = getProperty( codepoint );
 
 				// Do not break between a CR and LF. Otherwise, break before and after controls.
 				// GB3: CR × LF
@@ -109,7 +108,7 @@
 
 				// Do not break within emoji modifier sequences or emoji zwj sequences.
 				// GB11: \p{Extended_Pictographic} Extend* ZWJ × \p{Extended_Pictographic}
-				l = 0;
+				var l = 0;
 				if ( rgt === 'ExtendedPictographic' ) {
 					if ( lft[ l ] === 'ZWJ' ) {
 						l++;

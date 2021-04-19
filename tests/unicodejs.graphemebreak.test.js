@@ -10,11 +10,9 @@ QUnit.module( 'unicodeJS.graphemebreak' );
 QUnit.test( 'Unicode test suite', function ( assert ) {
 	unicodeJS.testdata.graphemebreak.reduce( unicodeJS.test.parseTestReduce, [] )
 		.forEach( function ( test ) {
-			var expected, clusters, result;
-
-			expected = test.expected;
-			clusters = unicodeJS.graphemebreak.splitClusters( test.string );
-			result = [ true ];
+			var expected = test.expected;
+			var clusters = unicodeJS.graphemebreak.splitClusters( test.string );
+			var result = [ true ];
 
 			clusters.forEach( function ( cluster ) {
 				var i;

@@ -8,10 +8,9 @@
 QUnit.module( 'unicodeJS.characterclass' );
 
 QUnit.test( 'patterns', function ( assert ) {
-	var wordChars, nonWordChars,
-		wordGlobalRegex = new RegExp( unicodeJS.characterclass.patterns.word, 'g' );
+	var wordGlobalRegex = new RegExp( unicodeJS.characterclass.patterns.word, 'g' );
 
-	wordChars = [
+	var wordChars = [
 		// Basic Latin letter
 		'a',
 		// Basic Latin number
@@ -36,7 +35,7 @@ QUnit.test( 'patterns', function ( assert ) {
 		'𝔸'
 	];
 
-	nonWordChars = [
+	var nonWordChars = [
 		// Basic Latin punctuation
 		'$', '-', '.', '!', ' ', '"', '\'', '(', ')', '[', ']', '{', '}',
 		// Other punctuation

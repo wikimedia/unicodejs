@@ -11,8 +11,7 @@
 /* eslint-disable no-fallthrough */
 
 ( function () {
-	var property,
-		properties = unicodeJS.wordbreakproperties,
+	var properties = unicodeJS.wordbreakproperties,
 		emojiProperties = unicodeJS.emojiproperties,
 		/**
 		 * @class unicodeJS.wordbreak
@@ -22,6 +21,7 @@
 		patterns = {},
 		ZWJ_FE = /^(Format|Extend|ZWJ)$/;
 
+	var property;
 	// build regexes
 	for ( property in properties ) {
 		patterns[ property ] = new RegExp(
@@ -86,18 +86,18 @@
 	 * @return {number} Returns the previous offset which is word break
 	 */
 	wordbreak.moveBreakOffset = function ( direction, string, pos, onlyAlphaNumeric ) {
-		var lastProperty, codepoint,
-			// when moving backwards, use the character to the left of the cursor
-			nextCodepoint = direction > 0 ? string.nextCodepoint.bind( string ) : string.prevCodepoint.bind( string ),
+		// when moving backwards, use the character to the left of the cursor
+		var nextCodepoint = direction > 0 ? string.nextCodepoint.bind( string ) : string.prevCodepoint.bind( string ),
 			prevCodepoint = direction > 0 ? string.prevCodepoint.bind( string ) : string.nextCodepoint.bind( string );
 
+		var codepoint;
 		// Search for the next break point
 		while ( ( codepoint = nextCodepoint( pos ) ) !== null ) {
 			pos += codepoint.length * direction;
 			if ( this.isBreak( string, pos ) ) {
 				// Check previous character was alpha-numeric if required
 				if ( onlyAlphaNumeric ) {
-					lastProperty = getProperty( prevCodepoint( pos ) );
+					var lastProperty = getProperty( prevCodepoint( pos ) );
 					if ( lastProperty !== 'ALetter' &&
 						lastProperty !== 'Numeric' &&
 						lastProperty !== 'Katakana' &&
@@ -121,9 +121,7 @@
 	 * @return {boolean} Is the position a word boundary
 	 */
 	wordbreak.isBreak = function ( string, pos ) {
-		var nextCodepoint, prevCodepoint, nextProperty, prevProperty,
-			regional, n,
-			lft = [],
+		var lft = [],
 			rgt = [],
 			l = 0,
 			r = 0;
@@ -134,8 +132,8 @@
 		// MidNumLetQ   (MidNumLet | Single_Quote)
 
 		// Get some context
-		nextCodepoint = string.nextCodepoint( pos + r );
-		prevCodepoint = string.prevCodepoint( pos - l );
+		var nextCodepoint = string.nextCodepoint( pos + r );
+		var prevCodepoint = string.prevCodepoint( pos - l );
 
 		// Break at the start and end of text, unless the text is empty.
 		// WB1: sot ÷ Any
@@ -205,6 +203,7 @@
 			return false;
 		}
 
+		var nextProperty;
 		// Some tests beyond this point require more context, as per WB4 ignore ZWJ_FE.
 		do {
 			nextCodepoint = string.nextCodepoint( pos + r );
@@ -216,6 +215,8 @@
 			nextProperty = getProperty( nextCodepoint );
 		} while ( nextProperty && nextProperty.match( ZWJ_FE ) );
 		rgt.push( nextProperty );
+
+		var prevProperty;
 		do {
 			prevCodepoint = string.prevCodepoint( pos - l );
 			if ( prevCodepoint === null ) {
@@ -282,8 +283,8 @@
 		// WB16: [^RI] (RI RI)* RI × RI
 		if ( lft[ 0 ] === 'RegionalIndicator' && rgt[ 0 ] === 'RegionalIndicator' ) {
 			// Count RIs on the left
-			regional = 0;
-			n = 0;
+			var regional = 0;
+			var n = 0;
 
 			do {
 				prevCodepoint = string.prevCodepoint( pos - n );

@@ -49,8 +49,7 @@ unicodeJS.test = {
 QUnit.module( 'unicodeJS' );
 
 QUnit.test( 'prevNextCodepoint', function ( assert ) {
-	var tests, i, iLen, s, nextValues, prevValues, message, j, jLen;
-	tests = [
+	var tests = [
 		// string, nextValues, prevValues, message
 		[
 			'XYZ',
@@ -77,32 +76,30 @@ QUnit.test( 'prevNextCodepoint', function ( assert ) {
 			'unpaired trailing'
 		]
 	];
-	for ( i = 0, iLen = tests.length; i < iLen; i++ ) {
-		s = new unicodeJS.TextString( tests[ i ][ 0 ] );
-		nextValues = tests[ i ][ 1 ];
-		prevValues = tests[ i ][ 2 ];
-		message = tests[ i ][ 3 ];
-		for ( j = 0, jLen = nextValues.length; j < jLen; j++ ) {
+	tests.forEach( function ( test ) {
+		var s = new unicodeJS.TextString( test[ 0 ] );
+		var nextValues = test[ 1 ];
+		var prevValues = test[ 2 ];
+		var message = test[ 3 ];
+		nextValues.forEach( function ( value, i ) {
 			assert.strictEqual(
-				s.nextCodepoint( j ),
-				nextValues[ j ],
-				message + ': nextCodepoint(' + j + ')'
+				s.nextCodepoint( i ),
+				value,
+				message + ': nextCodepoint(' + i + ')'
 			);
-		}
-		for ( j = 0, jLen = prevValues.length; j < jLen; j++ ) {
+		} );
+		prevValues.forEach( function ( value, i ) {
 			assert.strictEqual(
-				s.prevCodepoint( j ),
-				prevValues[ j ],
-				message + ': prevCodepoint(' + j + ')'
+				s.prevCodepoint( i ),
+				value,
+				message + ': prevCodepoint(' + i + ')'
 			);
-		}
-	}
+		} );
+	} );
 } );
 
 QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
-	var i, test, doTestFunc, equalityTests, throwTests;
-
-	equalityTests = [
+	var equalityTests = [
 		[ [ 0x0040 ], '\\u0040', 'single BMP character' ],
 		[ [ 0xFFFF ], '\\uffff', 'highest BMP character' ],
 		[
@@ -194,7 +191,7 @@ QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
 			'largest possible range'
 		]
 	];
-	throwTests = [
+	var throwTests = [
 		[ [ 0xD800 ], 'surrogate character U+D800' ],
 		[ [ 0xDFFF ], 'surrogate character U+DFFF' ],
 		[ [ 0x110000 ], 'character too high' ],
@@ -206,18 +203,15 @@ QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
 		[ [ [ 0x10FFFF, 0x110000 ] ], 'range too high' ]
 	];
 
-	for ( i = 0; i < equalityTests.length; i++ ) {
-		test = equalityTests[ i ];
+	equalityTests.forEach( function ( test ) {
 		assert.strictEqual(
 			unicodeJS.charRangeArrayRegexp( test[ 0 ] ),
 			test[ 1 ],
 			test[ 2 ]
 		);
-	}
-	for ( i = 0; i < throwTests.length; i++ ) {
-		/* eslint-disable no-loop-func */
-		test = throwTests[ i ];
-		doTestFunc = function () {
+	} );
+	throwTests.forEach( function ( test ) {
+		var doTestFunc = function () {
 			unicodeJS.charRangeArrayRegexp( test[ 0 ] );
 		};
 		/* eslint-enable no-loop-func */
@@ -226,5 +220,5 @@ QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
 			Error,
 			'throw: ' + test[ 1 ]
 		);
-	}
+	} );
 } );
