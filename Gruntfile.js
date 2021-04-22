@@ -1,7 +1,7 @@
 /* eslint-env node, es6 */
 module.exports = function ( grunt ) {
-	var modules = grunt.file.readJSON( 'build/modules.json' ),
-		moduleUtils = require( './build/moduleUtils' ),
+	var modules = require( './build/modules.json' ),
+		moduleUtils = require( './build/moduleUtils.js' ),
 		srcFiles = moduleUtils.makeBuildList( modules, [ 'unicodejs' ] ).scripts,
 		testFiles = moduleUtils.makeBuildList( modules, [ 'unicodejs.tests' ] ).scripts;
 
@@ -14,7 +14,6 @@ module.exports = function ( grunt ) {
 	grunt.loadTasks( 'build/tasks' );
 
 	grunt.initConfig( {
-		pkg: grunt.file.readJSON( 'package.json' ),
 		clean: {
 			dist: [ 'dist', 'coverage' ]
 		},
@@ -47,10 +46,7 @@ module.exports = function ( grunt ) {
 				cache: true,
 				fix: grunt.option( 'fix' )
 			},
-			all: [
-				'**/*.{js,json}',
-				'!{coverage,dist,docs,node_modules}/**'
-			]
+			all: '.'
 		},
 		karma: {
 			options: {
@@ -85,15 +81,25 @@ module.exports = function ( grunt ) {
 					} }
 				}
 			},
-			main: {
-				browsers: [ 'ChromeCustom', 'FirefoxHeadless' ]
+			firefox: {
+				browsers: [ 'FirefoxHeadless' ]
+			},
+			chrome: {
+				browsers: [ 'ChromeCustom' ]
 			}
 		}
 	} );
 
-	grunt.registerTask( 'build', [ 'clean', 'concat', 'copy' ] );
 	grunt.registerTask( 'lint', [ 'eslint' ] );
 	grunt.registerTask( 'update', [ 'exec' ] );
-	grunt.registerTask( 'unit', [ 'karma' ] );
-	grunt.registerTask( 'test', [ 'git-build', 'build', 'lint', 'unit' ] );
+	// Workaround for T280935, and T240955.
+	// Firefox 68esr is incompatible with Docker.
+	// TODO: Try this again when Firefox 84esr reaches our CI images.
+	grunt.registerTask( 'unit', ( process.env.ZUUL_PIPELINE ?
+		[ 'karma:chrome' ] :
+		[ 'karma:chrome', 'karma:firefox' ]
+	) );
+	grunt.registerTask( '_build', [ 'clean', 'concat', 'copy' ] );
+	grunt.registerTask( 'build', [ 'set-meta', '_build' ] );
+	grunt.registerTask( 'test', [ 'set-meta', 'set-dev', '_build', 'lint', 'unit' ] );
 };

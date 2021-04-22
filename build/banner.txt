@@ -1,12 +1,10 @@
 /*!
- * UnicodeJS v<%= pkg.version %>
+ * UnicodeJS v<%= build.version %>
  * https://www.mediawiki.org/wiki/UnicodeJS
  *
- * Copyright 2013-<%= grunt.template.today("yyyy") %> UnicodeJS Team and other contributors.
+ * Copyright 2013-<%= build.year %> UnicodeJS Team and other contributors.
  * Released under the MIT license
- * http://unicodejs.mit-license.org/
- *
- * Date: <%= grunt.template.today("isoUtcDateTime") %>
+ * https://unicodejs.mit-license.org/
  */
 ( function ( root, factory ) {
 	if ( typeof define === 'function' && define.amd ) {

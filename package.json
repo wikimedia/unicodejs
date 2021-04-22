@@ -15,8 +15,8 @@
 		"dist/"
 	],
 	"scripts": {
+		"build": "grunt build",
 		"test": "grunt test",
-		"prepublish": "grunt build",
 		"doc": "jsduck"
 	},
 	"dependencies": {},
