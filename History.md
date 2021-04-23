@@ -1,5 +1,8 @@
 # UnicodeJS Release History
 
+## v13.0.3 / 2021-04-23
+* Always check prevCodepoint is non-null (Ed Sanders)
+
 ## v13.0.2 / 2021-01-14
 * Use "this" instead of "wordbreak" to make wordbreak extendable (Mehmet Coskun)
 
