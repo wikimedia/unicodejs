@@ -27,7 +27,7 @@
 		"grunt-contrib-clean": "2.0.0",
 		"grunt-contrib-concat": "1.0.1",
 		"grunt-contrib-copy": "1.0.0",
-		"grunt-eslint": "23.0.0",
+		"grunt-eslint": "24.0.0",
 		"grunt-exec": "3.0.0",
 		"grunt-karma": "4.0.0",
 		"karma": "6.3.18",
