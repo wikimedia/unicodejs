@@ -26,7 +26,7 @@ unicodeJS.test = {
 			} else {
 				codepoint = +( '0x' + str );
 				// Chars at odd offsets
-				// eslint-disable-next-line es/no-string-fromcodepoint
+				// eslint-disable-next-line es-x/no-string-fromcodepoint
 				chars += String.fromCodePoint( codepoint );
 				// For surrogate pairs, add an expected no-break between them
 				if ( codepoint > 0xFFFF ) {

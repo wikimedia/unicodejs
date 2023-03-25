@@ -20,7 +20,7 @@
 		"doc": "jsduck"
 	},
 	"devDependencies": {
-		"eslint-config-wikimedia": "0.22.1",
+		"eslint-config-wikimedia": "0.24.0",
 		"eslint-plugin-html": "6.1.2",
 		"fs-extra": "9.1.0",
 		"grunt": "1.5.3",
