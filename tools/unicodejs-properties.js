@@ -4,7 +4,7 @@
 
 'use strict';
 
-const VERSION = '13.0.0',
+const VERSION = '15.0.0',
 	hasOwn = Object.hasOwnProperty,
 	http = require( 'http' ),
 	fs = require( 'fs-extra' ),
