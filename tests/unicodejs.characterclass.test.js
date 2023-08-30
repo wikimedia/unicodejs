@@ -8,6 +8,7 @@
 QUnit.module( 'unicodeJS.characterclass' );
 
 QUnit.test( 'patterns', function ( assert ) {
+	// eslint-disable-next-line security/detect-non-literal-regexp
 	var wordGlobalRegex = new RegExp( unicodeJS.characterclass.patterns.word, 'g' );
 
 	var wordChars = [

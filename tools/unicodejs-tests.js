@@ -1,8 +1,6 @@
-#!/usr/bin/env node
+'use strict';
 
 // Generates unicodejs.*.testdata.js from Unicode test data
-
-'use strict';
 
 const VERSION = '15.0.0',
 	http = require( 'http' ),
@@ -37,6 +35,7 @@ function buildTests( body, jsname ) {
 		'unicodeJS.testdata.' + jsname + ' = ' + JSON.stringify( output, null, '\t' ).replace( /"/g, '\'' ) + ';\n';
 
 	const filename = dir + '/unicodejs.' + jsname + '.testdata.js';
+	// eslint-disable-next-line security/detect-non-literal-fs-filename
 	fs.writeFile( filename, js, ( err ) => {
 		if ( err ) {
 			throw err;

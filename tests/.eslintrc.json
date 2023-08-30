@@ -1,5 +1,12 @@
 {
+	"root": true,
 	"extends": [
+		"../src/.eslintrc",
 		"wikimedia/qunit"
-	]
+	],
+	"plugins": [ "html" ],
+	"settings": {
+		"html/indent": "+tab",
+		"html/report-bad-indent": "error"
+	}
 }

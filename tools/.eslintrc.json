@@ -1,7 +1,11 @@
 {
 	"root": true,
-	"extends": "wikimedia/server",
-	"rules": {
-		"es-x/no-hashbang": "off"
+	"extends": [
+		"wikimedia/server"
+	],
+	"plugins": [ "html" ],
+	"settings": {
+		"html/indent": "+tab",
+		"html/report-bad-indent": "error"
 	}
 }

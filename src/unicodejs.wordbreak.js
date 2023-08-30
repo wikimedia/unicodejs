@@ -24,11 +24,13 @@
 	var property;
 	// build regexes
 	for ( property in properties ) {
+		// eslint-disable-next-line security/detect-non-literal-regexp
 		patterns[ property ] = new RegExp(
 			unicodeJS.charRangeArrayRegexp( properties[ property ] )
 		);
 	}
 	for ( property in emojiProperties ) {
+		// eslint-disable-next-line security/detect-non-literal-regexp
 		patterns[ property ] = new RegExp(
 			unicodeJS.charRangeArrayRegexp( emojiProperties[ property ] )
 		);

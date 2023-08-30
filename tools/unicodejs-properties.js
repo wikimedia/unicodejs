@@ -1,8 +1,6 @@
-#!/usr/bin/env node
+'use strict';
 
 // Generates unicodejs.*(properties|categories).js from Unicode data
-
-'use strict';
 
 const VERSION = '15.0.0',
 	hasOwn = Object.hasOwnProperty,
@@ -53,6 +51,7 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		properties = [],
 		fragments = [],
 		blankTest = /^\s*(#|$)/,
+		// eslint-disable-next-line security/detect-unsafe-regex
 		definitionTest = /^([0-9A-F]{4,6})(?:\.\.([0-9A-F]{4,6}))?\s*;\s*(\w+)\s*#/;
 
 	lines.forEach( ( line ) => {
@@ -140,6 +139,7 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		'\n};\n';
 
 	const filename = dir + '/unicodejs.' + jsname + '.js';
+	// eslint-disable-next-line security/detect-non-literal-fs-filename
 	fs.writeFile( filename, js, ( err ) => {
 		if ( err ) {
 			throw err;

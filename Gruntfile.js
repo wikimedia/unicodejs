@@ -1,6 +1,7 @@
-/* eslint-env node, es6 */
+'use strict';
+
 module.exports = function ( grunt ) {
-	var modules = require( './build/modules.json' ),
+	const modules = require( './build/modules.json' ),
 		moduleUtils = require( './build/moduleUtils.js' ),
 		srcFiles = moduleUtils.makeBuildList( modules, [ 'unicodejs' ] ).scripts,
 		testFiles = moduleUtils.makeBuildList( modules, [ 'unicodejs.tests' ] ).scripts;

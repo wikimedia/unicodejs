@@ -1,0 +1,18 @@
+{
+	"root": true,
+	"extends": [
+		"wikimedia/common",
+		"wikimedia/language/es6",
+		"wikimedia/jsduck"
+	],
+	"env": {
+		"shared-node-browser": true
+	},
+	"globals": {
+		"unicodeJS": "writable"
+	},
+	"rules": {
+		"max-len": "off",
+		"no-var": "off"
+	}
+}
