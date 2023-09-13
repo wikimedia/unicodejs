@@ -1,0 +1,29 @@
+{
+	"opts": {
+		"destination": "docs/js",
+		"package": "package.json",
+		"pedantic": true,
+		"readme": "README.md",
+		"recurse": true,
+		"template": "node_modules/jsdoc-wmf-theme"
+	},
+	"plugins": [
+		"plugins/markdown"
+	],
+	"source": {
+		"include": [ "src" ]
+	},
+	"templates": {
+		"cleverLinks": true,
+		"default": {
+			"useLongnameInNav": true
+		},
+		"wmf": {
+			"linkMap": {
+				"Array": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+				"Promise": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+				"Set": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set"
+			}
+		}
+	}
+}

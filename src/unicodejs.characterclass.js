@@ -8,13 +8,16 @@
  */
 ( function () {
 	/**
-	 * @class unicodeJS.characterclass
-	 * @singleton
+	 * @namespace unicodeJS.characterclass
 	 */
 	var basicLatinDigitRange = [ 0x30, 0x39 ],
 		joinControlRange = [ 0x200C, 0x200D ],
 		characterclass = unicodeJS.characterclass = {};
 
+	/**
+	 * @memberof unicodeJS.characterclass
+	 * @property {Object}
+	 */
 	characterclass.patterns = {
 		// \w is defined in http://unicode.org/reports/tr18/
 		word: unicodeJS.charRangeArrayRegexp( [].concat(

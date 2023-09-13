@@ -10,8 +10,7 @@
 	/**
 	 * Namespace for all UnicodeJS classes, static methods and static properties.
 	 *
-	 * @class unicodeJS
-	 * @singleton
+	 * @namespace unicodeJS
 	 */
 
 	/**
@@ -37,6 +36,7 @@
 	/**
 	 * Write a UTF-16 code unit as a javascript string literal.
 	 *
+	 * @memberof unicodeJS
 	 * @private
 	 * @param {number} codeUnit integer between 0x0000 and 0xFFFF
 	 * @return {string} String literal ('\u' followed by 4 hex digits)
@@ -48,6 +48,7 @@
 	/**
 	 * Return a regexp string for the code unit range min-max
 	 *
+	 * @memberof unicodeJS
 	 * @private
 	 * @param {number} min the minimum code unit in the range.
 	 * @param {number} max the maximum code unit in the range.
@@ -83,10 +84,13 @@
 	 *
 	 * Often the notation can be optimised (e.g. when hi1 == hi2).
 	 *
+	 * @memberof unicodeJS
 	 * @private
 	 * @param {number} ch1 The min character of the range; must be over 0xFFFF
 	 * @param {number} ch2 The max character of the range; must be at least ch1
-	 * @return {Array} A list of boxes {hi: [x, y], lo: [z, w]}
+	 * @return {Array.<Object>} A list of boxes where each box is an object with two properties: 'hi' and 'lo'.
+	 *  'hi' is an array of two numbers representing the range of the high surrogate.
+	 *  'lo' is an array of two numbers representing the range of the low surrogate.
 	 */
 	function getCodeUnitBoxes( ch1, ch2 ) {
 

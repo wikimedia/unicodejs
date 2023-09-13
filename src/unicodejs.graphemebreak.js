@@ -11,8 +11,7 @@
 	var properties = unicodeJS.graphemebreakproperties,
 		emojiProperties = unicodeJS.emojiproperties,
 		/**
-		 * @class unicodeJS.graphemebreak
-		 * @singleton
+		 * @namespace unicodeJS.graphemebreak
 		 */
 		graphemebreak = unicodeJS.graphemebreak = {},
 		patterns = {};
@@ -41,6 +40,13 @@
 		return null;
 	}
 
+	/**
+	 * Split text into grapheme clusters
+	 *
+	 * @memberof unicodeJS.graphemebreak
+	 * @param {string} text Text to split
+	 * @return {string[]} Split text
+	 */
 	graphemebreak.splitClusters = function ( text ) {
 		return text.split( /(?![\uDC00-\uDFFF])/g ).reduce( function ( clusters, codepoint, i, codepoints ) {
 			function isBreak() {

@@ -3,7 +3,7 @@
 	"extends": [
 		"wikimedia/common",
 		"wikimedia/language/es6",
-		"wikimedia/jsduck"
+		"wikimedia/jsdoc"
 	],
 	"env": {
 		"shared-node-browser": true

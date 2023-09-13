@@ -14,8 +14,7 @@
 	var properties = unicodeJS.wordbreakproperties,
 		emojiProperties = unicodeJS.emojiproperties,
 		/**
-		 * @class unicodeJS.wordbreak
-		 * @singleton
+		 * @namespace unicodeJS.wordbreak
 		 */
 		wordbreak = unicodeJS.wordbreak = {},
 		patterns = {},
@@ -41,6 +40,7 @@
 	 *
 	 * See http://www.unicode.org/reports/tr29/#Word_Boundaries
 	 *
+	 * @memberof unicodeJS.wordbreak
 	 * @private
 	 * @param {string} codepoint The codepoint
 	 * @return {string|null} The unicode wordbreak property value (key of unicodeJS.wordbreakproperties)
@@ -57,6 +57,7 @@
 	/**
 	 * Find the next word break offset.
 	 *
+	 * @memberof unicodeJS.wordbreak
 	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
 	 * @param {boolean} [onlyAlphaNumeric=false] When set, ignores a break if the previous character is not alphaNumeric
@@ -69,6 +70,7 @@
 	/**
 	 * Find the previous word break offset.
 	 *
+	 * @memberof unicodeJS.wordbreak
 	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
 	 * @param {boolean} [onlyAlphaNumeric=false] When set, ignores a break if the previous character is not alphaNumeric
@@ -81,6 +83,7 @@
 	/**
 	 * Find the next word break offset in a specified direction.
 	 *
+	 * @memberof unicodeJS.wordbreak
 	 * @param {number} direction Direction to search in, should be plus or minus one
 	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
@@ -118,6 +121,7 @@
 	 *
 	 * The text object elements may be codepoints or code units
 	 *
+	 * @memberof unicodeJS.wordbreak
 	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
 	 * @return {boolean} Is the position a word boundary

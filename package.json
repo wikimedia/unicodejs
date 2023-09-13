@@ -17,7 +17,7 @@
 	"scripts": {
 		"build": "grunt build",
 		"test": "grunt test",
-		"doc": "jsduck"
+		"doc": "jsdoc -c jsdoc.json -p"
 	},
 	"devDependencies": {
 		"eslint-config-wikimedia": "0.25.1",
@@ -30,6 +30,8 @@
 		"grunt-eslint": "24.1.0",
 		"grunt-exec": "3.0.0",
 		"grunt-karma": "4.0.2",
+		"jsdoc": "4.0.2",
+		"jsdoc-wmf-theme": "0.0.8",
 		"karma": "6.4.2",
 		"karma-chrome-launcher": "3.2.0",
 		"karma-coverage": "2.2.0",
