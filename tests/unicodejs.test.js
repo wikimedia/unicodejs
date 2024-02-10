@@ -213,7 +213,7 @@ QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
 		var doTestFunc = function () {
 			unicodeJS.charRangeArrayRegexp( test[ 0 ] );
 		};
-		/* eslint-enable no-loop-func */
+
 		assert.throws(
 			doTestFunc,
 			Error,

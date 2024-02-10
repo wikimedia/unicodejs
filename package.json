@@ -20,14 +20,14 @@
 		"doc": "jsdoc -c jsdoc.json -p"
 	},
 	"devDependencies": {
-		"eslint-config-wikimedia": "0.25.1",
+		"eslint-config-wikimedia": "0.26.0",
 		"eslint-plugin-html": "7.1.0",
 		"fs-extra": "11.1.1",
 		"grunt": "1.6.1",
 		"grunt-contrib-clean": "2.0.1",
 		"grunt-contrib-concat": "2.1.0",
 		"grunt-contrib-copy": "1.0.0",
-		"grunt-eslint": "24.1.0",
+		"grunt-eslint": "24.3.0",
 		"grunt-exec": "3.0.0",
 		"grunt-karma": "4.0.2",
 		"jsdoc": "4.0.2",
