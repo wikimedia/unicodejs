@@ -7,14 +7,14 @@
 
 QUnit.module( 'unicodeJS.graphemebreak' );
 
-QUnit.test( 'Unicode test suite', function ( assert ) {
+QUnit.test( 'Unicode test suite', ( assert ) => {
 	unicodeJS.testdata.graphemebreak.reduce( unicodeJS.test.parseTestReduce, [] )
-		.forEach( function ( test ) {
+		.forEach( ( test ) => {
 			var expected = test.expected;
 			var clusters = unicodeJS.graphemebreak.splitClusters( test.string );
 			var result = [ true ];
 
-			clusters.forEach( function ( cluster ) {
+			clusters.forEach( ( cluster ) => {
 				var i;
 				// Push cluster.length-1 false's (no breaks) for each cluster
 				for ( i = 0; i < cluster.length - 1; i++ ) {
@@ -32,7 +32,7 @@ QUnit.test( 'Unicode test suite', function ( assert ) {
 		} );
 } );
 
-QUnit.test( 'splitClusters', function ( assert ) {
+QUnit.test( 'splitClusters', ( assert ) => {
 	var expected = [
 		'a',
 		' ',

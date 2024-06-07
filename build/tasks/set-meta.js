@@ -6,7 +6,7 @@
 
 module.exports = function ( grunt ) {
 
-	grunt.registerTask( 'set-meta', function () {
+	grunt.registerTask( 'set-meta', () => {
 		const cp = require( 'child_process' );
 
 		// Support reproducible builds from only the source code

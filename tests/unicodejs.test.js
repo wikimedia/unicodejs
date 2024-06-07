@@ -18,7 +18,7 @@ unicodeJS.test = {
 			parts = line.split( '#' ),
 			data = parts[ 0 ].trim().split( ' ' );
 
-		data.forEach( function ( str, i ) {
+		data.forEach( ( str, i ) => {
 			var codepoint;
 			if ( i % 2 === 0 ) {
 				// Tests at even offsets
@@ -47,7 +47,7 @@ unicodeJS.test = {
 
 QUnit.module( 'unicodeJS' );
 
-QUnit.test( 'prevNextCodepoint', function ( assert ) {
+QUnit.test( 'prevNextCodepoint', ( assert ) => {
 	var tests = [
 		// string, nextValues, prevValues, message
 		[
@@ -75,19 +75,19 @@ QUnit.test( 'prevNextCodepoint', function ( assert ) {
 			'unpaired trailing'
 		]
 	];
-	tests.forEach( function ( test ) {
+	tests.forEach( ( test ) => {
 		var s = new unicodeJS.TextString( test[ 0 ] );
 		var nextValues = test[ 1 ];
 		var prevValues = test[ 2 ];
 		var message = test[ 3 ];
-		nextValues.forEach( function ( value, i ) {
+		nextValues.forEach( ( value, i ) => {
 			assert.strictEqual(
 				s.nextCodepoint( i ),
 				value,
 				message + ': nextCodepoint(' + i + ')'
 			);
 		} );
-		prevValues.forEach( function ( value, i ) {
+		prevValues.forEach( ( value, i ) => {
 			assert.strictEqual(
 				s.prevCodepoint( i ),
 				value,
@@ -97,7 +97,7 @@ QUnit.test( 'prevNextCodepoint', function ( assert ) {
 	} );
 } );
 
-QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
+QUnit.test( 'charRangeArrayRegexp', ( assert ) => {
 	var equalityTests = [
 		[ [ 0x0040 ], '\\u0040', 'single BMP character' ],
 		[ [ 0xFFFF ], '\\uffff', 'highest BMP character' ],
@@ -202,14 +202,14 @@ QUnit.test( 'charRangeArrayRegexp', function ( assert ) {
 		[ [ [ 0x10FFFF, 0x110000 ] ], 'range too high' ]
 	];
 
-	equalityTests.forEach( function ( test ) {
+	equalityTests.forEach( ( test ) => {
 		assert.strictEqual(
 			unicodeJS.charRangeArrayRegexp( test[ 0 ] ),
 			test[ 1 ],
 			test[ 2 ]
 		);
 	} );
-	throwTests.forEach( function ( test ) {
+	throwTests.forEach( ( test ) => {
 		var doTestFunc = function () {
 			unicodeJS.charRangeArrayRegexp( test[ 0 ] );
 		};

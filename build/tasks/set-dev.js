@@ -7,7 +7,7 @@
 'use strict';
 
 module.exports = function ( grunt ) {
-	grunt.registerTask( 'set-dev', function () {
+	grunt.registerTask( 'set-dev', () => {
 		grunt.config.set( 'build.version', grunt.config( 'build.version' ) + '-dev' );
 	} );
 };

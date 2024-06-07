@@ -48,7 +48,7 @@
 	 * @return {string[]} Split text
 	 */
 	graphemebreak.splitClusters = function ( text ) {
-		return text.split( /(?![\uDC00-\uDFFF])/g ).reduce( function ( clusters, codepoint, i, codepoints ) {
+		return text.split( /(?![\uDC00-\uDFFF])/g ).reduce( ( clusters, codepoint, i, codepoints ) => {
 			function isBreak() {
 				var lft = [];
 

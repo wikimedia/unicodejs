@@ -72,7 +72,7 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		const end = parseInt( lineMatches[ 2 ] || lineMatches[ 1 ], 16 );
 		const propText = lineMatches[ 3 ];
 
-		propPatterns.forEach( function ( propPattern ) {
+		propPatterns.forEach( ( propPattern ) => {
 			const propMatches = propText.match( propPattern );
 			if ( propMatches ) {
 				const propName = propMatches[ 1 ];
@@ -91,9 +91,7 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 			propRanges = ranges[ prop ];
 
 		// Merge consecutive ranges
-		propRanges.sort( ( a, b ) => {
-			return a[ 0 ] - b[ 0 ];
-		} );
+		propRanges.sort( ( a, b ) => a[ 0 ] - b[ 0 ] );
 
 		for ( let i = 1; i < propRanges.length; i++ ) {
 			if ( propRanges[ i - 1 ][ 1 ] + 1 === propRanges[ i ][ 0 ] ) {
@@ -153,7 +151,7 @@ fs.emptyDir( dir, ( err ) => {
 		throw err;
 	}
 	console.log( 'deleted old files' );
-	data.forEach( function ( options ) {
+	data.forEach( ( options ) => {
 		const url = options.url.replace( '%V', VERSION );
 		console.log( 'fetching ' + url );
 		const request = http.get( url, ( res ) => {
@@ -161,11 +159,11 @@ fs.emptyDir( dir, ( err ) => {
 
 			res.setEncoding( 'utf8' );
 
-			res.on( 'data', function ( chunk ) {
+			res.on( 'data', ( chunk ) => {
 				body += chunk;
 			} );
 
-			res.on( 'end', function () {
+			res.on( 'end', () => {
 				extractProperties(
 					body,
 					options.jsname,

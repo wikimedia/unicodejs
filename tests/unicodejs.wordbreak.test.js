@@ -7,9 +7,9 @@
 
 QUnit.module( 'unicodeJS.wordbreak' );
 
-QUnit.test( 'Unicode test suite', function ( assert ) {
+QUnit.test( 'Unicode test suite', ( assert ) => {
 	unicodeJS.testdata.wordbreak.reduce( unicodeJS.test.parseTestReduce, [] )
-		.forEach( function ( test ) {
+		.forEach( ( test ) => {
 			var textString = new unicodeJS.TextString( test.string ),
 				result = [];
 
@@ -20,7 +20,7 @@ QUnit.test( 'Unicode test suite', function ( assert ) {
 		} );
 } );
 
-QUnit.test( 'nextBreakOffset/prevBreakOffset', function ( assert ) {
+QUnit.test( 'nextBreakOffset/prevBreakOffset', ( assert ) => {
 	var offset = 0,
 		text = 'The quick brown fox',
 		textString = new unicodeJS.TextString( text ),
@@ -37,7 +37,7 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset', function ( assert ) {
 	}
 } );
 
-QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', function ( assert ) {
+QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', ( assert ) => {
 	var text =
 			// 0
 			'   The qui' +
@@ -56,17 +56,17 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', function ( as
 		prevBreaks = [ 50, 46, 35, 26, 22, 14, 7, 3, 0 ];
 
 	var offset = 0;
-	nextBreaks.forEach( function ( expectedOffset ) {
+	nextBreaks.forEach( ( expectedOffset ) => {
 		offset = unicodeJS.wordbreak.nextBreakOffset( textString, offset, true );
 		assert.strictEqual( offset, expectedOffset, 'Next break is at position ' + expectedOffset );
 	} );
-	prevBreaks.forEach( function ( expectedOffset ) {
+	prevBreaks.forEach( ( expectedOffset ) => {
 		offset = unicodeJS.wordbreak.prevBreakOffset( textString, offset, true );
 		assert.strictEqual( offset, expectedOffset, 'Previous break is at position ' + expectedOffset );
 	} );
 } );
 
-QUnit.test( 'TextString', function ( assert ) {
+QUnit.test( 'TextString', ( assert ) => {
 	var plainString = 'abc𨋢def',
 		textString = new unicodeJS.TextString( plainString );
 
