@@ -22,11 +22,16 @@ module.exports = function ( grunt ) {
 			dist: {
 				src: [
 					'AUTHORS.txt',
-					'LICENSE.txt',
 					'History.md',
 					'README.md'
 				],
 				dest: 'dist/'
+			},
+			licence: {
+				// This substitues the current year into the license file's copyright statement'
+				options: { process: grunt.template.process },
+				src: 'LICENSE-template.txt',
+				dest: 'LICENSE.txt'
 			}
 		},
 		concat: {

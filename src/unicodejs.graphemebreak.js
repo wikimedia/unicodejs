@@ -4,7 +4,7 @@
  * Implementation of Unicode 15.0.0 Default Grapheme Cluster Boundary Specification
  * http://www.unicode.org/reports/tr29/#Default_Grapheme_Cluster_Table
  *
- * @copyright 2013–2018 UnicodeJS team and others; see AUTHORS.txt
+ * @copyright 2013– UnicodeJS team and others; see AUTHORS.txt
  * @license The MIT License (MIT); see LICENSE.txt
  */
 ( function () {
