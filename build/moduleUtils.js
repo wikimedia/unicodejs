@@ -76,15 +76,11 @@ module.exports = {
 		 * lit of dependencies stemming from one or more given top-level modules.
 		 *
 		 * @param {Array} load List of targets to return and their dependencies
-		 * @param {Array|null} list Extant flat list of file paths to extend
+		 * @param {Array} [list] Extant flat list of file paths to extend
 		 * @return {Array} Flat list of file paths
 		 */
-		function buildDependencyList( load, list ) {
-			list = list || [];
-
-			for ( let i = 0; i < load.length; i++ ) {
-				const module = load[ i ];
-
+		function buildDependencyList( load, list = [] ) {
+			load.forEach( ( module ) => {
 				if ( !hasOwn.call( modules, module ) ) {
 					throw new Error( 'Dependency ' + module + ' not found' );
 				}
@@ -98,7 +94,7 @@ module.exports = {
 				if ( !list.includes( module ) ) {
 					list.push( module );
 				}
-			}
+			} );
 
 			return list;
 		}
@@ -108,11 +104,10 @@ module.exports = {
 		 * and styles.
 		 *
 		 * @param {Array} buildlist List of targets to work through
-		 * @param {Object|null} filelist Object to extend
+		 * @param {Object} [filelist] Object to extend
 		 * @return {Object} Object of two arrays listing the file paths
 		 */
-		function expandBuildList( buildlist, filelist ) {
-			filelist = filelist || {};
+		function expandBuildList( buildlist, filelist = {} ) {
 			filelist.scripts = filelist.scripts || [];
 			filelist.styles = filelist.styles || [];
 

@@ -149,9 +149,7 @@
 		const characterClass = [], // list of (\uXXXX code unit or interval), for BMP
 			disjunction = []; // list of regex strings, to be joined with '|'
 
-		for ( let i = 0; i < ranges.length; i++ ) {
-			const range = ranges[ i ];
-
+		ranges.forEach( ( range ) => {
 			// Handle single code unit
 			if ( typeof range === 'number' ) {
 				if ( range <= 0xFFFF ) {
@@ -159,7 +157,7 @@
 						throw new Error( 'Surrogate: ' + range.toString( 16 ) );
 					}
 					characterClass.push( uEsc( range ) );
-					continue;
+					return;
 				} else {
 					// Handle single surrogate pair
 					if ( range > 0x10FFFF ) {
@@ -171,7 +169,7 @@
 					/* eslint-enable no-bitwise */
 
 					disjunction.push( uEsc( hi ) + uEsc( lo ) );
-					continue;
+					return;
 				}
 			}
 
@@ -202,13 +200,12 @@
 			}
 
 			// append hi-lo surrogate space boxes as code unit range pairs
-			for ( let j = 0; j < boxes.length; j++ ) {
-				const box = boxes[ j ];
+			boxes.forEach( ( box ) => {
 				const hi2 = codeUnitRange( box.hi[ 0 ], box.hi[ 1 ], true );
 				const lo2 = codeUnitRange( box.lo[ 0 ], box.lo[ 1 ], true );
 				disjunction.push( hi2 + lo2 );
-			}
-		}
+			} );
+		} );
 
 		// prepend BMP character class to the disjunction
 		if ( characterClass.length === 1 && !characterClass[ 0 ].match( /-/ ) ) {

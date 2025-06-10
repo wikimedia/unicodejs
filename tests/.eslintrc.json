@@ -1,9 +1,13 @@
 {
 	"root": true,
 	"extends": [
-		"../src/.eslintrc",
+		"wikimedia/common",
+		"wikimedia/language/es2019",
 		"wikimedia/qunit"
 	],
+	"globals": {
+		"unicodeJS": "readonly"
+	},
 	"plugins": [ "html" ],
 	"settings": {
 		"html/indent": "+tab",

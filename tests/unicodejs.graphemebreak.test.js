@@ -12,16 +12,13 @@ QUnit.test( 'Unicode test suite', ( assert ) => {
 		.forEach( ( test ) => {
 			const expected = test.expected;
 			const clusters = unicodeJS.graphemebreak.splitClusters( test.string );
-			const result = [ true ];
-
-			clusters.forEach( ( cluster ) => {
+			const result = clusters.flatMap( ( cluster ) => [
 				// Push cluster.length-1 false's (no breaks) for each cluster
-				for ( let i = 0; i < cluster.length - 1; i++ ) {
-					result.push( false );
-				}
+				...Array( cluster.length - 1 ).fill( false ),
 				// Expect break after cluster
-				result.push( true );
-			} );
+				true
+			] );
+			result.unshift( true );
 
 			assert.deepEqual(
 				result,
