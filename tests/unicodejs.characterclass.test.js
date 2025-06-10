@@ -1,7 +1,7 @@
 /*!
  * UnicodeJS character class module tests
  *
- * @copyright 2015 UnicodeJS team and others; see AUTHORS.txt
+ * @copyright 2015– UnicodeJS team and others; see AUTHORS.txt
  * @license The MIT License (MIT); see LICENSE.txt
  */
 
