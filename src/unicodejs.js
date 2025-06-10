@@ -145,8 +145,8 @@
 	 * @return {string} Regexp string for the disjunction of the ranges.
 	 */
 	unicodeJS.charRangeArrayRegexp = function ( ranges ) {
-		let boxes = [],
-			characterClass = [], // list of (\uXXXX code unit or interval), for BMP
+		let boxes = [];
+		const characterClass = [], // list of (\uXXXX code unit or interval), for BMP
 			disjunction = []; // list of regex strings, to be joined with '|'
 
 		for ( let i = 0; i < ranges.length; i++ ) {

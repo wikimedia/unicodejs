@@ -21,17 +21,16 @@ QUnit.test( 'Unicode test suite', ( assert ) => {
 } );
 
 QUnit.test( 'nextBreakOffset/prevBreakOffset', ( assert ) => {
-	let offset = 0,
-		text = 'The quick brown fox',
+	const text = 'The quick brown fox',
 		textString = new unicodeJS.TextString( text ),
 		breaks = [ 0, 0, 3, 4, 9, 10, 15, 16, 19, 19 ];
 
-	let i;
-	for ( i = 2; i < breaks.length; i++ ) {
+	let offset = 0;
+	for ( let i = 2; i < breaks.length; i++ ) {
 		offset = unicodeJS.wordbreak.nextBreakOffset( textString, offset );
 		assert.strictEqual( offset, breaks[ i ], 'Next break is at position ' + breaks[ i ] );
 	}
-	for ( i = breaks.length - 3; i >= 0; i-- ) {
+	for ( let i = breaks.length - 3; i >= 0; i-- ) {
 		offset = unicodeJS.wordbreak.prevBreakOffset( textString, offset );
 		assert.strictEqual( offset, breaks[ i ], 'Previous break is at position ' + breaks[ i ] );
 	}

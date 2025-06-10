@@ -20,15 +20,14 @@
 		patterns = {},
 		ZWJ_FE = /^(Format|Extend|ZWJ)$/;
 
-	let property;
 	// build regexes
-	for ( property in properties ) {
+	for ( const property in properties ) {
 		// eslint-disable-next-line security/detect-non-literal-regexp
 		patterns[ property ] = new RegExp(
 			unicodeJS.charRangeArrayRegexp( properties[ property ] )
 		);
 	}
-	for ( property in emojiProperties ) {
+	for ( const property in emojiProperties ) {
 		// eslint-disable-next-line security/detect-non-literal-regexp
 		patterns[ property ] = new RegExp(
 			unicodeJS.charRangeArrayRegexp( emojiProperties[ property ] )
@@ -46,7 +45,7 @@
 	 * @return {string|null} The unicode wordbreak property value (key of unicodeJS.wordbreakproperties)
 	 */
 	function getProperty( codepoint ) {
-		for ( property in patterns ) {
+		for ( const property in patterns ) {
 			if ( patterns[ property ].test( codepoint ) ) {
 				return property;
 			}
@@ -127,10 +126,8 @@
 	 * @return {boolean} Is the position a word boundary
 	 */
 	wordbreak.isBreak = function ( string, pos ) {
-		let lft = [],
-			rgt = [],
-			l = 0,
-			r = 0;
+		const lft = [], rgt = [];
+		let l = 0, r = 0;
 
 		// Table 3a. Word_Break Rule Macros
 		// Macro        Represents

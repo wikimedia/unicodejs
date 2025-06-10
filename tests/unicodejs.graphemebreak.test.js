@@ -15,9 +15,8 @@ QUnit.test( 'Unicode test suite', ( assert ) => {
 			const result = [ true ];
 
 			clusters.forEach( ( cluster ) => {
-				let i;
 				// Push cluster.length-1 false's (no breaks) for each cluster
-				for ( i = 0; i < cluster.length - 1; i++ ) {
+				for ( let i = 0; i < cluster.length - 1; i++ ) {
 					result.push( false );
 				}
 				// Expect break after cluster

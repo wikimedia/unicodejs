@@ -8,23 +8,22 @@
 unicodeJS.testdata = {};
 unicodeJS.test = {
 	parseTestReduce: function ( arr, line ) {
-		let breakMap = {
+		const breakMap = {
 				'÷': true,
 				'×': false
 			},
 			skip = false,
-			chars = '',
 			expected = [],
 			parts = line.split( '#' ),
 			data = parts[ 0 ].trim().split( ' ' );
 
+		let chars = '';
 		data.forEach( ( str, i ) => {
-			let codepoint;
 			if ( i % 2 === 0 ) {
 				// Tests at even offsets
 				expected.push( breakMap[ str ] );
 			} else {
-				codepoint = +( '0x' + str );
+				const codepoint = +( '0x' + str );
 				// Chars at odd offsets
 				chars += String.fromCodePoint( codepoint );
 				// For surrogate pairs, add an expected no-break between them

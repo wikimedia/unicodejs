@@ -16,15 +16,14 @@
 		graphemebreak = unicodeJS.graphemebreak = {},
 		patterns = {};
 
-	let property;
 	// build regexes
-	for ( property in properties ) {
+	for ( const property in properties ) {
 		// eslint-disable-next-line security/detect-non-literal-regexp
 		patterns[ property ] = new RegExp(
 			unicodeJS.charRangeArrayRegexp( properties[ property ] )
 		);
 	}
-	for ( property in emojiProperties ) {
+	for ( const property in emojiProperties ) {
 		// eslint-disable-next-line security/detect-non-literal-regexp
 		patterns[ property ] = new RegExp(
 			unicodeJS.charRangeArrayRegexp( emojiProperties[ property ] )
@@ -32,7 +31,7 @@
 	}
 
 	function getProperty( codepoint ) {
-		for ( property in patterns ) {
+		for ( const property in patterns ) {
 			if ( patterns[ property ].test( codepoint ) ) {
 				return property;
 			}
