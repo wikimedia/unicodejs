@@ -8,7 +8,7 @@
 unicodeJS.testdata = {};
 unicodeJS.test = {
 	parseTestReduce: function ( arr, line ) {
-		var breakMap = {
+		let breakMap = {
 				'÷': true,
 				'×': false
 			},
@@ -19,7 +19,7 @@ unicodeJS.test = {
 			data = parts[ 0 ].trim().split( ' ' );
 
 		data.forEach( ( str, i ) => {
-			var codepoint;
+			let codepoint;
 			if ( i % 2 === 0 ) {
 				// Tests at even offsets
 				expected.push( breakMap[ str ] );
@@ -48,7 +48,7 @@ unicodeJS.test = {
 QUnit.module( 'unicodeJS' );
 
 QUnit.test( 'prevNextCodepoint', ( assert ) => {
-	var tests = [
+	const tests = [
 		// string, nextValues, prevValues, message
 		[
 			'XYZ',
@@ -76,10 +76,10 @@ QUnit.test( 'prevNextCodepoint', ( assert ) => {
 		]
 	];
 	tests.forEach( ( test ) => {
-		var s = new unicodeJS.TextString( test[ 0 ] );
-		var nextValues = test[ 1 ];
-		var prevValues = test[ 2 ];
-		var message = test[ 3 ];
+		const s = new unicodeJS.TextString( test[ 0 ] );
+		const nextValues = test[ 1 ];
+		const prevValues = test[ 2 ];
+		const message = test[ 3 ];
 		nextValues.forEach( ( value, i ) => {
 			assert.strictEqual(
 				s.nextCodepoint( i ),
@@ -98,7 +98,7 @@ QUnit.test( 'prevNextCodepoint', ( assert ) => {
 } );
 
 QUnit.test( 'charRangeArrayRegexp', ( assert ) => {
-	var equalityTests = [
+	const equalityTests = [
 		[ [ 0x0040 ], '\\u0040', 'single BMP character' ],
 		[ [ 0xFFFF ], '\\uffff', 'highest BMP character' ],
 		[
@@ -190,7 +190,7 @@ QUnit.test( 'charRangeArrayRegexp', ( assert ) => {
 			'largest possible range'
 		]
 	];
-	var throwTests = [
+	const throwTests = [
 		[ [ 0xD800 ], 'surrogate character U+D800' ],
 		[ [ 0xDFFF ], 'surrogate character U+DFFF' ],
 		[ [ 0x110000 ], 'character too high' ],
@@ -210,7 +210,7 @@ QUnit.test( 'charRangeArrayRegexp', ( assert ) => {
 		);
 	} );
 	throwTests.forEach( ( test ) => {
-		var doTestFunc = function () {
+		const doTestFunc = function () {
 			unicodeJS.charRangeArrayRegexp( test[ 0 ] );
 		};
 

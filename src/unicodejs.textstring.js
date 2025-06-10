@@ -29,7 +29,7 @@ unicodeJS.TextString = function UnicodeJSTextString( text ) {
  * @return {string|null} Code unit, or null if out of bounds
  */
 unicodeJS.TextString.prototype.read = function ( position ) {
-	var dataAt = this.text[ position ];
+	const dataAt = this.text[ position ];
 	return dataAt !== undefined ? dataAt : null;
 };
 
@@ -44,10 +44,10 @@ unicodeJS.TextString.prototype.read = function ( position ) {
  * @return {string|null} Unicode codepoint, or null if out of bounds
  */
 unicodeJS.TextString.prototype.nextCodepoint = function ( position ) {
-	var codeUnit = this.read( position );
+	const codeUnit = this.read( position );
 
 	if ( unicodeJS.isLeadingSurrogate( codeUnit ) ) {
-		var nextCodeUnit = this.read( position + 1 );
+		const nextCodeUnit = this.read( position + 1 );
 		if ( unicodeJS.isTrailingSurrogate( nextCodeUnit ) ) {
 			return codeUnit + nextCodeUnit;
 		}
@@ -65,10 +65,10 @@ unicodeJS.TextString.prototype.nextCodepoint = function ( position ) {
  * @return {string|null} Unicode codepoint, or null if out of bounds
  */
 unicodeJS.TextString.prototype.prevCodepoint = function ( position ) {
-	var codeUnit = this.read( position - 1 );
+	const codeUnit = this.read( position - 1 );
 
 	if ( unicodeJS.isTrailingSurrogate( codeUnit ) ) {
-		var prevCodeUnit = this.read( position - 2 );
+		const prevCodeUnit = this.read( position - 2 );
 		if ( unicodeJS.isLeadingSurrogate( prevCodeUnit ) ) {
 			return prevCodeUnit + codeUnit;
 		}

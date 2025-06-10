@@ -10,10 +10,10 @@ QUnit.module( 'unicodeJS.wordbreak' );
 QUnit.test( 'Unicode test suite', ( assert ) => {
 	unicodeJS.testdata.wordbreak.reduce( unicodeJS.test.parseTestReduce, [] )
 		.forEach( ( test ) => {
-			var textString = new unicodeJS.TextString( test.string ),
+			const textString = new unicodeJS.TextString( test.string ),
 				result = [];
 
-			for ( var i = 0; i <= test.string.length; i++ ) {
+			for ( let i = 0; i <= test.string.length; i++ ) {
 				result.push( unicodeJS.wordbreak.isBreak( textString, i ) );
 			}
 			assert.deepEqual( result, test.expected, test.msg );
@@ -21,12 +21,12 @@ QUnit.test( 'Unicode test suite', ( assert ) => {
 } );
 
 QUnit.test( 'nextBreakOffset/prevBreakOffset', ( assert ) => {
-	var offset = 0,
+	let offset = 0,
 		text = 'The quick brown fox',
 		textString = new unicodeJS.TextString( text ),
 		breaks = [ 0, 0, 3, 4, 9, 10, 15, 16, 19, 19 ];
 
-	var i;
+	let i;
 	for ( i = 2; i < breaks.length; i++ ) {
 		offset = unicodeJS.wordbreak.nextBreakOffset( textString, offset );
 		assert.strictEqual( offset, breaks[ i ], 'Next break is at position ' + breaks[ i ] );
@@ -38,7 +38,7 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset', ( assert ) => {
 } );
 
 QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', ( assert ) => {
-	var text =
+	const text =
 			// 0
 			'   The qui' +
 			// 10
@@ -55,7 +55,7 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', ( assert ) =>
 		nextBreaks = [ 6, 12, 19, 25, 31, 42, 49, 55, 57 ],
 		prevBreaks = [ 50, 46, 35, 26, 22, 14, 7, 3, 0 ];
 
-	var offset = 0;
+	let offset = 0;
 	nextBreaks.forEach( ( expectedOffset ) => {
 		offset = unicodeJS.wordbreak.nextBreakOffset( textString, offset, true );
 		assert.strictEqual( offset, expectedOffset, 'Next break is at position ' + expectedOffset );
@@ -67,7 +67,7 @@ QUnit.test( 'nextBreakOffset/prevBreakOffset (ignore whitespace)', ( assert ) =>
 } );
 
 QUnit.test( 'TextString', ( assert ) => {
-	var plainString = 'abc𨋢def',
+	const plainString = 'abc𨋢def',
 		textString = new unicodeJS.TextString( plainString );
 
 	assert.strictEqual( textString.toString(), plainString, 'toString' );

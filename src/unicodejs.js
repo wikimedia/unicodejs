@@ -59,7 +59,7 @@
 		if ( min === max ) { // single code unit: never bracket
 			return uEsc( min );
 		}
-		var value = uEsc( min ) + '-' + uEsc( max );
+		const value = uEsc( min ) + '-' + uEsc( max );
 		if ( bracket ) {
 			return '[' + value + ']';
 		} else {
@@ -94,31 +94,31 @@
 	 */
 	function getCodeUnitBoxes( ch1, ch2 ) {
 
-		var loMin = 0xDC00;
-		var loMax = 0xDFFF;
+		const loMin = 0xDC00;
+		const loMax = 0xDFFF;
 
 		// hi and lo surrogates for ch1
 		/* eslint-disable no-bitwise */
-		var hi1 = 0xD800 + ( ( ch1 - 0x10000 ) >> 10 );
-		var lo1 = 0xDC00 + ( ( ch1 - 0x10000 ) & 0x3FF );
+		const hi1 = 0xD800 + ( ( ch1 - 0x10000 ) >> 10 );
+		const lo1 = 0xDC00 + ( ( ch1 - 0x10000 ) & 0x3FF );
 
 		// hi and lo surrogates for ch2
-		var hi2 = 0xD800 + ( ( ch2 - 0x10000 ) >> 10 );
-		var lo2 = 0xDC00 + ( ( ch2 - 0x10000 ) & 0x3FF );
+		const hi2 = 0xD800 + ( ( ch2 - 0x10000 ) >> 10 );
+		const lo2 = 0xDC00 + ( ( ch2 - 0x10000 ) & 0x3FF );
 		/* eslint-enable no-bitwise */
 
 		if ( hi1 === hi2 ) {
 			return [ { hi: [ hi1, hi2 ], lo: [ lo1, lo2 ] } ];
 		}
 
-		var boxes = [];
+		const boxes = [];
 
 		/* eslint-disable no-bitwise */
 
 		// minimum hi surrogate which only represents characters >= ch1
-		var hiMinAbove = 0xD800 + ( ( ch1 - 0x10000 + 0x3FF ) >> 10 );
+		const hiMinAbove = 0xD800 + ( ( ch1 - 0x10000 + 0x3FF ) >> 10 );
 		// maximum hi surrogate which only represents characters <= ch2
-		var hiMaxBelow = 0xD800 + ( ( ch2 - 0x10000 - 0x3FF ) >> 10 );
+		const hiMaxBelow = 0xD800 + ( ( ch2 - 0x10000 - 0x3FF ) >> 10 );
 		/* eslint-enable no-bitwise */
 
 		if ( hi1 < hiMinAbove ) {
@@ -145,12 +145,12 @@
 	 * @return {string} Regexp string for the disjunction of the ranges.
 	 */
 	unicodeJS.charRangeArrayRegexp = function ( ranges ) {
-		var boxes = [],
+		let boxes = [],
 			characterClass = [], // list of (\uXXXX code unit or interval), for BMP
 			disjunction = []; // list of regex strings, to be joined with '|'
 
-		for ( var i = 0; i < ranges.length; i++ ) {
-			var range = ranges[ i ];
+		for ( let i = 0; i < ranges.length; i++ ) {
+			const range = ranges[ i ];
 
 			// Handle single code unit
 			if ( typeof range === 'number' ) {
@@ -166,8 +166,8 @@
 						throw new Error( 'Character code too high: ' + range.toString( 16 ) );
 					}
 					/* eslint-disable no-bitwise */
-					var hi = 0xD800 + ( ( range - 0x10000 ) >> 10 );
-					var lo = 0xDC00 + ( ( range - 0x10000 ) & 0x3FF );
+					const hi = 0xD800 + ( ( range - 0x10000 ) >> 10 );
+					const lo = 0xDC00 + ( ( range - 0x10000 ) & 0x3FF );
 					/* eslint-enable no-bitwise */
 
 					disjunction.push( uEsc( hi ) + uEsc( lo ) );
@@ -176,8 +176,8 @@
 			}
 
 			// Handle interval
-			var min = range[ 0 ];
-			var max = range[ 1 ];
+			const min = range[ 0 ];
+			const max = range[ 1 ];
 			if ( min > max ) {
 				throw new Error( min.toString( 16 ) + ' > ' + max.toString( 16 ) );
 			}
@@ -202,10 +202,10 @@
 			}
 
 			// append hi-lo surrogate space boxes as code unit range pairs
-			for ( var j = 0; j < boxes.length; j++ ) {
-				var box = boxes[ j ];
-				var hi2 = codeUnitRange( box.hi[ 0 ], box.hi[ 1 ], true );
-				var lo2 = codeUnitRange( box.lo[ 0 ], box.lo[ 1 ], true );
+			for ( let j = 0; j < boxes.length; j++ ) {
+				const box = boxes[ j ];
+				const hi2 = codeUnitRange( box.hi[ 0 ], box.hi[ 1 ], true );
+				const lo2 = codeUnitRange( box.lo[ 0 ], box.lo[ 1 ], true );
 				disjunction.push( hi2 + lo2 );
 			}
 		}

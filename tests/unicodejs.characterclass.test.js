@@ -9,9 +9,9 @@ QUnit.module( 'unicodeJS.characterclass' );
 
 QUnit.test( 'patterns', ( assert ) => {
 	// eslint-disable-next-line security/detect-non-literal-regexp
-	var wordGlobalRegex = new RegExp( unicodeJS.characterclass.patterns.word, 'g' );
+	const wordGlobalRegex = new RegExp( unicodeJS.characterclass.patterns.word, 'g' );
 
-	var wordChars = [
+	const wordChars = [
 		// Basic Latin letter
 		'a',
 		// Basic Latin number
@@ -36,7 +36,7 @@ QUnit.test( 'patterns', ( assert ) => {
 		'𝔸'
 	];
 
-	var nonWordChars = [
+	const nonWordChars = [
 		// Basic Latin punctuation
 		'$', '-', '.', '!', ' ', '"', '\'', '(', ')', '[', ']', '{', '}',
 		// Other punctuation
