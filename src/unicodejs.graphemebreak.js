@@ -72,8 +72,8 @@
 				// GB4: ( Control | CR | LF ) ÷
 				// GB5: ÷ ( Control | CR | LF )
 				if (
-					[ 'Control', 'CR', 'LF' ].indexOf( lft[ 0 ] ) !== -1 ||
-					[ 'Control', 'CR', 'LF' ].indexOf( rgt ) !== -1
+					[ 'Control', 'CR', 'LF' ].includes( lft[ 0 ] ) ||
+					[ 'Control', 'CR', 'LF' ].includes( rgt )
 				) {
 					return true;
 				}
@@ -82,20 +82,20 @@
 				// GB6: L × ( L | V | LV | LVT )
 				if (
 					lft[ 0 ] === 'L' &&
-					[ 'L', 'V', 'LV', 'LVT' ].indexOf( rgt ) !== -1
+					[ 'L', 'V', 'LV', 'LVT' ].includes( rgt )
 				) {
 					return false;
 				}
 				// GB7: ( LV | V ) × ( V | T )
 				if (
-					[ 'LV', 'V' ].indexOf( lft[ 0 ] ) !== -1 &&
-					[ 'V', 'T' ].indexOf( rgt ) !== -1
+					[ 'LV', 'V' ].includes( lft[ 0 ] ) &&
+					[ 'V', 'T' ].includes( rgt )
 				) {
 					return false;
 				}
 				// GB8: ( LVT | T ) × T
 				if (
-					[ 'LVT', 'T' ].indexOf( lft[ 0 ] ) !== -1 &&
+					[ 'LVT', 'T' ].includes( lft[ 0 ] ) &&
 					rgt === 'T'
 				) {
 					return false;
@@ -106,7 +106,7 @@
 				// The GB9a and GB9b rules only apply to extended grapheme clusters:
 				// Do not break before SpacingMarks, or after Prepend characters.
 				// GB9a: × SpacingMark
-				if ( [ 'Extend', 'ZWJ', 'SpacingMark' ].indexOf( rgt ) !== -1 ) {
+				if ( [ 'Extend', 'ZWJ', 'SpacingMark' ].includes( rgt ) ) {
 					return false;
 				}
 				// GB9b: Prepend ×
