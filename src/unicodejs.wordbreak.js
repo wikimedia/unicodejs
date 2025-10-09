@@ -87,7 +87,7 @@
 	 * @param {unicodeJS.TextString} string TextString
 	 * @param {number} pos Character position
 	 * @param {boolean} [onlyAlphaNumeric=false] When set, ignores a break if the previous character is not alphaNumeric
-	 * @return {number} Returns the previous offset which is word break
+	 * @return {number} Returns the next offset which is word break in the specified direction
 	 */
 	wordbreak.moveBreakOffset = function ( direction, string, pos, onlyAlphaNumeric ) {
 		// when moving backwards, use the character to the left of the cursor
