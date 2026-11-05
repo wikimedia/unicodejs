@@ -45,7 +45,9 @@ QUnit.test( 'splitClusters', ( assert ) => {
 		'\n',
 		'\u1104\u1173', // jamo L+V
 		'\u1105\u1161\u11a8', // jamo L+V+T
-		'\ud83c\udded\ud83c\uddf0' // 2*regional indicator characters
+		'\ud83c\udded\ud83c\uddf0', // 2*regional indicator characters
+		'\u0915\u094d\u0937', // Devanagari conjunct KA+VIRAMA+SSA (GB9c)
+		'\u0915'
 	];
 	assert.deepEqual(
 		unicodeJS.graphemebreak.splitClusters( expected.join( '' ) ),

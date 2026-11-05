@@ -9,6 +9,7 @@
 			"src/unicodejs.textstring.js",
 			"src/generated/unicodejs.emojiproperties.js",
 			"src/generated/unicodejs.graphemebreakproperties.js",
+			"src/generated/unicodejs.indicconjunctbreakproperties.js",
 			"src/unicodejs.graphemebreak.js",
 			"src/generated/unicodejs.wordbreakproperties.js",
 			"src/unicodejs.wordbreak.js"

@@ -1,7 +1,7 @@
 /*!
  * UnicodeJS Grapheme Break module
  *
- * Implementation of Unicode 15.0.0 Default Grapheme Cluster Boundary Specification
+ * Implementation of Unicode 16.0.0 Default Grapheme Cluster Boundary Specification
  * http://www.unicode.org/reports/tr29/#Default_Grapheme_Cluster_Table
  *
  * @copyright 2013– UnicodeJS team and others; see AUTHORS.txt
@@ -10,11 +10,13 @@
 ( function () {
 	const properties = unicodeJS.graphemebreakproperties,
 		emojiProperties = unicodeJS.emojiproperties,
+		incbProperties = unicodeJS.indicconjunctbreakproperties,
 		/**
 		 * @namespace unicodeJS.graphemebreak
 		 */
 		graphemebreak = unicodeJS.graphemebreak = {},
-		patterns = {};
+		patterns = {},
+		incbPatterns = {};
 
 	// build regexes
 	for ( const property in properties ) {
@@ -30,9 +32,32 @@
 		);
 	}
 
+	for ( const property in incbProperties ) {
+		// eslint-disable-next-line security/detect-non-literal-regexp
+		incbPatterns[ property ] = new RegExp(
+			unicodeJS.charRangeArrayRegexp( incbProperties[ property ] )
+		);
+	}
+
 	function getProperty( codepoint ) {
 		for ( const property in patterns ) {
 			if ( patterns[ property ].test( codepoint ) ) {
+				return property;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Get the Indic_Conjunct_Break (InCB) property value of a codepoint
+	 *
+	 * @private
+	 * @param {string} codepoint
+	 * @return {string|null} 'Consonant', 'Extend', 'Linker', or null for None
+	 */
+	function getInCBProperty( codepoint ) {
+		for ( const property in incbPatterns ) {
+			if ( incbPatterns[ property ].test( codepoint ) ) {
 				return property;
 			}
 		}
@@ -77,7 +102,7 @@
 					return true;
 				}
 
-				// Do not break Hangul syllable sequences.
+				// Do not break Hangul syllable or other conjoining sequences.
 				// GB6: L × ( L | V | LV | LVT )
 				if (
 					lft[ 0 ] === 'L' &&
@@ -111,6 +136,27 @@
 				// GB9b: Prepend ×
 				if ( lft[ 0 ] === 'Prepend' ) {
 					return false;
+				}
+
+				// The GB9c rule only applies to extended grapheme clusters:
+				// Do not break within certain combinations with Indic_Conjunct_Break (InCB)=Linker.
+				// GB9c: \p{InCB=Consonant} [ \p{InCB=Extend} \p{InCB=Linker} ]* \p{InCB=Linker} [ \p{InCB=Extend} \p{InCB=Linker} ]* × \p{InCB=Consonant}
+				if ( getInCBProperty( codepoint ) === 'Consonant' ) {
+					let j = i - 1,
+						hasLinker = false,
+						incb;
+					while ( j >= 0 ) {
+						incb = getInCBProperty( codepoints[ j ] );
+						if ( incb === 'Linker' ) {
+							hasLinker = true;
+						} else if ( incb !== 'Extend' ) {
+							break;
+						}
+						j--;
+					}
+					if ( hasLinker && incb === 'Consonant' ) {
+						return false;
+					}
 				}
 
 				// Do not break within emoji modifier sequences or emoji zwj sequences.

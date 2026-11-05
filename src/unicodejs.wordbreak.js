@@ -1,7 +1,7 @@
 /*!
  * UnicodeJS Word Break module
  *
- * Implementation of Unicode 15.0.0 Default Word Boundary Specification
+ * Implementation of Unicode 16.0.0 Default Word Boundary Specification
  * http://www.unicode.org/reports/tr29/#Default_Word_Boundaries
  *
  * @copyright 2013– UnicodeJS team and others; see AUTHORS.txt

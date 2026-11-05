@@ -2,7 +2,7 @@
 
 // Generates unicodejs.*(properties|categories).js from Unicode data
 
-const VERSION = '15.0.0',
+const VERSION = '16.0.0',
 	hasOwn = Object.hasOwnProperty,
 	http = require( 'http' ),
 	fs = require( 'fs-extra' ),
@@ -12,6 +12,12 @@ const VERSION = '15.0.0',
 			url: 'http://unicode.org/Public/%V/ucd/DerivedCoreProperties.txt',
 			jsname: 'derivedcoreproperties',
 			propPatterns: [ /^(Alphabetic)$/ ]
+		},
+		{
+			url: 'http://unicode.org/Public/%V/ucd/DerivedCoreProperties.txt',
+			jsname: 'indicconjunctbreakproperties',
+			full: true,
+			propPatterns: [ /^InCB=(.*)$/ ]
 		},
 		{
 			url: 'http://www.unicode.org/Public/%V/ucd/extracted/DerivedGeneralCategory.txt',
@@ -52,7 +58,7 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		fragments = [],
 		blankTest = /^\s*(#|$)/,
 		// eslint-disable-next-line security/detect-unsafe-regex
-		definitionTest = /^([0-9A-F]{4,6})(?:\.\.([0-9A-F]{4,6}))?\s*;\s*(\w+)\s*#/;
+		definitionTest = /^([0-9A-F]{4,6})(?:\.\.([0-9A-F]{4,6}))?\s*;\s*(\w+)(?:\s*;\s*(\w+))?\s*#/;
 
 	lines.forEach( ( line ) => {
 		line = line.trim();
@@ -63,14 +69,16 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 		// Find things like one of the following:
 		//   XXXX       ; propertyname
 		//   XXXX..YYYY ; propertyname
+		//   XXXX..YYYY ; propertyname; value
 		const lineMatches = line.match( definitionTest );
 		if ( !lineMatches ) {
-			throw new Error( 'Bad line: ' + line );
+			throw new Error( `Bad line: ${ line } in ${ jsname }` );
 		}
 
 		const start = parseInt( lineMatches[ 1 ], 16 );
 		const end = parseInt( lineMatches[ 2 ] || lineMatches[ 1 ], 16 );
-		const propText = lineMatches[ 3 ];
+		// Enumerated properties (e.g. InCB) are matched as "propertyname=value"
+		const propText = lineMatches[ 4 ] ? lineMatches[ 3 ] + '=' + lineMatches[ 4 ] : lineMatches[ 3 ];
 
 		propPatterns.forEach( ( propPattern ) => {
 			const propMatches = propText.match( propPattern );
@@ -146,33 +154,45 @@ function extractProperties( body, jsname, full, propPatterns, excludeSurrogates 
 	} );
 }
 
+// Cache requests so that files used for multiple outputs are only fetched once
+const requests = {};
+
+function fetchText( url ) {
+	if ( !hasOwn.call( requests, url ) ) {
+		console.log( 'fetching ' + url );
+		requests[ url ] = new Promise( ( resolve, reject ) => {
+			http.get( url, ( res ) => {
+				let body = '';
+
+				res.setEncoding( 'utf8' );
+
+				res.on( 'data', ( chunk ) => {
+					body += chunk;
+				} );
+
+				res.on( 'end', () => {
+					resolve( body );
+				} );
+			} ).on( 'error', reject );
+		} );
+	}
+	return requests[ url ];
+}
+
 fs.emptyDir( dir, ( err ) => {
 	if ( err ) {
 		throw err;
 	}
 	console.log( 'deleted old files' );
 	data.forEach( ( options ) => {
-		const url = options.url.replace( '%V', VERSION );
-		console.log( 'fetching ' + url );
-		const request = http.get( url, ( res ) => {
-			let body = '';
-
-			res.setEncoding( 'utf8' );
-
-			res.on( 'data', ( chunk ) => {
-				body += chunk;
-			} );
-
-			res.on( 'end', () => {
-				extractProperties(
-					body,
-					options.jsname,
-					!!options.full,
-					options.propPatterns,
-					!!options.excludeSurrogates
-				);
-			} );
+		fetchText( options.url.replace( '%V', VERSION ) ).then( ( body ) => {
+			extractProperties(
+				body,
+				options.jsname,
+				!!options.full,
+				options.propPatterns,
+				!!options.excludeSurrogates
+			);
 		} );
-		request.end();
 	} );
 } );
