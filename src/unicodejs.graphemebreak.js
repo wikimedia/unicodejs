@@ -1,7 +1,7 @@
 /*!
  * UnicodeJS Grapheme Break module
  *
- * Implementation of Unicode 17.0.0 Default Grapheme Cluster Boundary Specification
+ * Implementation of Unicode 18.0.0 Default Grapheme Cluster Boundary Specification
  * http://www.unicode.org/reports/tr29/#Default_Grapheme_Cluster_Table
  *
  * @copyright 2013– UnicodeJS team and others; see AUTHORS.txt
@@ -140,21 +140,15 @@
 
 				// The GB9c rule only applies to extended grapheme clusters:
 				// Do not break within certain combinations with Indic_Conjunct_Break (InCB)=Linker.
-				// GB9c: \p{InCB=Consonant} [ \p{InCB=Extend} \p{InCB=Linker} ]* \p{InCB=Linker} [ \p{InCB=Extend} \p{InCB=Linker} ]* × \p{InCB=Consonant}
+				// GB9c: \p{InCB=Linker} \p{InCB=Extend}* × \p{InCB=Consonant}
 				if ( getInCBProperty( codepoint ) === 'Consonant' ) {
 					let j = i - 1,
-						hasLinker = false,
-						incb;
-					while ( j >= 0 ) {
 						incb = getInCBProperty( codepoints[ j ] );
-						if ( incb === 'Linker' ) {
-							hasLinker = true;
-						} else if ( incb !== 'Extend' ) {
-							break;
-						}
+					while ( incb === 'Extend' && j > 0 ) {
 						j--;
+						incb = getInCBProperty( codepoints[ j ] );
 					}
-					if ( hasLinker && incb === 'Consonant' ) {
+					if ( incb === 'Linker' ) {
 						return false;
 					}
 				}
