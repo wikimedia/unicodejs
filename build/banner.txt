@@ -18,4 +18,6 @@
 		root.unicodeJS = factory();
 	}
 }( this, function () {
-	var unicodeJS = {};
+	var unicodeJS = {
+		version: '<%= build.version %>'
+	};
