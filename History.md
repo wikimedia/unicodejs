@@ -1,5 +1,8 @@
 # UnicodeJS Release History
 
+## v18.0.1 / 2026-11-06
+Version bump to correctly build artefacts for release.
+
 ## v18.0.0 / 2026-11-06
 * Update to Unicode 18.0.0 (Ed Sanders)
 * Update to Unicode 17.0.0 (Ed Sanders)
