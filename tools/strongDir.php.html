@@ -15,13 +15,13 @@
  */
 static private $strongDirRegex = '/(?:(<span id='L'></span>)|(<span id='R_AL'></span>))/u';
 </pre>
-<script>/* eslint-env browser */
+<script>
 	function phpEsc( codePoint ) {
 		return '\\x{' + codePoint.toString( 16 ) + '}';
 	}
 
 	function phpRegexp( ranges ) {
-		return '[' + ranges.map( function ( range ) {
+		return '[' + ranges.map( ( range ) => {
 			if ( typeof range === 'number' ) {
 				return phpEsc( range );
 			} else {

@@ -1,2 +1,2 @@
-/* eslint-env browser */
+/* global window */
 window.unicodeJS = {};
